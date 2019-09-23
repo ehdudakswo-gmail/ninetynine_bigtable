@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace NinetyNine
@@ -15,6 +8,16 @@ namespace NinetyNine
         public MainForm()
         {
             InitializeComponent();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            SetForm();
+        }
+
+        private void SetForm()
+        {
+            WindowState = FormWindowState.Maximized;
         }
     }
 }
