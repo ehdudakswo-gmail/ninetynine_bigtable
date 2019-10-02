@@ -10,7 +10,13 @@ namespace NinetyNine
         private readonly string DESKTOP_PATH = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         private readonly string FILE_OPEN_BASIC_TITLE = "열기";
         private readonly string FILE_SAVE_BASIC_TITLE = "저장";
+        private readonly string FILE_OPEN_COMPLETE_MESSAGE = "열기 완료";
+        private readonly string FILE_SAVE_COMPLETE_MESSAGE = "저장 완료";
+        private readonly string FILE_SAVE_EMPTY_MESSAGE = "데이터가 없습니다.";
+
         private TabControlItemManager tabControlItemManager;
+        private ExcelEPPlusManager excelEPPlusManager = new ExcelEPPlusManager();
+        private DataGridViewManager dataGridViewManager = new DataGridViewManager();
 
         public MainForm()
         {
@@ -69,7 +75,7 @@ namespace NinetyNine
                 "엑셀 파일 (*.xlsx)|*.xlsx";
         }
 
-        private void 열기ToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void 열기ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TabControlItem selectedItem = tabControlItemManager.GetSelectedItem();
             TabPage selectedTabPage = selectedItem.tabPage;
@@ -84,7 +90,12 @@ namespace NinetyNine
                 {
                     SetWaitState();
                     string fileName = openFileDialog.FileName;
-                    selectedDataGridView.DataSource = GetTempDataTable();
+                    DataTable dataTable = await excelEPPlusManager.GetDataTable(fileName);
+                    dataGridViewManager.Refresh(selectedDataGridView, dataTable);
+
+                    string completeMessage = string.Format
+                        ("{0} {1}", selectedTabPage.Text, FILE_OPEN_COMPLETE_MESSAGE);
+                    MessageBox.Show(completeMessage);
                 }
                 catch (Exception exception)
                 {
@@ -97,21 +108,7 @@ namespace NinetyNine
             }
         }
 
-        private DataTable GetTempDataTable()
-        {
-            DataTable dataTable = new DataTable();
-
-            dataTable.Columns.Add("A");
-            dataTable.Columns.Add("B");
-            dataTable.Columns.Add("C");
-
-            dataTable.Rows.Add("A1", "B1", "C1");
-            dataTable.Rows.Add("A2", "B2", "C2");
-
-            return dataTable;
-        }
-
-        private void 저장ToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void 저장ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TabControlItem selectedItem = tabControlItemManager.GetSelectedItem();
             TabPage selectedTabPage = selectedItem.tabPage;
@@ -126,7 +123,20 @@ namespace NinetyNine
                 {
                     SetWaitState();
                     string fileName = saveFileDialog.FileName;
-                    MessageBox.Show(fileName);
+
+                    DataTable dataTable = (DataTable)selectedDataGridView.DataSource;
+                    if (dataTable == null)
+                    {
+                        string errorMessage = string.Format
+                            ("{0} {1}", selectedTabPage.Text, FILE_SAVE_EMPTY_MESSAGE);
+                        MessageBox.Show(errorMessage);
+                        return;
+                    }
+
+                    string result = await excelEPPlusManager.Save(fileName, dataTable);
+                    string completeMessage = string.Format
+                        ("{0} {1}", selectedTabPage.Text, FILE_SAVE_COMPLETE_MESSAGE);
+                    MessageBox.Show(completeMessage);
                 }
                 catch (Exception exception)
                 {
