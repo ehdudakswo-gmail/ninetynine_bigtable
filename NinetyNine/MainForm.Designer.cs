@@ -32,8 +32,6 @@
             this.파일ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.열기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.라이센스ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ePPlusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage_Form = new System.Windows.Forms.TabPage();
             this.dataGridView_Form = new System.Windows.Forms.DataGridView();
@@ -45,6 +43,9 @@
             this.dataGridView_Organization = new System.Windows.Forms.DataGridView();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.도움말ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.라이센스ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ePPlusToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPage_Form.SuspendLayout();
@@ -62,7 +63,7 @@
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.파일ToolStripMenuItem,
-            this.라이센스ToolStripMenuItem});
+            this.도움말ToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(800, 28);
@@ -91,20 +92,6 @@
             this.저장ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
             this.저장ToolStripMenuItem.Text = "저장";
             this.저장ToolStripMenuItem.Click += new System.EventHandler(this.저장ToolStripMenuItem_Click);
-            // 
-            // 라이센스ToolStripMenuItem
-            // 
-            this.라이센스ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ePPlusToolStripMenuItem});
-            this.라이센스ToolStripMenuItem.Name = "라이센스ToolStripMenuItem";
-            this.라이센스ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
-            this.라이센스ToolStripMenuItem.Text = "라이센스";
-            // 
-            // ePPlusToolStripMenuItem
-            // 
-            this.ePPlusToolStripMenuItem.Name = "ePPlusToolStripMenuItem";
-            this.ePPlusToolStripMenuItem.Size = new System.Drawing.Size(129, 26);
-            this.ePPlusToolStripMenuItem.Text = "EPPlus";
             // 
             // tabControl
             // 
@@ -197,6 +184,28 @@
             this.dataGridView_Organization.Size = new System.Drawing.Size(240, 150);
             this.dataGridView_Organization.TabIndex = 0;
             // 
+            // 도움말ToolStripMenuItem
+            // 
+            this.도움말ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.라이센스ToolStripMenuItem1});
+            this.도움말ToolStripMenuItem.Name = "도움말ToolStripMenuItem";
+            this.도움말ToolStripMenuItem.Size = new System.Drawing.Size(66, 24);
+            this.도움말ToolStripMenuItem.Text = "도움말";
+            // 
+            // 라이센스ToolStripMenuItem1
+            // 
+            this.라이센스ToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ePPlusToolStripMenuItem1});
+            this.라이센스ToolStripMenuItem1.Name = "라이센스ToolStripMenuItem1";
+            this.라이센스ToolStripMenuItem1.Size = new System.Drawing.Size(216, 26);
+            this.라이센스ToolStripMenuItem1.Text = "라이센스";
+            // 
+            // ePPlusToolStripMenuItem1
+            // 
+            this.ePPlusToolStripMenuItem1.Name = "ePPlusToolStripMenuItem1";
+            this.ePPlusToolStripMenuItem1.Size = new System.Drawing.Size(216, 26);
+            this.ePPlusToolStripMenuItem1.Text = "EPPlus";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -231,8 +240,6 @@
         private System.Windows.Forms.ToolStripMenuItem 파일ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 열기ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 저장ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 라이센스ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ePPlusToolStripMenuItem;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPage_Statement;
         private System.Windows.Forms.TabPage tabPage_Schedule;
@@ -244,6 +251,9 @@
         private System.Windows.Forms.DataGridView dataGridView_Schedule;
         private System.Windows.Forms.DataGridView dataGridView_Organization;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.ToolStripMenuItem 도움말ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 라이센스ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem ePPlusToolStripMenuItem1;
     }
 }
 
