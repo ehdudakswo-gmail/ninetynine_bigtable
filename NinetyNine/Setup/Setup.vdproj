@@ -229,9 +229,9 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Setup"
-        "ProductCode" = "8:{2317EF58-18A6-4B13-A730-C2CD362F4811}"
-        "PackageCode" = "8:{B8EE996E-37BE-4179-82E1-4A9560B31167}"
+        "ProductName" = "8:BigTable"
+        "ProductCode" = "8:{0C6F1DE8-AA08-47D1-9469-52F5FD669496}"
+        "PackageCode" = "8:{15242FB2-A029-4DEF-B069-17BFAD6DBBAE}"
         "UpgradeCode" = "8:{11CE7A81-D82D-40B0-847F-D1F5836707D8}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
@@ -242,7 +242,7 @@
         "Manufacturer" = "8:NinetyNine"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:Setup"
+        "Title" = "8:BigTable"
         "Subject" = "8:"
         "ARPCONTACT" = "8:NinetyNine"
         "Keywords" = "8:"
@@ -351,20 +351,6 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_0DF6110B985C4AA39EAA57E547011D1F"
-            {
-            "Name" = "8:BigTable"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_93245CD4C1294086BF5439851A6DC54C"
-            "Folder" = "8:_F5ACC1AD52E148FBA7050389285C4C56"
-            "WorkingFolder" = "8:_25B14EB01DD549A38F22542292A36A82"
-            "Icon" = "8:"
-            "Feature" = "8:"
-            }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_92ABF55FD3454715B0344A6EB81EBB8E"
             {
             "Name" = "8:BigTable"
