@@ -1,44 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace NinetyNine
 {
     internal class BigTableManager
     {
+        private readonly int titleLen;
         private readonly string ERROR_EMPTY_SHEET = "{0} SHEET 내용이 필요합니다.";
-        private readonly string[] titles = {
-            "WHERE 1: 프로젝트",
-            "WHERE 2: 동",
-            "WHERE 3: 타입",
-            "WHERE 4: 층 ",
-            "WHAT 1: 구조체",
-            "WHAT 2: 부재명",
-            "WHAT 3: 부재세부명",
-            "WHEN 1: 년",
-            "WHEN 2: 분기",
-            "WHEN 3: 월(Month)",
-            "WHEN 4: 주(Week)",
-            "WHEN 5: EST",
-            "WHEN 5: EFT",
-            "HOW 1: 대공종",
-            "HOW 2: 중공종",
-            "HOW 3: 세공종",
-            "HOW 4: 작업",
-            "HOW 5: 작업규격",
-            "WHO 1: 하도급",
-            "WHO 2: 하도급 세부",
-            "Result 1: 산출식",
-            "Result 2: 결과값",
-            "Result 3: 재료비",
-            "Result 4: 노무비",
-            "Result 5: 경비",
-            "Result 6: 단가",
-            "Result 7: 금액",
-        };
 
         private ExcelDataManager excelDataManager = new ExcelDataManager();
+        private BigTableTitleManager bigTableTitleManager = new BigTableTitleManager();
         private DataSet dataSet;
         private DataTable bigTable;
+
+        internal BigTableManager()
+        {
+            titleLen = bigTableTitleManager.GetLength();
+        }
 
         internal void Set(DataSet dataSet, DataTable bigTable)
         {
@@ -73,18 +52,39 @@ namespace NinetyNine
         {
             bigTable.Clear();
             SetBigTableTitle();
+            Test();
         }
 
         private void SetBigTableTitle()
         {
-            int columnCnt = titles.Length;
-            DataRow titleRow = bigTable.NewRow();
+            DataRow row = bigTable.NewRow();
+            List<string> titles = bigTableTitleManager.GetAllDescriptions();
 
-            for (int i = 0; i < columnCnt; i++)
+            for (int i = 0; i < titles.Count; i++)
             {
-                titleRow[i] = titles[i];
+                row[i] = titles[i];
             }
-            bigTable.Rows.Add(titleRow);
+
+            bigTable.Rows.Add(row);
+        }
+
+        private void Test()
+        {
+            int idx1 = bigTableTitleManager.GetIndex(BigTableTitle.WHEN3);
+            int idx2 = bigTableTitleManager.GetIndex(BigTableTitle.WHO2);
+
+            BigTableData data = new BigTableData(titleLen);
+            data.Set(idx1, "WHEN3");
+            data.Set(idx2, "WHO2");
+            string[] values = data.GetValues();
+
+            DataRow row = bigTable.NewRow();
+            for (int i = 0; i < values.Length; i++)
+            {
+                row[i] = values[i];
+            }
+
+            bigTable.Rows.Add(row);
         }
     }
 }
