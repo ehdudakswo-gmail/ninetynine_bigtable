@@ -143,7 +143,7 @@
             this.tabPage_Form.Name = "tabPage_Form";
             this.tabPage_Form.Size = new System.Drawing.Size(768, 330);
             this.tabPage_Form.TabIndex = 3;
-            this.tabPage_Form.Text = "산출서";
+            this.tabPage_Form.Text = TableEnum.GetDescription(Table.Form);
             this.tabPage_Form.UseVisualStyleBackColor = true;
             // 
             // dataGridView_Form
@@ -163,7 +163,7 @@
             this.tabPage_Statement.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage_Statement.Size = new System.Drawing.Size(768, 330);
             this.tabPage_Statement.TabIndex = 0;
-            this.tabPage_Statement.Text = "내역서";
+            this.tabPage_Statement.Text = TableEnum.GetDescription(Table.Statement);
             this.tabPage_Statement.UseVisualStyleBackColor = true;
             // 
             // dataGridView_Statement
@@ -183,7 +183,7 @@
             this.tabPage_Schedule.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage_Schedule.Size = new System.Drawing.Size(768, 330);
             this.tabPage_Schedule.TabIndex = 1;
-            this.tabPage_Schedule.Text = "공정표";
+            this.tabPage_Schedule.Text = TableEnum.GetDescription(Table.Schedule);
             this.tabPage_Schedule.UseVisualStyleBackColor = true;
             // 
             // dataGridView_Schedule
@@ -202,7 +202,7 @@
             this.tabPage_Organization.Name = "tabPage_Organization";
             this.tabPage_Organization.Size = new System.Drawing.Size(768, 330);
             this.tabPage_Organization.TabIndex = 2;
-            this.tabPage_Organization.Text = "조직도";
+            this.tabPage_Organization.Text = TableEnum.GetDescription(Table.Organization);
             this.tabPage_Organization.UseVisualStyleBackColor = true;
             // 
             // dataGridView_Organization
@@ -221,7 +221,7 @@
             this.tabPage_BigTable.Name = "tabPage_BigTable";
             this.tabPage_BigTable.Size = new System.Drawing.Size(768, 330);
             this.tabPage_BigTable.TabIndex = 4;
-            this.tabPage_BigTable.Text = "빅테이블";
+            this.tabPage_BigTable.Text = TableEnum.GetDescription(Table.BigTable);
             this.tabPage_BigTable.UseVisualStyleBackColor = true;
             // 
             // dataGridView_BigTable

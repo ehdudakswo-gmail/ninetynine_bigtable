@@ -10,15 +10,13 @@ namespace NinetyNine
         private readonly string ERROR_SHEET_NONE = "엑셀 {0} SHEET가 필요합니다.";
 
         private TabControl tabControl;
-        private TabPage bigTableTabPage;
         private DataGridViewManager dataGridViewManager = new DataGridViewManager();
         private ExcelDataManager excelDataManager = new ExcelDataManager();
         private BigTableManager bigTableManager = new BigTableManager();
 
-        public TabControlManager(TabControl tabControl, TabPage tabPage_BigTable)
+        public TabControlManager(TabControl tabControl)
         {
             this.tabControl = tabControl;
-            bigTableTabPage = tabPage_BigTable;
             SetDataGridViews();
         }
 
@@ -79,14 +77,6 @@ namespace NinetyNine
         internal DataSet GetDataSet()
         {
             return dataGridViewManager.GetDataSet();
-        }
-
-        internal void RefreshBigTable()
-        {
-            DataSet dataSet = dataGridViewManager.GetDataSet();
-            string bigTableName = bigTableTabPage.Text;
-            DataTable bigTable = dataGridViewManager.GetDataTable(bigTableName);
-            bigTableManager.Refresh(dataSet, bigTable);
         }
     }
 }

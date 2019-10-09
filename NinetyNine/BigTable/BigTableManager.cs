@@ -1,6 +1,8 @@
-﻿using System;
+﻿using NinetyNine.BigTable.Parser;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace NinetyNine
 {
@@ -9,18 +11,24 @@ namespace NinetyNine
         private readonly string ERROR_EMPTY_SHEET = "{0} SHEET 내용이 필요합니다.";
 
         private ExcelDataManager excelDataManager = new ExcelDataManager();
-        private BigTableTitleEnum bigTableTitleEnum = new BigTableTitleEnum();
         private DataSet dataSet;
         private DataTable bigTable;
 
-        internal void Refresh(DataSet dataSet, DataTable bigTable)
+        internal Task<string> Refresh(DataSet dataSet)
         {
-            this.dataSet = dataSet;
-            this.bigTable = bigTable;
-            Check();
+            return Task.Run(() =>
+            {
+                this.dataSet = dataSet;
+                string bigTableName = TableEnum.GetDescription(Table.BigTable);
+                bigTable = FindDataTable(bigTableName);
+                Check();
 
-            bigTable.Clear();
-            SetBigTableTitle();
+                bigTable.Clear();
+                SetBigTableTitle();
+                CreateBigTable();
+
+                return dataSet.ToString();
+            });
         }
 
         private void Check()
@@ -49,7 +57,7 @@ namespace NinetyNine
         private void SetBigTableTitle()
         {
             DataRow row = bigTable.NewRow();
-            List<string> titles = bigTableTitleEnum.GetAllDescriptions();
+            List<string> titles = BigTableTitleEnum.GetAllDescriptions();
 
             for (int i = 0; i < titles.Count; i++)
             {
@@ -57,6 +65,28 @@ namespace NinetyNine
             }
 
             bigTable.Rows.Add(row);
+        }
+
+        private void CreateBigTable()
+        {
+            string formTableName = TableEnum.GetDescription(Table.Form);
+            DataTable formTable = FindDataTable(formTableName);
+            BigTableFormParser formParser = new BigTableFormParser(bigTable, formTable);
+            formParser.Parse();
+        }
+
+        private DataTable FindDataTable(string targetName)
+        {
+            foreach (DataTable dataTable in dataSet.Tables)
+            {
+                string tableName = dataTable.TableName;
+                if (tableName == targetName)
+                {
+                    return dataTable;
+                }
+            }
+
+            return null;
         }
     }
 }

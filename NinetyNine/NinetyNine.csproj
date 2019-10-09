@@ -56,10 +56,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BigTable\BigTableData.cs" />
+    <Compile Include="BigTable\Parser\BigTableData.cs" />
     <Compile Include="BigTable\BigTableManager.cs" />
     <Compile Include="BigTable\BigTableTitleEnum.cs" />
+    <Compile Include="BigTable\Parser\BigTableFormParser.cs" />
     <Compile Include="DataGridViewManager.cs" />
+    <Compile Include="EnumManager.cs" />
     <Compile Include="ExcelDataManager.cs" />
     <Compile Include="ExcelEPPlusManager.cs" />
     <Compile Include="MainForm.cs">
@@ -71,6 +73,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TabControlManager.cs" />
+    <Compile Include="TableEnum.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

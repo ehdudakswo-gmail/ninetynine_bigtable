@@ -45,7 +45,7 @@ namespace NinetyNine
 
         private void SetTabControl()
         {
-            tabControlManager = new TabControlManager(tabControl, tabPage_BigTable);
+            tabControlManager = new TabControlManager(tabControl);
             tabControlManager.Resize();
         }
 
@@ -131,12 +131,15 @@ namespace NinetyNine
             }
         }
 
-        private void 생성ToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void 생성ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
                 SetWaitState();
-                tabControlManager.RefreshBigTable();
+                BigTableManager bigTableManager = new BigTableManager();
+                DataSet dataSet = tabControlManager.GetDataSet();
+                string result = await bigTableManager.Refresh(dataSet);
+
                 tabControl.SelectedTab = tabPage_BigTable;
                 MessageBox.Show(BIGTABLE_COMPLETE_MESSAGE);
             }

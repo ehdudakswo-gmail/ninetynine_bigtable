@@ -92,46 +92,21 @@ namespace NinetyNine
     class BigTableTitleEnum
     {
 
-        private Array values = Enum.GetValues(typeof(BigTableTitle));
+        private static Array values = Enum.GetValues(typeof(BigTableTitle));
 
-        internal List<string> GetAllDescriptions()
+        internal static List<string> GetAllDescriptions()
         {
-            List<string> descriptions = new List<string>();
-
-            foreach (BigTableTitle value in values)
-            {
-                string description = GetDescription(value);
-                descriptions.Add(description);
-            }
-
-            return descriptions;
+            return EnumManager.GetAllDescriptions(values);
         }
 
-        private string GetDescription(BigTableTitle value)
+        internal static int GetLength()
         {
-            Type type = value.GetType();
-            MemberInfo[] memInfo = type.GetMember(value.ToString());
-
-            if (memInfo != null && memInfo.Length > 0)
-            {
-                object[] attrs = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
-                if (attrs != null && attrs.Length > 0)
-                {
-                    return ((DescriptionAttribute)attrs[0]).Description;
-                }
-            }
-
-            return value.ToString();
+            return EnumManager.GetLength(values);
         }
 
-        internal int GetLength()
+        internal static int GetIndex(BigTableTitle value)
         {
-            return values.Length;
-        }
-
-        internal int GetIndex(BigTableTitle value)
-        {
-            return value.GetHashCode();
+            return EnumManager.GetIndex(value);
         }
     }
 }

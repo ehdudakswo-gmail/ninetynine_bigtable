@@ -4,15 +4,11 @@ namespace NinetyNine
 {
     class BigTableData
     {
-        private string[] values;
+        private string[] values = new string[BigTableTitleEnum.GetLength()];
 
-        internal BigTableData(int len)
+        internal void Set(BigTableTitle title, string value)
         {
-            values = new string[len];
-        }
-
-        internal void Set(int idx, string value)
-        {
+            int idx = BigTableTitleEnum.GetIndex(title);
             values[idx] = value;
         }
 
