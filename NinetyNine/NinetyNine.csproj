@@ -56,9 +56,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BigTableData.cs" />
-    <Compile Include="BigTableManager.cs" />
-    <Compile Include="BigTableTitleManager.cs" />
+    <Compile Include="BigTable\BigTableData.cs" />
+    <Compile Include="BigTable\BigTableManager.cs" />
+    <Compile Include="BigTable\BigTableTitleEnum.cs" />
     <Compile Include="DataGridViewManager.cs" />
     <Compile Include="ExcelDataManager.cs" />
     <Compile Include="ExcelEPPlusManager.cs" />

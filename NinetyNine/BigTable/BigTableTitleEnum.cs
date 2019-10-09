@@ -89,7 +89,7 @@ namespace NinetyNine
         RESULT7,
     }
 
-    class BigTableTitleManager
+    class BigTableTitleEnum
     {
 
         private Array values = Enum.GetValues(typeof(BigTableTitle));

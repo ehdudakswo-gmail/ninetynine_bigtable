@@ -136,7 +136,6 @@ namespace NinetyNine
             try
             {
                 SetWaitState();
-                tabControlManager.CheckBigTable();
                 tabControlManager.RefreshBigTable();
                 tabControl.SelectedTab = tabPage_BigTable;
                 MessageBox.Show(BIGTABLE_COMPLETE_MESSAGE);

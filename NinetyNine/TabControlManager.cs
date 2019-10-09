@@ -81,19 +81,12 @@ namespace NinetyNine
             return dataGridViewManager.GetDataSet();
         }
 
-        internal void CheckBigTable()
+        internal void RefreshBigTable()
         {
             DataSet dataSet = dataGridViewManager.GetDataSet();
             string bigTableName = bigTableTabPage.Text;
             DataTable bigTable = dataGridViewManager.GetDataTable(bigTableName);
-
-            bigTableManager.Set(dataSet, bigTable);
-            bigTableManager.Check();
-        }
-
-        internal void RefreshBigTable()
-        {
-            bigTableManager.Refresh();
+            bigTableManager.Refresh(dataSet, bigTable);
         }
     }
 }

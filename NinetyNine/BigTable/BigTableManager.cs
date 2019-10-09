@@ -6,26 +6,24 @@ namespace NinetyNine
 {
     internal class BigTableManager
     {
-        private readonly int titleLen;
         private readonly string ERROR_EMPTY_SHEET = "{0} SHEET 내용이 필요합니다.";
 
         private ExcelDataManager excelDataManager = new ExcelDataManager();
-        private BigTableTitleManager bigTableTitleManager = new BigTableTitleManager();
+        private BigTableTitleEnum bigTableTitleEnum = new BigTableTitleEnum();
         private DataSet dataSet;
         private DataTable bigTable;
 
-        internal BigTableManager()
-        {
-            titleLen = bigTableTitleManager.GetLength();
-        }
-
-        internal void Set(DataSet dataSet, DataTable bigTable)
+        internal void Refresh(DataSet dataSet, DataTable bigTable)
         {
             this.dataSet = dataSet;
             this.bigTable = bigTable;
+            Check();
+
+            bigTable.Clear();
+            SetBigTableTitle();
         }
 
-        internal void Check()
+        private void Check()
         {
             foreach (DataTable dataTable in dataSet.Tables)
             {
@@ -48,40 +46,14 @@ namespace NinetyNine
             return (dataTable.Rows.Count == 0);
         }
 
-        internal void Refresh()
-        {
-            bigTable.Clear();
-            SetBigTableTitle();
-            Test();
-        }
-
         private void SetBigTableTitle()
         {
             DataRow row = bigTable.NewRow();
-            List<string> titles = bigTableTitleManager.GetAllDescriptions();
+            List<string> titles = bigTableTitleEnum.GetAllDescriptions();
 
             for (int i = 0; i < titles.Count; i++)
             {
                 row[i] = titles[i];
-            }
-
-            bigTable.Rows.Add(row);
-        }
-
-        private void Test()
-        {
-            int idx1 = bigTableTitleManager.GetIndex(BigTableTitle.WHEN3);
-            int idx2 = bigTableTitleManager.GetIndex(BigTableTitle.WHO2);
-
-            BigTableData data = new BigTableData(titleLen);
-            data.Set(idx1, "WHEN3");
-            data.Set(idx2, "WHO2");
-            string[] values = data.GetValues();
-
-            DataRow row = bigTable.NewRow();
-            for (int i = 0; i < values.Length; i++)
-            {
-                row[i] = values[i];
             }
 
             bigTable.Rows.Add(row);
