@@ -1,11 +1,10 @@
-﻿using System;
+﻿using NinetyNine.DataTableTemplate;
+using System;
 using System.Data;
-using System.Text;
 
 namespace NinetyNine.BigTable.Parser
 {
-
-    enum FormParserState
+    enum ParserFormState
     {
         None,
         Subject,
@@ -17,39 +16,27 @@ namespace NinetyNine.BigTable.Parser
         Empty,
     }
 
-    class BigTableFormParser
+    class BigTableParserForm : BigTableParser
     {
-        private readonly string SUBJECT = "부재별산출서";
-        private readonly string[] DATA_TYPE = new string[]
-        { "층", "부호", "명칭", "규격", "산출식", "결과값" };
-
-        private readonly string DATA_TITLE_LEFT = "공사명";
-        private readonly string DATA_TITLE_SEPARATOR = ":";
-
-        private readonly string DATA2_TITLE_LEFT = "동명";
-        private readonly string DATA2_TITLE_SEPARATOR = ":";
-        private readonly string DATA2_CONTENT_SEPARATOR = "-";
-        private readonly string DATA2_CONTENT_SUB_SEPARATOR = ":";
-
         private readonly string ERROR_MESSAGE_FORMAT = "빅테이블 에러 : {0} LINE {1}";
 
-        private FormParserState state;
+        private ParserFormState state;
         private BigTableData data = new BigTableData();
         private DataTable bigTable;
         private DataTable formTable;
 
-        internal BigTableFormParser(DataTable bigTable, DataTable formTable)
+        internal BigTableParserForm(DataTable bigTable, DataTable formTable)
         {
             this.bigTable = bigTable;
             this.formTable = formTable;
         }
 
-        internal void Parse()
+        internal override void Parse()
         {
             for (int idx = 0; idx < formTable.Rows.Count; idx++)
             {
                 DataRow row = formTable.Rows[idx];
-                state = FormParserState.None;
+                state = ParserFormState.None;
 
                 if (idx == 0)
                 {
@@ -61,7 +48,7 @@ namespace NinetyNine.BigTable.Parser
                 }
                 else if (idx == 2)
                 {
-                    HandleDataType(row);
+                    HandleDataColumns(row);
                 }
                 else
                 {
@@ -78,7 +65,7 @@ namespace NinetyNine.BigTable.Parser
 
         private void HandleSubject(DataRow row)
         {
-            if (state != FormParserState.None)
+            if (state != ParserFormState.None)
             {
                 return;
             }
@@ -86,24 +73,25 @@ namespace NinetyNine.BigTable.Parser
             string row0 = row[0].ToString();
             string row0Trim = Trim(row0);
 
-            if (row0Trim != SUBJECT)
+            if (row0Trim != DataTableTemplateForm.SUBJECT)
             {
                 return;
             }
 
-            state = FormParserState.Subject;
+            state = ParserFormState.Subject;
         }
 
-        private void HandleDataType(DataRow row)
+        private void HandleDataColumns(DataRow row)
         {
-            if (state != FormParserState.None)
+            if (state != ParserFormState.None)
             {
                 return;
             }
 
-            for (int i = 0; i < DATA_TYPE.Length; i++)
+            string[] dataColumns = DataTableTemplateForm.DATA_COLUMNS;
+            for (int i = 0; i < dataColumns.Length; i++)
             {
-                string typeString = DATA_TYPE[i];
+                string typeString = dataColumns[i];
                 string rowString = row[i].ToString();
                 string rowStringTrim = Trim(rowString);
 
@@ -113,24 +101,24 @@ namespace NinetyNine.BigTable.Parser
                 }
             }
 
-            state = FormParserState.DataType;
+            state = ParserFormState.DataType;
         }
 
         private void HandleData(DataRow row)
         {
-            if (state != FormParserState.None)
+            if (state != ParserFormState.None)
             {
                 return;
             }
 
             string row0 = row[0].ToString();
             string row0Trim = Trim(row0);
-            if (!row0Trim.Contains(DATA_TITLE_LEFT))
+            if (!row0Trim.Contains(DataTableTemplateForm.DATA_TITLE_LEFT))
             {
                 return;
             }
 
-            int titleSplitIdx = row0.IndexOf(DATA_TITLE_SEPARATOR);
+            int titleSplitIdx = row0.IndexOf(DataTableTemplateForm.DATA_TITLE_SEPARATOR);
             if (titleSplitIdx == -1)
             {
                 return;
@@ -140,25 +128,30 @@ namespace NinetyNine.BigTable.Parser
             string titleRight = titles[1];
             string where1 = titleRight;
 
+            if (isEmpty(titleRight))
+            {
+                return;
+            }
+
             data.Set(BigTableTitle.WHERE1, where1);
-            state = FormParserState.Data;
+            state = ParserFormState.Data;
         }
 
         private void HandleData2(DataRow row)
         {
-            if (state != FormParserState.None)
+            if (state != ParserFormState.None)
             {
                 return;
             }
 
             string row0 = row[0].ToString();
             string row0Trim = Trim(row0);
-            if (!row0Trim.Contains(DATA2_TITLE_LEFT))
+            if (!row0Trim.Contains(DataTableTemplateForm.DATA2_TITLE_LEFT))
             {
                 return;
             }
 
-            int titleSplitIdx = row0.IndexOf(DATA2_TITLE_SEPARATOR);
+            int titleSplitIdx = row0.IndexOf(DataTableTemplateForm.DATA2_TITLE_SEPARATOR);
             if (titleSplitIdx == -1)
             {
                 return;
@@ -167,39 +160,60 @@ namespace NinetyNine.BigTable.Parser
             string[] titles = Split(row0, titleSplitIdx);
             string titleRight = titles[1];
 
-            int contentSplitIdx = titleRight.IndexOf(DATA2_CONTENT_SEPARATOR);
+            int contentSplitIdx = titleRight.IndexOf(DataTableTemplateForm.DATA2_CONTENT_SEPARATOR);
             if (contentSplitIdx == -1)
             {
                 return;
             }
 
             string[] contents = Split(titleRight, contentSplitIdx);
-            string contentLeft = Remove(contents[0], "[]");
-            string contentRight = contents[1];
+            string contentLeftWithContainer = contents[0];
+            string openContainer = DataTableTemplateForm.DATA2_CONTENT_SUB_CONTAINER_OPEN;
+            string closeContainer = DataTableTemplateForm.DATA2_CONTENT_SUB_CONTAINER_CLOSE;
 
-            int contentSubSplitIdx = contentLeft.IndexOf(DATA2_CONTENT_SUB_SEPARATOR);
-            if (contentSubSplitIdx == -1)
+            if (!contentLeftWithContainer.Contains(openContainer))
             {
                 return;
             }
 
-            string[] contentSubs = Split(contentLeft, contentSubSplitIdx);
-            string contentSubLeft = contentSubs[0];
-            string contentSubRight = contentSubs[1];
+            if (!contentLeftWithContainer.Contains(closeContainer))
+            {
+                return;
+            }
 
-            string where2 = contentSubLeft;
-            string where3 = contentSubRight;
-            string what2 = contentRight;
+            string removes = openContainer + closeContainer;
+            string contentLeft = Remove(contentLeftWithContainer, removes);
+            string contentRight = contents[1];
 
-            data.Set(BigTableTitle.WHERE2, where2);
-            data.Set(BigTableTitle.WHERE3, where3);
-            data.Set(BigTableTitle.WHAT2, what2);
-            state = FormParserState.Data2;
+            int contentSubSplitIdx = contentLeft.IndexOf(DataTableTemplateForm.DATA2_CONTENT_SUB_SEPARATOR);
+            if (contentSubSplitIdx == -1)
+            {
+                string where2 = contentLeft;
+                string what3 = contentRight;
+                data.Set(BigTableTitle.WHERE2, where2);
+                data.Set(BigTableTitle.WHAT3, what3);
+            }
+            else
+            {
+                string[] contentSubs = Split(contentLeft, contentSubSplitIdx);
+                string contentSubLeft = contentSubs[0];
+                string contentSubRight = contentSubs[1];
+
+                string where2 = contentSubLeft;
+                string where3 = contentSubRight;
+                string what3 = contentRight;
+
+                data.Set(BigTableTitle.WHERE2, where2);
+                data.Set(BigTableTitle.WHERE3, where3);
+                data.Set(BigTableTitle.WHAT3, what3);
+            }
+
+            state = ParserFormState.Data2;
         }
 
         private void HandleData3(DataRow row)
         {
-            if (state != FormParserState.None)
+            if (state != ParserFormState.None)
             {
                 return;
             }
@@ -211,17 +225,17 @@ namespace NinetyNine.BigTable.Parser
 
             string[] values = GetStringValues(row, 0, 1);
             string where4 = values[0];
-            string what3 = values[1];
+            string what4 = values[1];
 
             data.Set(BigTableTitle.WHERE4, where4);
-            data.Set(BigTableTitle.WHAT3, what3);
-            state = FormParserState.Data3;
+            data.Set(BigTableTitle.WHAT4, what4);
+            state = ParserFormState.Data3;
         }
 
         private void HandleData4(DataRow row)
         {
-            if (state != FormParserState.None &&
-                state != FormParserState.Data3)
+            if (state != ParserFormState.None &&
+                state != ParserFormState.Data3)
             {
                 return;
             }
@@ -241,111 +255,27 @@ namespace NinetyNine.BigTable.Parser
             data.Set(BigTableTitle.HOW5, how5);
             data.Set(BigTableTitle.RESULT1, result1);
             data.Set(BigTableTitle.RESULT2, result2);
-            state = FormParserState.Data4;
+            state = ParserFormState.Data4;
         }
 
         private void HandleEmpty(DataRow row)
         {
-            if (state != FormParserState.None)
+            if (state != ParserFormState.None)
             {
                 return;
             }
 
-            if (!isEmpty(row))
+            if (!isEmpty(row, formTable.Columns.Count))
             {
                 return;
             }
 
-            state = FormParserState.Empty;
-        }
-
-
-        private string Trim(string str)
-        {
-            return str.Replace(" ", "").Trim();
-        }
-
-        private string[] Split(string str, int idx)
-        {
-            string[] ret = new string[2];
-
-            ret[0] = str.Substring(0, idx).Trim();
-            ret[1] = str.Substring(idx + 1).Trim();
-
-            return ret;
-        }
-
-        private string Remove(string str, string removes)
-        {
-            StringBuilder sb = new StringBuilder(str.Length);
-
-            foreach (char ch in str)
-            {
-                if (isContain(removes, ch))
-                {
-                    continue;
-                }
-
-                sb.Append(ch);
-            }
-
-            return sb.ToString();
-        }
-
-        private bool isContain(string str, char target)
-        {
-            foreach (char ch in str)
-            {
-                if (ch == target)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private bool isLeastOneEmpty(DataRow row, int from, int to)
-        {
-            for (int i = from; i <= to; i++)
-            {
-                string str = row[i].ToString();
-                if (str == "")
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private string[] GetStringValues(DataRow row, int from, int to)
-        {
-            string[] values = new string[to - from + 1];
-            for (int i = 0; i < values.Length; i++)
-            {
-                values[i] = row[from + i].ToString();
-            }
-
-            return values;
-        }
-
-        private bool isEmpty(DataRow row)
-        {
-            for (int i = 0; i < formTable.Columns.Count; i++)
-            {
-                if (row[i].ToString() != "")
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            state = ParserFormState.Empty;
         }
 
         private void CheckError(int rowIdx)
         {
-            if (state == FormParserState.None)
+            if (state == ParserFormState.None)
             {
                 string tableName = formTable.TableName;
                 int line = rowIdx + 1;
@@ -358,7 +288,7 @@ namespace NinetyNine.BigTable.Parser
 
         private void AddRow()
         {
-            if (state != FormParserState.Data4)
+            if (state != ParserFormState.Data4)
             {
                 return;
             }

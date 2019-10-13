@@ -18,12 +18,6 @@ namespace NinetyNine
         [Description("조직도")]
         Organization,
 
-        [Description("자동완성-WHAT")]
-        AutoComplete_WHAT,
-
-        [Description("자동완성-HOW")]
-        AutoComplete_HOW,
-
         [Description("빅테이블")]
         BigTable
     }
@@ -31,6 +25,11 @@ namespace NinetyNine
     class MainTabPageEnum
     {
         private static Array values = Enum.GetValues(typeof(MainTabPage));
+
+        internal static Array GetValues()
+        {
+            return values;
+        }
 
         internal static string GetDescription(MainTabPage value)
         {

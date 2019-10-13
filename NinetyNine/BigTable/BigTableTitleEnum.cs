@@ -1,92 +1,109 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Reflection;
 
 namespace NinetyNine
 {
     enum BigTableTitle
     {
-        [Description("WHERE 1: 프로젝트")]
+        [Description("프로젝트")]
         WHERE1,
 
-        [Description("WHERE 2: 동")]
+        [Description("동")]
         WHERE2,
 
-        [Description("WHERE 3: 타입")]
+        [Description("타입")]
         WHERE3,
 
-        [Description("WHERE 4: 층")]
+        [Description("층")]
         WHERE4,
 
-        [Description("WHAT 1: 구조체")]
+        [Description("구조체")]
         WHAT1,
 
-        [Description("WHAT 2: 부재명")]
+        [Description("구조체세부")]
         WHAT2,
 
-        [Description("WHAT 3: 부재세부명")]
+        [Description("부재명")]
         WHAT3,
 
-        [Description("WHEN 1: 년")]
+        [Description("부재세부명")]
+        WHAT4,
+
+        [Description("년")]
         WHEN1,
 
-        [Description("WHEN 2: 분기")]
+        [Description("분기")]
         WHEN2,
 
-        [Description("WHEN 3: 월(Month)")]
+        [Description("월(Month)")]
         WHEN3,
 
-        [Description("WHEN 4: 주(Week)")]
+        [Description("주(Week)")]
         WHEN4,
 
-        [Description("WHEN 5: EST")]
+        [Description("시작일(EST)")]
         WHEN5,
 
-        [Description("WHEN 6: EFT")]
+        [Description("종료일(EFT)")]
         WHEN6,
 
-        [Description("HOW 1: 대공종")]
+        [Description("대공종")]
         HOW1,
 
-        [Description("HOW 2: 중공종")]
+        [Description("중공종")]
         HOW2,
 
-        [Description("HOW 3: 세공종")]
+        [Description("세공종")]
         HOW3,
 
-        [Description("HOW 4: 작업")]
+        [Description("작업")]
         HOW4,
 
-        [Description("HOW 5: 작업규격")]
+        [Description("작업규격")]
         HOW5,
 
-        [Description("WHO 1: 하도급")]
+        [Description("하도급")]
         WHO1,
 
-        [Description("WHO 2: 하도급 세부")]
+        [Description("하도급 세부")]
         WHO2,
 
-        [Description("Result 1: 산출식")]
+        [Description("단위")]
+        ATTRIBUTE1,
+
+        [Description("재료비단가")]
+        ATTRIBUTE2,
+
+        [Description("노무비단가")]
+        ATTRIBUTE3,
+
+        [Description("경비단가")]
+        ATTRIBUTE4,
+
+        [Description("단가")]
+        ATTRIBUTE5,
+
+        [Description("산출식")]
         RESULT1,
 
-        [Description("Result 2: 결과값")]
+        [Description("수량")]
         RESULT2,
 
-        [Description("Result 3: 재료비")]
+        [Description("수량변환")]
+        RESULT2_1,
+
+        [Description("재료비")]
         RESULT3,
 
-        [Description("Result 4: 노무비")]
+        [Description("노무비")]
         RESULT4,
 
-        [Description("Result 5: 경비")]
+        [Description("경비")]
         RESULT5,
 
-        [Description("Result 6: 단가")]
+        [Description("총금액")]
         RESULT6,
-
-        [Description("Result 7: 금액")]
-        RESULT7,
     }
 
     class BigTableTitleEnum
@@ -94,9 +111,14 @@ namespace NinetyNine
 
         private static Array values = Enum.GetValues(typeof(BigTableTitle));
 
-        internal static List<string> GetAllDescriptions()
+        internal static Array GetValues()
         {
-            return EnumManager.GetAllDescriptions(values);
+            return values;
+        }
+
+        internal static string GetDescription(BigTableTitle value)
+        {
+            return EnumManager.GetDescription(value);
         }
 
         internal static int GetLength()

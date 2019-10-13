@@ -1,4 +1,5 @@
 ﻿using NinetyNine.BigTable.Parser;
+using NinetyNine.DataTableTemplate;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,12 +20,11 @@ namespace NinetyNine
             return Task.Run(() =>
             {
                 this.dataSet = dataSet;
-                string bigTableName = MainTabPageEnum.GetDescription(MainTabPage.BigTable);
-                bigTable = FindDataTable(bigTableName);
+                bigTable = FindDataTable(MainTabPage.BigTable);
                 Check();
 
                 bigTable.Clear();
-                SetBigTableTitle();
+                SetBigTableTitleTexts();
                 CreateBigTable();
 
                 return dataSet.ToString();
@@ -54,33 +54,37 @@ namespace NinetyNine
             return (dataTable.Rows.Count == 0);
         }
 
-        private void SetBigTableTitle()
+        private void SetBigTableTitleTexts()
         {
+            List<string> texts = DataTableTemplateBigTable.GetBigTableTitleTexts();
             DataRow row = bigTable.NewRow();
-            List<string> titles = BigTableTitleEnum.GetAllDescriptions();
-
-            for (int i = 0; i < titles.Count; i++)
-            {
-                row[i] = titles[i];
-            }
-
             bigTable.Rows.Add(row);
+
+            for (int i = 0; i < texts.Count; i++)
+            {
+                row[i] = texts[i];
+            }
         }
 
         private void CreateBigTable()
         {
-            string formTableName = MainTabPageEnum.GetDescription(MainTabPage.Form);
-            DataTable formTable = FindDataTable(formTableName);
-            BigTableFormParser formParser = new BigTableFormParser(bigTable, formTable);
+            DataTable formTable = FindDataTable(MainTabPage.Form);
+            BigTableParserForm formParser = new BigTableParserForm(bigTable, formTable);
             formParser.Parse();
+
+            //DataTable whatTable = FindDataTable(MainTabPage.AutoComplete_WHAT);
+            //DataTable howTable = FindDataTable(MainTabPage.AutoComplete_HOW);
+            //BigTableAutoComplete autoComplete = new BigTableAutoComplete(bigTable, whatTable, howTable);
+            //autoComplete.Complete();
         }
 
-        private DataTable FindDataTable(string targetName)
+        private DataTable FindDataTable(MainTabPage targetTabPage)
         {
             foreach (DataTable dataTable in dataSet.Tables)
             {
-                string tableName = dataTable.TableName;
-                if (tableName == targetName)
+                string dataTableName = dataTable.TableName;
+                string targetTableName = MainTabPageEnum.GetDescription(targetTabPage);
+                if (dataTableName == targetTableName)
                 {
                     return dataTable;
                 }

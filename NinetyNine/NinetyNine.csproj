@@ -56,11 +56,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BigTable\BigTableAutoComplete.cs" />
     <Compile Include="BigTable\Parser\BigTableData.cs" />
     <Compile Include="BigTable\BigTableManager.cs" />
     <Compile Include="BigTable\BigTableTitleEnum.cs" />
-    <Compile Include="BigTable\Parser\BigTableFormParser.cs" />
+    <Compile Include="BigTable\Parser\BigTableParserForm.cs" />
+    <Compile Include="BigTable\Parser\BigTableParser.cs" />
     <Compile Include="DataGridViewManager.cs" />
+    <Compile Include="DataTableTemplate\DataTableTemplate.cs" />
+    <Compile Include="DataTableTemplate\DataTableTemplateManager.cs" />
+    <Compile Include="DataTableTemplate\DataTableTemplateBigTable.cs" />
+    <Compile Include="DataTableTemplate\DataTableTemplateForm.cs" />
+    <Compile Include="DataTableTemplate\DataTableTemplateOrganization.cs" />
+    <Compile Include="DataTableTemplate\DataTableTemplateSchedule.cs" />
+    <Compile Include="DataTableTemplate\DataTableTemplateStatement.cs" />
     <Compile Include="EnumManager.cs" />
     <Compile Include="ExcelDataManager.cs" />
     <Compile Include="ExcelEPPlusManager.cs" />

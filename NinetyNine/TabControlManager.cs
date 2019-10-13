@@ -12,16 +12,15 @@ namespace NinetyNine
         private TabControl tabControl;
         private DataGridViewManager dataGridViewManager = new DataGridViewManager();
         private ExcelDataManager excelDataManager = new ExcelDataManager();
-        private BigTableManager bigTableManager = new BigTableManager();
 
         public TabControlManager(TabControl tabControl)
         {
             this.tabControl = tabControl;
-            SetTabPageNames();
+            SetTabPageTexts();
             SetDataGridViews();
         }
 
-        private void SetTabPageNames()
+        private void SetTabPageTexts()
         {
             var tabPages = tabControl.TabPages;
             var tableNames = MainTabPageEnum.GetAllDescriptions();
@@ -42,12 +41,23 @@ namespace NinetyNine
                     if (control is DataGridView)
                     {
                         DataGridView dataGridView = (DataGridView)control;
-                        string tableName = tabPage.Text;
-                        DataTable dataTable = excelDataManager.GetBasicDataTable(tableName);
-                        dataGridViewManager.Add(dataGridView, dataTable);
+                        dataGridViewManager.Add(dataGridView);
                     }
                 }
             }
+        }
+
+        internal void SelectedIndexChanged()
+        {
+            RefreshRowHeaderValue();
+            Resize();
+        }
+
+        private void RefreshRowHeaderValue()
+        {
+            int idx = tabControl.SelectedIndex;
+            DataGridView dataGridView = dataGridViewManager.Get(idx);
+            dataGridViewManager.RefreshRowHeaderValue(dataGridView);
         }
 
         internal void Resize()

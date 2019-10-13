@@ -10,14 +10,11 @@ namespace NinetyNine
         private List<DataGridView> dataGridViews = new List<DataGridView>();
         private DataSet dataSet = new DataSet();
 
-        internal void Add(DataGridView dataGridView, DataTable dataTable)
+        internal void Add(DataGridView dataGridView)
         {
-            dataGridView.DataSource = dataTable;
             SetRowConfig(dataGridView);
-            SetRowHeaderValue(dataGridView);
-
+            RefreshRowHeaderValue(dataGridView);
             dataGridViews.Add(dataGridView);
-            dataSet.Tables.Add(dataTable);
         }
 
         private void SetRowConfig(DataGridView dataGridView)
@@ -25,7 +22,7 @@ namespace NinetyNine
             dataGridView.RowHeadersWidth = 80;
         }
 
-        private void SetRowHeaderValue(DataGridView dataGridView)
+        internal void RefreshRowHeaderValue(DataGridView dataGridView)
         {
             for (int i = 0; i < dataGridView.Rows.Count; i++)
             {
@@ -57,25 +54,12 @@ namespace NinetyNine
         private void Refresh(DataGridView dataGridView, DataTable dataTable)
         {
             dataGridView.DataSource = dataTable;
-            SetRowHeaderValue(dataGridView);
+            RefreshRowHeaderValue(dataGridView);
         }
 
         internal DataSet GetDataSet()
         {
             return dataSet;
-        }
-
-        internal DataTable GetDataTable(string tableName)
-        {
-            foreach (DataTable dataTable in dataSet.Tables)
-            {
-                if (dataTable.TableName == tableName)
-                {
-                    return dataTable;
-                }
-            }
-
-            return null;
         }
     }
 }

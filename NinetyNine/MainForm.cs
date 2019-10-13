@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NinetyNine.DataTableTemplate;
+using System;
 using System.Data;
 using System.Windows.Forms;
 
@@ -47,11 +48,15 @@ namespace NinetyNine
         {
             tabControlManager = new TabControlManager(tabControl);
             tabControlManager.Resize();
+
+            DataTableTemplateManager templateManager = new DataTableTemplateManager();
+            DataSet dataSet = templateManager.CreateDataSet();
+            tabControlManager.Refresh(dataSet);
         }
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            tabControlManager.Resize();
+            tabControlManager.SelectedIndexChanged();
         }
 
         private void SetFileDialog()
