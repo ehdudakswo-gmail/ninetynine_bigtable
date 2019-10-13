@@ -32,6 +32,8 @@
             this.파일ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.열기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.빅테이블ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.생성ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.도움말ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.라이센스ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ePPlusToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,8 +50,10 @@
             this.dataGridView_BigTable = new System.Windows.Forms.DataGridView();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.빅테이블ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.생성ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage_AutoComplete_WHAT = new System.Windows.Forms.TabPage();
+            this.tabPage_AutoComplete_HOW = new System.Windows.Forms.TabPage();
+            this.dataGridView_AutoComplete_WHAT = new System.Windows.Forms.DataGridView();
+            this.dataGridView_AutoComplete_HOW = new System.Windows.Forms.DataGridView();
             this.menuStrip.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPage_Form.SuspendLayout();
@@ -62,6 +66,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Organization)).BeginInit();
             this.tabPage_BigTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BigTable)).BeginInit();
+            this.tabPage_AutoComplete_WHAT.SuspendLayout();
+            this.tabPage_AutoComplete_HOW.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_AutoComplete_WHAT)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_AutoComplete_HOW)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -89,16 +97,31 @@
             // 열기ToolStripMenuItem
             // 
             this.열기ToolStripMenuItem.Name = "열기ToolStripMenuItem";
-            this.열기ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.열기ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
             this.열기ToolStripMenuItem.Text = "열기";
             this.열기ToolStripMenuItem.Click += new System.EventHandler(this.열기ToolStripMenuItem_Click);
             // 
             // 저장ToolStripMenuItem
             // 
             this.저장ToolStripMenuItem.Name = "저장ToolStripMenuItem";
-            this.저장ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.저장ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
             this.저장ToolStripMenuItem.Text = "저장";
             this.저장ToolStripMenuItem.Click += new System.EventHandler(this.저장ToolStripMenuItem_Click);
+            // 
+            // 빅테이블ToolStripMenuItem
+            // 
+            this.빅테이블ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.생성ToolStripMenuItem});
+            this.빅테이블ToolStripMenuItem.Name = "빅테이블ToolStripMenuItem";
+            this.빅테이블ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+            this.빅테이블ToolStripMenuItem.Text = "빅테이블";
+            // 
+            // 생성ToolStripMenuItem
+            // 
+            this.생성ToolStripMenuItem.Name = "생성ToolStripMenuItem";
+            this.생성ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
+            this.생성ToolStripMenuItem.Text = "생성";
+            this.생성ToolStripMenuItem.Click += new System.EventHandler(this.생성ToolStripMenuItem_Click);
             // 
             // 도움말ToolStripMenuItem
             // 
@@ -128,6 +151,8 @@
             this.tabControl.Controls.Add(this.tabPage_Statement);
             this.tabControl.Controls.Add(this.tabPage_Schedule);
             this.tabControl.Controls.Add(this.tabPage_Organization);
+            this.tabControl.Controls.Add(this.tabPage_AutoComplete_WHAT);
+            this.tabControl.Controls.Add(this.tabPage_AutoComplete_HOW);
             this.tabControl.Controls.Add(this.tabPage_BigTable);
             this.tabControl.Location = new System.Drawing.Point(12, 40);
             this.tabControl.Name = "tabControl";
@@ -143,7 +168,7 @@
             this.tabPage_Form.Name = "tabPage_Form";
             this.tabPage_Form.Size = new System.Drawing.Size(768, 330);
             this.tabPage_Form.TabIndex = 3;
-            this.tabPage_Form.Text = TableEnum.GetDescription(Table.Form);
+            this.tabPage_Form.Text = "Form";
             this.tabPage_Form.UseVisualStyleBackColor = true;
             // 
             // dataGridView_Form
@@ -163,7 +188,7 @@
             this.tabPage_Statement.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage_Statement.Size = new System.Drawing.Size(768, 330);
             this.tabPage_Statement.TabIndex = 0;
-            this.tabPage_Statement.Text = TableEnum.GetDescription(Table.Statement);
+            this.tabPage_Statement.Text = "Statement";
             this.tabPage_Statement.UseVisualStyleBackColor = true;
             // 
             // dataGridView_Statement
@@ -183,7 +208,7 @@
             this.tabPage_Schedule.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage_Schedule.Size = new System.Drawing.Size(768, 330);
             this.tabPage_Schedule.TabIndex = 1;
-            this.tabPage_Schedule.Text = TableEnum.GetDescription(Table.Schedule);
+            this.tabPage_Schedule.Text = "Schedule";
             this.tabPage_Schedule.UseVisualStyleBackColor = true;
             // 
             // dataGridView_Schedule
@@ -202,7 +227,7 @@
             this.tabPage_Organization.Name = "tabPage_Organization";
             this.tabPage_Organization.Size = new System.Drawing.Size(768, 330);
             this.tabPage_Organization.TabIndex = 2;
-            this.tabPage_Organization.Text = TableEnum.GetDescription(Table.Organization);
+            this.tabPage_Organization.Text = "Organization";
             this.tabPage_Organization.UseVisualStyleBackColor = true;
             // 
             // dataGridView_Organization
@@ -221,7 +246,7 @@
             this.tabPage_BigTable.Name = "tabPage_BigTable";
             this.tabPage_BigTable.Size = new System.Drawing.Size(768, 330);
             this.tabPage_BigTable.TabIndex = 4;
-            this.tabPage_BigTable.Text = TableEnum.GetDescription(Table.BigTable);
+            this.tabPage_BigTable.Text = "BigTable";
             this.tabPage_BigTable.UseVisualStyleBackColor = true;
             // 
             // dataGridView_BigTable
@@ -233,20 +258,43 @@
             this.dataGridView_BigTable.Size = new System.Drawing.Size(240, 150);
             this.dataGridView_BigTable.TabIndex = 0;
             // 
-            // 빅테이블ToolStripMenuItem
+            // tabPage_AutoComplete_WHAT
             // 
-            this.빅테이블ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.생성ToolStripMenuItem});
-            this.빅테이블ToolStripMenuItem.Name = "빅테이블ToolStripMenuItem";
-            this.빅테이블ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
-            this.빅테이블ToolStripMenuItem.Text = "빅테이블";
+            this.tabPage_AutoComplete_WHAT.Controls.Add(this.dataGridView_AutoComplete_WHAT);
+            this.tabPage_AutoComplete_WHAT.Location = new System.Drawing.Point(4, 25);
+            this.tabPage_AutoComplete_WHAT.Name = "tabPage_AutoComplete_WHAT";
+            this.tabPage_AutoComplete_WHAT.Size = new System.Drawing.Size(768, 330);
+            this.tabPage_AutoComplete_WHAT.TabIndex = 5;
+            this.tabPage_AutoComplete_WHAT.Text = "AutoComplete_WHAT";
+            this.tabPage_AutoComplete_WHAT.UseVisualStyleBackColor = true;
             // 
-            // 생성ToolStripMenuItem
+            // tabPage_AutoComplete_HOW
             // 
-            this.생성ToolStripMenuItem.Name = "생성ToolStripMenuItem";
-            this.생성ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
-            this.생성ToolStripMenuItem.Text = "생성";
-            this.생성ToolStripMenuItem.Click += new System.EventHandler(this.생성ToolStripMenuItem_Click);
+            this.tabPage_AutoComplete_HOW.Controls.Add(this.dataGridView_AutoComplete_HOW);
+            this.tabPage_AutoComplete_HOW.Location = new System.Drawing.Point(4, 25);
+            this.tabPage_AutoComplete_HOW.Name = "tabPage_AutoComplete_HOW";
+            this.tabPage_AutoComplete_HOW.Size = new System.Drawing.Size(768, 330);
+            this.tabPage_AutoComplete_HOW.TabIndex = 6;
+            this.tabPage_AutoComplete_HOW.Text = "AutoComplete_HOW";
+            this.tabPage_AutoComplete_HOW.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView_AutoComplete_WHAT
+            // 
+            this.dataGridView_AutoComplete_WHAT.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_AutoComplete_WHAT.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_AutoComplete_WHAT.Name = "dataGridView_AutoComplete_WHAT";
+            this.dataGridView_AutoComplete_WHAT.RowTemplate.Height = 27;
+            this.dataGridView_AutoComplete_WHAT.Size = new System.Drawing.Size(240, 150);
+            this.dataGridView_AutoComplete_WHAT.TabIndex = 1;
+            // 
+            // dataGridView_AutoComplete_HOW
+            // 
+            this.dataGridView_AutoComplete_HOW.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_AutoComplete_HOW.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_AutoComplete_HOW.Name = "dataGridView_AutoComplete_HOW";
+            this.dataGridView_AutoComplete_HOW.RowTemplate.Height = 27;
+            this.dataGridView_AutoComplete_HOW.Size = new System.Drawing.Size(240, 150);
+            this.dataGridView_AutoComplete_HOW.TabIndex = 2;
             // 
             // MainForm
             // 
@@ -273,6 +321,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Organization)).EndInit();
             this.tabPage_BigTable.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BigTable)).EndInit();
+            this.tabPage_AutoComplete_WHAT.ResumeLayout(false);
+            this.tabPage_AutoComplete_HOW.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_AutoComplete_WHAT)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_AutoComplete_HOW)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -302,6 +354,10 @@
         private System.Windows.Forms.DataGridView dataGridView_BigTable;
         private System.Windows.Forms.ToolStripMenuItem 빅테이블ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 생성ToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage_AutoComplete_WHAT;
+        private System.Windows.Forms.DataGridView dataGridView_AutoComplete_WHAT;
+        private System.Windows.Forms.TabPage tabPage_AutoComplete_HOW;
+        private System.Windows.Forms.DataGridView dataGridView_AutoComplete_HOW;
     }
 }
 

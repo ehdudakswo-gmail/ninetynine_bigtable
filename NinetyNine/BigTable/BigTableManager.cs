@@ -19,7 +19,7 @@ namespace NinetyNine
             return Task.Run(() =>
             {
                 this.dataSet = dataSet;
-                string bigTableName = TableEnum.GetDescription(Table.BigTable);
+                string bigTableName = MainTabPageEnum.GetDescription(MainTabPage.BigTable);
                 bigTable = FindDataTable(bigTableName);
                 Check();
 
@@ -69,7 +69,7 @@ namespace NinetyNine
 
         private void CreateBigTable()
         {
-            string formTableName = TableEnum.GetDescription(Table.Form);
+            string formTableName = MainTabPageEnum.GetDescription(MainTabPage.Form);
             DataTable formTable = FindDataTable(formTableName);
             BigTableFormParser formParser = new BigTableFormParser(bigTable, formTable);
             formParser.Parse();

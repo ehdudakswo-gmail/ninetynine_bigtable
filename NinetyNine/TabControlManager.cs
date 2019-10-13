@@ -17,7 +17,20 @@ namespace NinetyNine
         public TabControlManager(TabControl tabControl)
         {
             this.tabControl = tabControl;
+            SetTabPageNames();
             SetDataGridViews();
+        }
+
+        private void SetTabPageNames()
+        {
+            var tabPages = tabControl.TabPages;
+            var tableNames = MainTabPageEnum.GetAllDescriptions();
+            int cnt = tabPages.Count;
+
+            for (int i = 0; i < cnt; i++)
+            {
+                tabPages[i].Text = tableNames[i];
+            }
         }
 
         private void SetDataGridViews()
