@@ -77,5 +77,22 @@ namespace NinetyNine
                     throw new Exception("DataTableTemplate Exception");
             }
         }
+
+        internal static DataTable FindDataTable(DataSet dataSet, MainDataTable target)
+        {
+            var dataTables = dataSet.Tables;
+            string targetTableName = GetDescription(target);
+
+            foreach (DataTable dataTable in dataTables)
+            {
+                if (dataTable.TableName == targetTableName)
+                {
+                    return dataTable;
+                }
+
+            }
+
+            return null;
+        }
     }
 }

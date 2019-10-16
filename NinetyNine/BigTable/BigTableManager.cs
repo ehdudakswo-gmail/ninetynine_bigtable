@@ -20,7 +20,7 @@ namespace NinetyNine
             return Task.Run(() =>
             {
                 this.dataSet = dataSet;
-                bigTable = FindDataTable(MainDataTable.BigTable);
+                bigTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.BigTable);
                 Check();
 
                 bigTable.Clear();
@@ -68,24 +68,9 @@ namespace NinetyNine
 
         private void CreateBigTable()
         {
-            DataTable formTable = FindDataTable(MainDataTable.Form);
+            DataTable formTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Form);
             BigTableParserForm formParser = new BigTableParserForm(bigTable, formTable);
             formParser.Parse();
-        }
-
-        private DataTable FindDataTable(MainDataTable targetTabPage)
-        {
-            foreach (DataTable dataTable in dataSet.Tables)
-            {
-                string dataTableName = dataTable.TableName;
-                string targetTableName = MainDataTableEnum.GetDescription(targetTabPage);
-                if (dataTableName == targetTableName)
-                {
-                    return dataTable;
-                }
-            }
-
-            return null;
         }
     }
 }
