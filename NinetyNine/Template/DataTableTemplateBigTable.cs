@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace NinetyNine.DataTableTemplate
+namespace NinetyNine.Template
 {
     internal class DataTableTemplateBigTable : DataTableTemplate
     {

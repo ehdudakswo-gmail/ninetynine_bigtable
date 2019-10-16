@@ -1,4 +1,4 @@
-﻿using NinetyNine.DataTableTemplate;
+﻿using NinetyNine.Template;
 using System;
 using System.Data;
 

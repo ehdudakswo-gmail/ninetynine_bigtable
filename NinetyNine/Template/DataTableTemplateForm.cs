@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace NinetyNine.DataTableTemplate
+namespace NinetyNine.Template
 {
     class DataTableTemplateForm : DataTableTemplate
     {

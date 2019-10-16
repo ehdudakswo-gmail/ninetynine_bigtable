@@ -1,8 +1,8 @@
 ﻿using System.Data;
 
-namespace NinetyNine.DataTableTemplate
+namespace NinetyNine.Template
 {
-    internal class DataTableTemplateSchedule : DataTableTemplate
+    internal class DataTableTemplateOrganization : DataTableTemplate
     {
         public override DataTable Create(string tableName)
         {
@@ -19,7 +19,7 @@ namespace NinetyNine.DataTableTemplate
 
         private void SetRow0(DataRow row)
         {
-            row[0] = "공정표";
+            row[0] = "조직도";
         }
     }
 }

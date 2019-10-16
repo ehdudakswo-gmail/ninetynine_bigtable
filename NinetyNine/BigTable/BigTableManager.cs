@@ -1,5 +1,5 @@
 ﻿using NinetyNine.BigTable.Parser;
-using NinetyNine.DataTableTemplate;
+using NinetyNine.Template;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -20,7 +20,7 @@ namespace NinetyNine
             return Task.Run(() =>
             {
                 this.dataSet = dataSet;
-                bigTable = FindDataTable(MainTabPage.BigTable);
+                bigTable = FindDataTable(MainDataTable.BigTable);
                 Check();
 
                 bigTable.Clear();
@@ -68,7 +68,7 @@ namespace NinetyNine
 
         private void CreateBigTable()
         {
-            DataTable formTable = FindDataTable(MainTabPage.Form);
+            DataTable formTable = FindDataTable(MainDataTable.Form);
             BigTableParserForm formParser = new BigTableParserForm(bigTable, formTable);
             formParser.Parse();
 
@@ -78,12 +78,12 @@ namespace NinetyNine
             //autoComplete.Complete();
         }
 
-        private DataTable FindDataTable(MainTabPage targetTabPage)
+        private DataTable FindDataTable(MainDataTable targetTabPage)
         {
             foreach (DataTable dataTable in dataSet.Tables)
             {
                 string dataTableName = dataTable.TableName;
-                string targetTableName = MainTabPageEnum.GetDescription(targetTabPage);
+                string targetTableName = MainDataTableEnum.GetDescription(targetTabPage);
                 if (dataTableName == targetTableName)
                 {
                     return dataTable;

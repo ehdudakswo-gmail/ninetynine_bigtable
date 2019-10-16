@@ -1,0 +1,81 @@
+﻿using NinetyNine.Template;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+
+namespace NinetyNine
+{
+    enum MainDataTable
+    {
+        [Description("산출서")]
+        Form,
+
+        [Description("내역서")]
+        Statement,
+
+        [Description("공정표")]
+        Schedule,
+
+        [Description("조직도")]
+        Organization,
+
+        [Description("빅테이블")]
+        BigTable
+    }
+
+    class MainDataTableEnum
+    {
+        private static Array values = Enum.GetValues(typeof(MainDataTable));
+
+        internal static Array GetValues()
+        {
+            return values;
+        }
+
+        internal static string GetDescription(MainDataTable value)
+        {
+            return EnumManager.GetDescription(value);
+        }
+
+        internal static List<string> GetAllDescriptions()
+        {
+            return EnumManager.GetAllDescriptions(values);
+        }
+
+        internal static DataSet GetDataSetTemplate()
+        {
+            DataSet dataSet = new DataSet();
+            var tables = dataSet.Tables;
+
+            foreach (MainDataTable value in values)
+            {
+                DataTableTemplate template = GetDataTableTemplate(value);
+                string tableName = GetDescription(value);
+                DataTable dataTable = template.Create(tableName);
+                tables.Add(dataTable);
+            }
+
+            return dataSet;
+        }
+
+        private static DataTableTemplate GetDataTableTemplate(MainDataTable value)
+        {
+            switch (value)
+            {
+                case MainDataTable.Form:
+                    return new DataTableTemplateForm();
+                case MainDataTable.Statement:
+                    return new DataTableTemplateStatement();
+                case MainDataTable.Schedule:
+                    return new DataTableTemplateSchedule();
+                case MainDataTable.Organization:
+                    return new DataTableTemplateOrganization();
+                case MainDataTable.BigTable:
+                    return new DataTableTemplateBigTable();
+                default:
+                    throw new Exception("DataTableTemplate Exception");
+            }
+        }
+    }
+}

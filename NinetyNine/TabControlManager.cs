@@ -23,7 +23,7 @@ namespace NinetyNine
         private void SetTabPageTexts()
         {
             var tabPages = tabControl.TabPages;
-            var tableNames = MainTabPageEnum.GetAllDescriptions();
+            var tableNames = MainDataTableEnum.GetAllDescriptions();
             int cnt = tabPages.Count;
 
             for (int i = 0; i < cnt; i++)

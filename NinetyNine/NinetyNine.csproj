@@ -63,13 +63,12 @@
     <Compile Include="BigTable\Parser\BigTableParserForm.cs" />
     <Compile Include="BigTable\Parser\BigTableParser.cs" />
     <Compile Include="DataGridViewManager.cs" />
-    <Compile Include="DataTableTemplate\DataTableTemplate.cs" />
-    <Compile Include="DataTableTemplate\DataTableTemplateManager.cs" />
-    <Compile Include="DataTableTemplate\DataTableTemplateBigTable.cs" />
-    <Compile Include="DataTableTemplate\DataTableTemplateForm.cs" />
-    <Compile Include="DataTableTemplate\DataTableTemplateOrganization.cs" />
-    <Compile Include="DataTableTemplate\DataTableTemplateSchedule.cs" />
-    <Compile Include="DataTableTemplate\DataTableTemplateStatement.cs" />
+    <Compile Include="Template\DataTableTemplate.cs" />
+    <Compile Include="Template\DataTableTemplateBigTable.cs" />
+    <Compile Include="Template\DataTableTemplateForm.cs" />
+    <Compile Include="Template\DataTableTemplateOrganization.cs" />
+    <Compile Include="Template\DataTableTemplateSchedule.cs" />
+    <Compile Include="Template\DataTableTemplateStatement.cs" />
     <Compile Include="EnumManager.cs" />
     <Compile Include="ExcelDataManager.cs" />
     <Compile Include="ExcelEPPlusManager.cs" />
@@ -79,7 +78,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainTabPageEnum.cs" />
+    <Compile Include="MainDataTableEnum.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TabControlManager.cs" />

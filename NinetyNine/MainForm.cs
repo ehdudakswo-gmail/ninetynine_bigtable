@@ -1,5 +1,4 @@
-﻿using NinetyNine.DataTableTemplate;
-using System;
+﻿using System;
 using System.Data;
 using System.Windows.Forms;
 
@@ -49,8 +48,7 @@ namespace NinetyNine
             tabControlManager = new TabControlManager(tabControl);
             tabControlManager.Resize();
 
-            DataTableTemplateManager templateManager = new DataTableTemplateManager();
-            DataSet dataSet = templateManager.CreateDataSet();
+            DataSet dataSet = MainDataTableEnum.GetDataSetTemplate();
             tabControlManager.Refresh(dataSet);
         }
 
