@@ -130,5 +130,27 @@ namespace NinetyNine
         {
             return EnumManager.GetIndex(value);
         }
+
+        internal static List<string> GetTexts()
+        {
+            Array values = GetValues();
+            List<string> texts = new List<string>();
+
+            foreach (BigTableTitle value in values)
+            {
+                string text = GetText(value);
+                texts.Add(text);
+            }
+
+            return texts;
+        }
+
+        internal static string GetText(BigTableTitle value)
+        {
+            string name = value.ToString();
+            string description = GetDescription(value);
+
+            return string.Format("{0}: {1}", name, description);
+        }
     }
 }

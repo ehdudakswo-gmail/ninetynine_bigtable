@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using OfficeOpenXml;
 
 namespace NinetyNine
@@ -8,6 +7,20 @@ namespace NinetyNine
     {
         private readonly int COLUMN_BASIC_COUNT = 26 * 2;
         private readonly int COLUMN_CREATE_OFFSET = 26;
+
+        private static ExcelDataManager instance;
+
+        private ExcelDataManager() { }
+
+        internal static ExcelDataManager GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new ExcelDataManager();
+            }
+
+            return instance;
+        }
 
         internal DataTable GetBasicDataTable(string tableName)
         {
@@ -73,7 +86,8 @@ namespace NinetyNine
 
         private void SetColumnHeaderName(DataTable dataTable, int columnCount)
         {
-            string[] columns = GetColumnHeaderNames(columnCount);
+            string[] columns = GetColumnHeaderNames(COLUMN_BASIC_COUNT);
+
             for (int i = 0; i < columns.Length; i++)
             {
                 string name = columns[i];
@@ -103,6 +117,12 @@ namespace NinetyNine
 
                 dataTable.Rows.Add(newRow);
             }
+        }
+
+        internal string GetColumnName(int idx)
+        {
+            string[] columns = GetColumnHeaderNames(COLUMN_BASIC_COUNT);
+            return columns[idx];
         }
     }
 }

@@ -11,7 +11,6 @@ namespace NinetyNine
 
         private TabControl tabControl;
         private DataGridViewManager dataGridViewManager = new DataGridViewManager();
-        private ExcelDataManager excelDataManager = new ExcelDataManager();
 
         public TabControlManager(TabControl tabControl)
         {
@@ -23,12 +22,19 @@ namespace NinetyNine
         private void SetTabPageTexts()
         {
             var tabPages = tabControl.TabPages;
-            var tableNames = MainDataTableEnum.GetAllDescriptions();
-            int cnt = tabPages.Count;
+            var dataTableNames = MainDataTableEnum.GetAllDescriptions();
 
-            for (int i = 0; i < cnt; i++)
+            int tabPagesCount = tabPages.Count;
+            int dataTableCount = dataTableNames.Count;
+
+            if (tabPagesCount != dataTableCount)
             {
-                tabPages[i].Text = tableNames[i];
+                throw new Exception("SetTabPageTexts Exception");
+            }
+
+            for (int i = 0; i < tabPagesCount; i++)
+            {
+                tabPages[i].Text = dataTableNames[i];
             }
         }
 

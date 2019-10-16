@@ -1,4 +1,5 @@
-﻿using NinetyNine.BigTable.Parser;
+﻿using NinetyNine.BigTable;
+using NinetyNine.BigTable.Parser;
 using NinetyNine.Template;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,6 @@ namespace NinetyNine
     {
         private readonly string ERROR_EMPTY_SHEET = "{0} SHEET 내용이 필요합니다.";
 
-        private ExcelDataManager excelDataManager = new ExcelDataManager();
         private DataSet dataSet;
         private DataTable bigTable;
 
@@ -56,7 +56,7 @@ namespace NinetyNine
 
         private void SetBigTableTitleTexts()
         {
-            List<string> texts = DataTableTemplateBigTable.GetBigTableTitleTexts();
+            List<string> texts = BigTableTitleEnum.GetTexts();
             DataRow row = bigTable.NewRow();
             bigTable.Rows.Add(row);
 
@@ -71,6 +71,15 @@ namespace NinetyNine
             DataTable formTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Form);
             BigTableParserForm formParser = new BigTableParserForm(bigTable, formTable);
             formParser.Parse();
+
+            DataTable autoCompleteTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.AutoComplete);
+            BigTableAutoComplete autoComplete = new BigTableAutoComplete
+            {
+                bigTable = bigTable,
+                formTable = formTable,
+                autoCompleteTable = autoCompleteTable
+            };
+            autoComplete.Start();
         }
     }
 }

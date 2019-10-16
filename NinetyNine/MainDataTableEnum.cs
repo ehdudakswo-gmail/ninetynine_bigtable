@@ -20,6 +20,9 @@ namespace NinetyNine
         [Description("조직도")]
         Organization,
 
+        [Description("자동완성")]
+        AutoComplete,
+
         [Description("빅테이블")]
         BigTable
     }
@@ -71,6 +74,8 @@ namespace NinetyNine
                     return new DataTableTemplateSchedule();
                 case MainDataTable.Organization:
                     return new DataTableTemplateOrganization();
+                case MainDataTable.AutoComplete:
+                    return new DataTableTemplateAutoComplete();
                 case MainDataTable.BigTable:
                     return new DataTableTemplateBigTable();
                 default:
@@ -89,10 +94,9 @@ namespace NinetyNine
                 {
                     return dataTable;
                 }
-
             }
 
-            return null;
+            throw new Exception("FindDataTable Exception");
         }
     }
 }

@@ -7,7 +7,7 @@ namespace NinetyNine
 {
     internal class ExcelEPPlusManager
     {
-        private ExcelDataManager excelDataManager = new ExcelDataManager();
+        private ExcelDataManager excelDataManager = ExcelDataManager.GetInstance();
 
         internal Task<DataSet> GetDataSet(string fileName)
         {
