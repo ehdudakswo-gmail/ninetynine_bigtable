@@ -71,11 +71,6 @@ namespace NinetyNine
             DataTable formTable = FindDataTable(MainDataTable.Form);
             BigTableParserForm formParser = new BigTableParserForm(bigTable, formTable);
             formParser.Parse();
-
-            //DataTable whatTable = FindDataTable(MainTabPage.AutoComplete_WHAT);
-            //DataTable howTable = FindDataTable(MainTabPage.AutoComplete_HOW);
-            //BigTableAutoComplete autoComplete = new BigTableAutoComplete(bigTable, whatTable, howTable);
-            //autoComplete.Complete();
         }
 
         private DataTable FindDataTable(MainDataTable targetTabPage)
