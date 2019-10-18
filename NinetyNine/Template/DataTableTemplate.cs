@@ -1,4 +1,5 @@
 ﻿using NinetyNine.BigTable;
+using System;
 using System.Data;
 
 namespace NinetyNine.Template
@@ -6,8 +7,7 @@ namespace NinetyNine.Template
     abstract class DataTableTemplate
     {
         protected BigTableError bigTableError = BigTableError.GetInstance();
-        protected ExcelDataManager excelDataManager = ExcelDataManager.GetInstance();
 
-        abstract public DataTable Create(string tableName);
+        abstract internal void Set(DataTable dataTable);
     }
 }

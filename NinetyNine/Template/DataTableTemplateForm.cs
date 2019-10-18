@@ -19,9 +19,8 @@ namespace NinetyNine.Template
         internal static readonly string DATA2_CONTENT_SUB_CONTAINER_CLOSE = "]";
         internal static readonly string DATA2_CONTENT_SUB_SEPARATOR = ":";
 
-        public override DataTable Create(string tableName)
+        internal override void Set(DataTable dataTable)
         {
-            DataTable dataTable = excelDataManager.GetBasicDataTable(tableName);
             DataRow row0 = dataTable.NewRow();
             DataRow row1 = dataTable.NewRow();
             DataRow row2 = dataTable.NewRow();
@@ -37,8 +36,6 @@ namespace NinetyNine.Template
             SetRow1(row1);
             SetRow2(row2);
             SetRow3(row3);
-
-            return dataTable;
         }
 
         private void SetRow0(DataRow row)

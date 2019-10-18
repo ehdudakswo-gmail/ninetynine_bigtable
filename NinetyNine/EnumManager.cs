@@ -24,11 +24,11 @@ namespace NinetyNine
             return value.ToString();
         }
 
-        internal static List<string> GetAllDescriptions(Array arr)
+        internal static List<string> GetAllDescriptions(Array values)
         {
             List<string> descriptions = new List<string>();
 
-            foreach (Enum value in arr)
+            foreach (Enum value in values)
             {
                 string description = GetDescription(value);
                 descriptions.Add(description);

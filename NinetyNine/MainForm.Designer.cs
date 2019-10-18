@@ -52,6 +52,8 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage_AutoComplete = new System.Windows.Forms.TabPage();
             this.dataGridView_AutoComplete = new System.Windows.Forms.DataGridView();
+            this.tabPage_Mapping_Statement = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.menuStrip.SuspendLayout();
             this.tabPage_BigTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BigTable)).BeginInit();
@@ -66,6 +68,8 @@
             this.tabControl.SuspendLayout();
             this.tabPage_AutoComplete.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_AutoComplete)).BeginInit();
+            this.tabPage_Mapping_Statement.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -245,6 +249,7 @@
             this.tabControl.Controls.Add(this.tabPage_Schedule);
             this.tabControl.Controls.Add(this.tabPage_Organization);
             this.tabControl.Controls.Add(this.tabPage_AutoComplete);
+            this.tabControl.Controls.Add(this.tabPage_Mapping_Statement);
             this.tabControl.Controls.Add(this.tabPage_BigTable);
             this.tabControl.Location = new System.Drawing.Point(12, 40);
             this.tabControl.Name = "tabControl";
@@ -271,6 +276,25 @@
             this.dataGridView_AutoComplete.RowTemplate.Height = 27;
             this.dataGridView_AutoComplete.Size = new System.Drawing.Size(240, 150);
             this.dataGridView_AutoComplete.TabIndex = 1;
+            // 
+            // tabPage_Mapping_Statement
+            // 
+            this.tabPage_Mapping_Statement.Controls.Add(this.dataGridView1);
+            this.tabPage_Mapping_Statement.Location = new System.Drawing.Point(4, 25);
+            this.tabPage_Mapping_Statement.Name = "tabPage_Mapping_Statement";
+            this.tabPage_Mapping_Statement.Size = new System.Drawing.Size(768, 330);
+            this.tabPage_Mapping_Statement.TabIndex = 6;
+            this.tabPage_Mapping_Statement.Text = "Mapping_Statement";
+            this.tabPage_Mapping_Statement.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowTemplate.Height = 27;
+            this.dataGridView1.Size = new System.Drawing.Size(240, 150);
+            this.dataGridView1.TabIndex = 1;
             // 
             // MainForm
             // 
@@ -299,6 +323,8 @@
             this.tabControl.ResumeLayout(false);
             this.tabPage_AutoComplete.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_AutoComplete)).EndInit();
+            this.tabPage_Mapping_Statement.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -330,6 +356,8 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPage_AutoComplete;
         private System.Windows.Forms.DataGridView dataGridView_AutoComplete;
+        private System.Windows.Forms.TabPage tabPage_Mapping_Statement;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
 

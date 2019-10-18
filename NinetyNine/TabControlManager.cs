@@ -29,7 +29,7 @@ namespace NinetyNine
 
             if (tabPagesCount != dataTableCount)
             {
-                throw new Exception("SetTabPageTexts Exception");
+                throw new Exception("TabControlManager SetTabPageTexts Exception");
             }
 
             for (int i = 0; i < tabPagesCount; i++)

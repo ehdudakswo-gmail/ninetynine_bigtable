@@ -4,35 +4,20 @@ using System.ComponentModel;
 using System.Data;
 
 namespace NinetyNine.Template
-{  enum StatementTitleEnum
+{
+    enum MappingStatementTitleEnum
     {
-        [Description("품명")]
-        Name,
+        [Description("산출서-규격")]
+        Form_Standard,
 
-        [Description("규격")]
-        Standard,
+        [Description("내역서-품명")]
+        Statement_Name,
 
-        [Description("단위")]
-        Unit,
-
-        [Description("수량")]
-        Quantity,
-
-        [Description("재료비단가")]
-        MaterialCost,
-
-        [Description("노무비단가")]
-        LaborCost,
-
-        [Description("경비단가")]
-        Expenses,
-
-        [Description("계")]
-        Total,
+        [Description("내역서-규격")]
+        Statement_Standard,
     }
-  
 
-    internal class DataTableTemplateStatement : DataTableTemplate
+    internal class DataTableTemplateMappingStatement : DataTableTemplate
     {
         internal override void Set(DataTable dataTable)
         {
@@ -46,7 +31,7 @@ namespace NinetyNine.Template
 
         private void SetRow0(DataRow row)
         {
-            Array values = Enum.GetValues(typeof(StatementTitleEnum));
+            Array values = Enum.GetValues(typeof(MappingStatementTitleEnum));
             List<string> descriptions = EnumManager.GetAllDescriptions(values);
 
             for (int i = 0; i < descriptions.Count; i++)

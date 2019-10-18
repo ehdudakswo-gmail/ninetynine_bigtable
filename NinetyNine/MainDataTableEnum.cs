@@ -23,6 +23,9 @@ namespace NinetyNine
         [Description("자동완성")]
         AutoComplete,
 
+        [Description("맵핑-내역서")]
+        Mapping_Statement,
+
         [Description("빅테이블")]
         BigTable
     }
@@ -48,14 +51,16 @@ namespace NinetyNine
 
         internal static DataSet GetDataSetTemplate()
         {
+            ExcelDataManager excelDataManager = ExcelDataManager.GetInstance();
             DataSet dataSet = new DataSet();
             var tables = dataSet.Tables;
 
             foreach (MainDataTable value in values)
             {
-                DataTableTemplate template = GetDataTableTemplate(value);
                 string tableName = GetDescription(value);
-                DataTable dataTable = template.Create(tableName);
+                DataTable dataTable = excelDataManager.GetBasicDataTable(tableName);
+                DataTableTemplate template = GetDataTableTemplate(value);
+                template.Set(dataTable);
                 tables.Add(dataTable);
             }
 
@@ -76,10 +81,12 @@ namespace NinetyNine
                     return new DataTableTemplateOrganization();
                 case MainDataTable.AutoComplete:
                     return new DataTableTemplateAutoComplete();
+                case MainDataTable.Mapping_Statement:
+                    return new DataTableTemplateMappingStatement();
                 case MainDataTable.BigTable:
                     return new DataTableTemplateBigTable();
                 default:
-                    throw new Exception("DataTableTemplate Exception");
+                    throw new Exception("MainDataTableEnum GetDataTableTemplate Exception");
             }
         }
 

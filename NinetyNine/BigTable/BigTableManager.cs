@@ -1,4 +1,5 @@
 ﻿using NinetyNine.BigTable;
+using NinetyNine.BigTable.Dictionary;
 using NinetyNine.BigTable.Parser;
 using NinetyNine.Template;
 using System;
@@ -80,6 +81,32 @@ namespace NinetyNine
                 autoCompleteTable = autoCompleteTable
             };
             autoComplete.Start();
+
+            DataTable mappingStatementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Statement);
+            BigtableDictionary mappingStatementDictionary = new BigtableDictionaryMappingStatement();
+            mappingStatementDictionary.Create(mappingStatementTable);
+
+            DataTable statementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Statement);
+            BigtableDictionary statementDictionary = new BigtableDictionaryStatement();
+            statementDictionary.Create(statementTable);
+
+            Dictionary<string, DataRow> msd = mappingStatementDictionary.Get();
+            Dictionary<string, DataRow> sd = statementDictionary.Get();
+
+            foreach (var e in sd)
+            {
+                string key = e.Key;
+                DataRow row = e.Value;
+
+                Console.WriteLine("key : " + key);
+                Console.WriteLine("row[2] : " + row[2]);
+                Console.WriteLine("row[3] : " + row[3]);
+                Console.WriteLine("row[4] : " + row[4]);
+                Console.WriteLine("row[5] : " + row[5]);
+                Console.WriteLine("row[6] : " + row[6]);
+                Console.WriteLine("row[7] : " + row[7]);
+                Console.WriteLine("row[8] : " + row[8]);
+            }
         }
     }
 }
