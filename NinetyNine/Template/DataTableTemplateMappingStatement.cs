@@ -5,7 +5,7 @@ using System.Data;
 
 namespace NinetyNine.Template
 {
-    enum MappingStatementTitleEnum
+    enum MappingStatementTitle
     {
         [Description("산출서-규격")]
         Form_Standard,
@@ -31,7 +31,7 @@ namespace NinetyNine.Template
 
         private void SetRow0(DataRow row)
         {
-            Array values = Enum.GetValues(typeof(MappingStatementTitleEnum));
+            Array values = Enum.GetValues(typeof(MappingStatementTitle));
             List<string> descriptions = EnumManager.GetAllDescriptions(values);
 
             for (int i = 0; i < descriptions.Count; i++)

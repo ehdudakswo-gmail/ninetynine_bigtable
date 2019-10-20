@@ -7,10 +7,10 @@ namespace NinetyNine
 {
     internal class BigtableDictionaryStatement : BigtableDictionary
     {
-        private Array titles = Enum.GetValues(typeof(StatementTitleEnum));
+        private Array titles = Enum.GetValues(typeof(StatementTitle));
         private Enum[] keys = new Enum[] {
-            StatementTitleEnum.Name,
-            StatementTitleEnum.Standard,
+            StatementTitle.Name,
+            StatementTitle.Standard,
         };
 
         internal override void Create(DataTable dataTable)
@@ -45,11 +45,11 @@ namespace NinetyNine
                         bigTableError.ThrowException(dataTable, rowIdx, keyColumnIdx, error);
                     }
 
-                    CheckNumber(StatementTitleEnum.Quantity, row, rowIdx, dataTable);
-                    CheckNumber(StatementTitleEnum.MaterialCost, row, rowIdx, dataTable);
-                    CheckNumber(StatementTitleEnum.LaborCost, row, rowIdx, dataTable);
-                    CheckNumber(StatementTitleEnum.Expenses, row, rowIdx, dataTable);
-                    CheckNumber(StatementTitleEnum.Total, row, rowIdx, dataTable);
+                    CheckNumber(StatementTitle.Quantity, row, rowIdx, dataTable);
+                    CheckNumber(StatementTitle.MaterialCost, row, rowIdx, dataTable);
+                    CheckNumber(StatementTitle.LaborCost, row, rowIdx, dataTable);
+                    CheckNumber(StatementTitle.Expenses, row, rowIdx, dataTable);
+                    CheckNumber(StatementTitle.Total, row, rowIdx, dataTable);
 
                     dictionary.Add(key, row);
                 }

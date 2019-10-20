@@ -6,10 +6,10 @@ namespace NinetyNine.BigTable.Dictionary
 {
     class BigtableDictionaryMappingStatement : BigtableDictionary
     {
-        private Array titles = Enum.GetValues(typeof(MappingStatementTitleEnum));
+        private Array titles = Enum.GetValues(typeof(MappingStatementTitle));
         private Enum[] keys = new Enum[]
         {
-            MappingStatementTitleEnum.Form_Standard,
+            MappingStatementTitle.Form_Standard,
         };
 
         internal override void Create(DataTable dataTable)

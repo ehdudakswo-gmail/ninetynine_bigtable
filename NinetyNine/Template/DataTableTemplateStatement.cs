@@ -4,7 +4,8 @@ using System.ComponentModel;
 using System.Data;
 
 namespace NinetyNine.Template
-{  enum StatementTitleEnum
+{
+    enum StatementTitle
     {
         [Description("품명")]
         Name,
@@ -30,7 +31,7 @@ namespace NinetyNine.Template
         [Description("계")]
         Total,
     }
-  
+
 
     internal class DataTableTemplateStatement : DataTableTemplate
     {
@@ -46,7 +47,7 @@ namespace NinetyNine.Template
 
         private void SetRow0(DataRow row)
         {
-            Array values = Enum.GetValues(typeof(StatementTitleEnum));
+            Array values = Enum.GetValues(typeof(StatementTitle));
             List<string> descriptions = EnumManager.GetAllDescriptions(values);
 
             for (int i = 0; i < descriptions.Count; i++)
