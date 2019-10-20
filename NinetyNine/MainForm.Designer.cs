@@ -54,6 +54,7 @@
             this.dataGridView_AutoComplete = new System.Windows.Forms.DataGridView();
             this.tabPage_Mapping_Statement = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.newtonsoftJsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.tabPage_BigTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BigTable)).BeginInit();
@@ -134,15 +135,16 @@
             // 라이센스ToolStripMenuItem1
             // 
             this.라이센스ToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ePPlusToolStripMenuItem1});
+            this.ePPlusToolStripMenuItem1,
+            this.newtonsoftJsonToolStripMenuItem});
             this.라이센스ToolStripMenuItem1.Name = "라이센스ToolStripMenuItem1";
-            this.라이센스ToolStripMenuItem1.Size = new System.Drawing.Size(144, 26);
+            this.라이센스ToolStripMenuItem1.Size = new System.Drawing.Size(216, 26);
             this.라이센스ToolStripMenuItem1.Text = "라이센스";
             // 
             // ePPlusToolStripMenuItem1
             // 
             this.ePPlusToolStripMenuItem1.Name = "ePPlusToolStripMenuItem1";
-            this.ePPlusToolStripMenuItem1.Size = new System.Drawing.Size(129, 26);
+            this.ePPlusToolStripMenuItem1.Size = new System.Drawing.Size(216, 26);
             this.ePPlusToolStripMenuItem1.Text = "EPPlus";
             // 
             // tabPage_BigTable
@@ -296,6 +298,12 @@
             this.dataGridView1.Size = new System.Drawing.Size(240, 150);
             this.dataGridView1.TabIndex = 1;
             // 
+            // newtonsoftJsonToolStripMenuItem
+            // 
+            this.newtonsoftJsonToolStripMenuItem.Name = "newtonsoftJsonToolStripMenuItem";
+            this.newtonsoftJsonToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.newtonsoftJsonToolStripMenuItem.Text = "Newtonsoft.Json";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -358,6 +366,7 @@
         private System.Windows.Forms.DataGridView dataGridView_AutoComplete;
         private System.Windows.Forms.TabPage tabPage_Mapping_Statement;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.ToolStripMenuItem newtonsoftJsonToolStripMenuItem;
     }
 }
 

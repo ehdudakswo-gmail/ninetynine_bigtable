@@ -1,4 +1,5 @@
 ﻿
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,7 +8,6 @@ namespace NinetyNine.BigTable.Dictionary
 {
     abstract class BigtableDictionary
     {
-        private readonly string KEY_SEPARATOR = " | ";
         protected readonly string ERROR_VALUE_EMPTY = "값 없음";
         protected readonly string ERROR_KEY_CONTAIN = "{0} 중복";
         protected readonly string ERROR_NOT_NUMBER = "{0} 숫자 아님";
@@ -31,16 +31,16 @@ namespace NinetyNine.BigTable.Dictionary
         protected string GetKey(DataRow row, Enum[] keys)
         {
             int len = keys.Length;
-            string[] keyStrings = new string[len];
+            string[] keyArr = new string[len];
 
             for (int i = 0; i < len; i++)
             {
                 Enum enumValue = keys[i];
                 int columnIdx = EnumManager.GetIndex(enumValue);
-                keyStrings[i] = row[columnIdx].ToString();
+                keyArr[i] = row[columnIdx].ToString();
             }
 
-            string key = string.Join(KEY_SEPARATOR, keyStrings);
+            string key = JsonConvert.SerializeObject(keyArr);
             return key;
         }
 
