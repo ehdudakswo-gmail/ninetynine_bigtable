@@ -60,6 +60,31 @@ namespace NinetyNine
             return columns;
         }
 
+        internal string[] GetBasicColumnHeaderNames()
+        {
+            int cnt = COLUMN_BASIC_COUNT;
+            string[] columns = new string[cnt];
+
+            for (int i = 0; i < columns.Length; i++)
+            {
+                int roopCnt = (i / COLUMN_CREATE_OFFSET);
+                int seq = (i % COLUMN_CREATE_OFFSET);
+                string name = ((char)('A' + seq)).ToString();
+
+                if (roopCnt == 0)
+                {
+                    columns[i] = name;
+                }
+                else
+                {
+                    string front = ((char)('A' + roopCnt - 1)).ToString();
+                    columns[i] = front + name;
+                }
+            }
+
+            return columns;
+        }
+
         internal DataTable GetDataTable(ExcelWorksheet worksheet)
         {
             string tableName = worksheet.Name;

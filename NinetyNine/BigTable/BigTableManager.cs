@@ -1,7 +1,6 @@
-﻿using NinetyNine.BigTable;
-using NinetyNine.BigTable.Dictionary;
+﻿using NinetyNine.BigTable.Dictionary;
+using NinetyNine.BigTable.Mapper;
 using NinetyNine.BigTable.Parser;
-using NinetyNine.Template;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,7 +24,6 @@ namespace NinetyNine
                 Check();
 
                 bigTable.Clear();
-                SetBigTableTitleTexts();
                 CreateBigTable();
 
                 return dataSet.ToString();
@@ -55,58 +53,27 @@ namespace NinetyNine
             return (dataTable.Rows.Count == 0);
         }
 
-        private void SetBigTableTitleTexts()
-        {
-            List<string> texts = BigTableTitleEnum.GetTexts();
-            DataRow row = bigTable.NewRow();
-            bigTable.Rows.Add(row);
-
-            for (int i = 0; i < texts.Count; i++)
-            {
-                row[i] = texts[i];
-            }
-        }
-
         private void CreateBigTable()
         {
             DataTable formTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Form);
             BigTableParserForm formParser = new BigTableParserForm(bigTable, formTable);
             formParser.Parse();
 
-            DataTable autoCompleteTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.AutoComplete);
-            BigTableAutoComplete autoComplete = new BigTableAutoComplete
+            DataTable statementMappingTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Statement);
+            DataTable statementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Statement);
+            BigtableDictionary BigtableDictionaryStatementMapping = new BigtableDictionaryStatementMapping();
+            BigtableDictionary BigtableDictionaryStatement = new BigtableDictionaryStatement();
+            Dictionary<string, DataRow> statementMappingDictionary = BigtableDictionaryStatementMapping.Create(statementMappingTable);
+            Dictionary<string, DataRow> statementDictionary = BigtableDictionaryStatement.Create(statementTable);
+            BigTableMapper statementMapper = new BigTableMapperStatement
             {
                 bigTable = bigTable,
-                formTable = formTable,
-                autoCompleteTable = autoCompleteTable
+                statementMappingTable = statementMappingTable,
+                statementTable = statementTable,
+                statementMappingDictionary = statementMappingDictionary,
+                statementDictionary = statementDictionary,
             };
-            autoComplete.Start();
-
-            DataTable mappingStatementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Statement);
-            BigtableDictionary mappingStatementDictionary = new BigtableDictionaryMappingStatement();
-            mappingStatementDictionary.Create(mappingStatementTable);
-
-            DataTable statementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Statement);
-            BigtableDictionary statementDictionary = new BigtableDictionaryStatement();
-            statementDictionary.Create(statementTable);
-
-            Dictionary<string, DataRow> msd = mappingStatementDictionary.Get();
-            Dictionary<string, DataRow> sd = statementDictionary.Get();
-
-            foreach (var e in sd)
-            {
-                string key = e.Key;
-                DataRow row = e.Value;
-
-                Console.WriteLine("key : " + key);
-                Console.WriteLine("row[2] : " + row[2]);
-                Console.WriteLine("row[3] : " + row[3]);
-                Console.WriteLine("row[4] : " + row[4]);
-                Console.WriteLine("row[5] : " + row[5]);
-                Console.WriteLine("row[6] : " + row[6]);
-                Console.WriteLine("row[7] : " + row[7]);
-                Console.WriteLine("row[8] : " + row[8]);
-            }
+            statementMapper.Mapping();
         }
     }
 }

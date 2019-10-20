@@ -5,7 +5,7 @@ using System.Data;
 
 namespace NinetyNine.Template
 {
-    enum MappingStatementTitle
+    enum StatementMappingTitle
     {
         [Description("산출서-규격")]
         Form_Standard,
@@ -17,7 +17,7 @@ namespace NinetyNine.Template
         Statement_Standard,
     }
 
-    internal class DataTableTemplateMappingStatement : DataTableTemplate
+    internal class DataTableTemplateStatementMapping : DataTableTemplate
     {
         internal override void Set(DataTable dataTable)
         {
@@ -31,7 +31,7 @@ namespace NinetyNine.Template
 
         private void SetRow0(DataRow row)
         {
-            Array values = Enum.GetValues(typeof(MappingStatementTitle));
+            Array values = Enum.GetValues(typeof(StatementMappingTitle));
             List<string> descriptions = EnumManager.GetAllDescriptions(values);
 
             for (int i = 0; i < descriptions.Count; i++)

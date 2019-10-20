@@ -20,10 +20,7 @@ namespace NinetyNine
         [Description("조직도")]
         Organization,
 
-        [Description("자동완성")]
-        AutoComplete,
-
-        [Description("맵핑-내역서")]
+        [Description("맵핑(내역서)")]
         Mapping_Statement,
 
         [Description("빅테이블")]
@@ -79,10 +76,8 @@ namespace NinetyNine
                     return new DataTableTemplateSchedule();
                 case MainDataTable.Organization:
                     return new DataTableTemplateOrganization();
-                case MainDataTable.AutoComplete:
-                    return new DataTableTemplateAutoComplete();
                 case MainDataTable.Mapping_Statement:
-                    return new DataTableTemplateMappingStatement();
+                    return new DataTableTemplateStatementMapping();
                 case MainDataTable.BigTable:
                     return new DataTableTemplateBigTable();
                 default:

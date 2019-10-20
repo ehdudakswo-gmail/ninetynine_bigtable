@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using NinetyNine.BigTable.Dictionary;
 using NinetyNine.Template;
@@ -13,7 +14,7 @@ namespace NinetyNine
             StatementTitle.Standard,
         };
 
-        internal override void Create(DataTable dataTable)
+        internal override Dictionary<string, DataRow> Create(DataTable dataTable)
         {
             var rows = dataTable.Rows;
             int rowCount = rows.Count;
@@ -54,6 +55,8 @@ namespace NinetyNine
                     dictionary.Add(key, row);
                 }
             }
+
+            return dictionary;
         }
     }
 }

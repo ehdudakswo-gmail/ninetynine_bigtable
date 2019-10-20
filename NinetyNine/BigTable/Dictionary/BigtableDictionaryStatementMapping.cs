@@ -1,18 +1,19 @@
 ﻿using NinetyNine.Template;
 using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace NinetyNine.BigTable.Dictionary
 {
-    class BigtableDictionaryMappingStatement : BigtableDictionary
+    class BigtableDictionaryStatementMapping : BigtableDictionary
     {
-        private Array titles = Enum.GetValues(typeof(MappingStatementTitle));
+        private Array titles = Enum.GetValues(typeof(StatementMappingTitle));
         private Enum[] keys = new Enum[]
         {
-            MappingStatementTitle.Form_Standard,
+            StatementMappingTitle.Form_Standard,
         };
 
-        internal override void Create(DataTable dataTable)
+        internal override Dictionary<string, DataRow> Create(DataTable dataTable)
         {
             var rows = dataTable.Rows;
             int rowCount = rows.Count;
@@ -47,6 +48,8 @@ namespace NinetyNine.BigTable.Dictionary
                     dictionary.Add(key, row);
                 }
             }
+
+            return dictionary;
         }
     }
 }

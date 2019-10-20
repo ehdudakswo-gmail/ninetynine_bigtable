@@ -1,5 +1,6 @@
 ﻿using NinetyNine.Template;
 using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace NinetyNine.BigTable.Parser
@@ -29,6 +30,21 @@ namespace NinetyNine.BigTable.Parser
         {
             this.bigTable = bigTable;
             this.formTable = formTable;
+            SetBigTableTitle();
+        }
+
+        private void SetBigTableTitle()
+        {
+            Array values = Enum.GetValues(typeof(BigTableTitle));
+            List<string> texts = EnumManager.GetTexts(values);
+
+            DataRow row = bigTable.NewRow();
+            bigTable.Rows.Add(row);
+
+            for (int i = 0; i < texts.Count; i++)
+            {
+                row[i] = texts[i];
+            }
         }
 
         internal override void Parse()

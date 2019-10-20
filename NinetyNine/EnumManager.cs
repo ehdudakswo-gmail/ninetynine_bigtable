@@ -46,5 +46,26 @@ namespace NinetyNine
         {
             return value.GetHashCode();
         }
+
+        internal static List<string> GetTexts(Array values)
+        {
+            List<string> texts = new List<string>();
+
+            foreach (Enum value in values)
+            {
+                string text = GetText(value);
+                texts.Add(text);
+            }
+
+            return texts;
+        }
+
+        internal static string GetText(Enum value)
+        {
+            string name = value.ToString();
+            string description = GetDescription(value);
+
+            return string.Format("{0}: {1}", name, description);
+        }
     }
 }

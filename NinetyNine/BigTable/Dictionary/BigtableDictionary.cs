@@ -15,12 +15,7 @@ namespace NinetyNine.BigTable.Dictionary
         protected Dictionary<string, DataRow> dictionary = new Dictionary<string, DataRow>();
         protected BigTableError bigTableError = BigTableError.GetInstance();
 
-        abstract internal void Create(DataTable dataTable);
-
-        internal Dictionary<string, DataRow> Get()
-        {
-            return dictionary;
-        }
+        abstract internal Dictionary<string, DataRow> Create(DataTable dataTable);
 
         protected int GetColumnCount(Array titles)
         {
@@ -28,7 +23,7 @@ namespace NinetyNine.BigTable.Dictionary
             return columnCount;
         }
 
-        protected string GetKey(DataRow row, Enum[] keys)
+        internal static string GetKey(DataRow row, Enum[] keys)
         {
             int len = keys.Length;
             string[] keyArr = new string[len];

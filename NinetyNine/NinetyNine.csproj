@@ -59,20 +59,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BigTable\BigTableAutoComplete.cs" />
     <Compile Include="BigTable\Dictionary\BigtableDictionaryStatement.cs" />
     <Compile Include="BigTable\BigTableError.cs" />
     <Compile Include="BigTable\Dictionary\BigtableDictionary.cs" />
-    <Compile Include="BigTable\Dictionary\BigtableDictionaryMappingStatement.cs" />
+    <Compile Include="BigTable\Dictionary\BigtableDictionaryStatementMapping.cs" />
+    <Compile Include="BigTable\Mapper\BigTableMapper.cs" />
+    <Compile Include="BigTable\Mapper\BigTableMapperStatement.cs" />
     <Compile Include="BigTable\Parser\BigTableData.cs" />
     <Compile Include="BigTable\BigTableManager.cs" />
-    <Compile Include="BigTable\BigTableTitleEnum.cs" />
     <Compile Include="BigTable\Parser\BigTableParserForm.cs" />
     <Compile Include="BigTable\Parser\BigTableParser.cs" />
     <Compile Include="DataGridViewManager.cs" />
-    <Compile Include="Template\DataTableTemplateMappingStatement.cs" />
+    <Compile Include="Template\DataTableTemplateStatementMapping.cs" />
     <Compile Include="Template\DataTableTemplate.cs" />
-    <Compile Include="Template\DataTableTemplateAutoComplete.cs" />
     <Compile Include="Template\DataTableTemplateBigTable.cs" />
     <Compile Include="Template\DataTableTemplateForm.cs" />
     <Compile Include="Template\DataTableTemplateOrganization.cs" />
