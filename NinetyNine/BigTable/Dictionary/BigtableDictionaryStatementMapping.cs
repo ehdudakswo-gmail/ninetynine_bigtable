@@ -7,18 +7,28 @@ namespace NinetyNine.BigTable.Dictionary
 {
     class BigtableDictionaryStatementMapping : BigtableDictionary
     {
-        private Array titles = Enum.GetValues(typeof(StatementMappingTitle));
         private Enum[] keys = new Enum[]
         {
             StatementMappingTitle.Form_Standard,
+        };
+
+        private HashSet<string> valueKeyCheck = new HashSet<string>();
+        private Enum[] valueKeys = new Enum[]
+        {
+            StatementMappingTitle.Statement_Name,
+            StatementMappingTitle.Statement_Standard,
+        };
+
+        private Array enumValues = Enum.GetValues(typeof(StatementMappingTitle));
+        private HashSet<Enum> emptyCheckSkip = new HashSet<Enum>
+        {
+            StatementMappingTitle.Statement_Standard,
         };
 
         internal override Dictionary<string, DataRow> Create(DataTable dataTable)
         {
             var rows = dataTable.Rows;
             int rowCount = rows.Count;
-            int columnCount = GetColumnCount(titles);
-            int emptyCheckLastIdx = columnCount - 2;
 
             for (int rowIdx = 0; rowIdx < rowCount; rowIdx++)
             {
@@ -30,22 +40,29 @@ namespace NinetyNine.BigTable.Dictionary
                 {
                     DataRow row = rows[rowIdx];
 
-                    int emptyColoumnIdx = GetEmptyIdx(row, 0, emptyCheckLastIdx);
-                    if (emptyColoumnIdx != -1)
+                    int emptyColIdx = GetEmptyIdx(row, enumValues, emptyCheckSkip);
+                    if (emptyColIdx != -1)
                     {
-                        string error = ERROR_VALUE_EMPTY;
-                        bigTableError.ThrowException(dataTable, rowIdx, emptyColoumnIdx, error);
+                        BigTableErrorCell[] errorCells = GetErrorCells(rowIdx, emptyColIdx);
+                        ThrowException(dataTable, errorCells, ERROR_VALUE_EMPTY);
                     }
 
                     string key = GetKey(row, keys);
                     if (dictionary.ContainsKey(key))
                     {
-                        int keyColumnIdx = GetKeyIndex(keys);
-                        string error = string.Format(ERROR_KEY_CONTAIN, key);
-                        bigTableError.ThrowException(dataTable, rowIdx, keyColumnIdx, error);
+                        BigTableErrorCell[] errorCells = GetErrorCells(rowIdx, keys);
+                        ThrowException(dataTable, errorCells, ERROR_KEY_CONTAIN);
+                    }
+
+                    string valueKey = GetKey(row, valueKeys);
+                    if (valueKeyCheck.Contains(valueKey))
+                    {
+                        BigTableErrorCell[] errorCells = GetErrorCells(rowIdx, valueKeys);
+                        ThrowException(dataTable, errorCells, ERROR_KEY_CONTAIN);
                     }
 
                     dictionary.Add(key, row);
+                    valueKeyCheck.Add(valueKey);
                 }
             }
 

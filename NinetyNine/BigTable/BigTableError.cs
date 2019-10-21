@@ -36,19 +36,6 @@ namespace NinetyNine.BigTable
             return instance;
         }
 
-        internal void ThrowException(DataTable dataTable, int rowIdx, int colIdx, string error)
-        {
-            string tableName = dataTable.TableName;
-            string row = (rowIdx + 1).ToString();
-            string col = excelDataManager.GetColumnName(colIdx);
-            string cell = col + row;
-
-            string position = string.Format("{0} SHEET {1}", tableName, cell);
-            string message = position + NEWLINE + error;
-
-            throw new Exception(message);
-        }
-
         internal void ThrowException(BigTableErrorData data)
         {
             DataTable dataTable = data.dataTable;
@@ -57,9 +44,12 @@ namespace NinetyNine.BigTable
             string tableName = dataTable.TableName;
             string cellInfo = GetCellInfo(dataTable, cells);
             string error = data.error;
+            string message = tableName + SPACE + cellInfo + NEWLINE + error;
 
-            string message = tableName + NEWLINE + cellInfo + NEWLINE + error;
-            throw new Exception(message);
+            Exception exception = new Exception(message);
+            exception.Data[ExceptionDataParam.BigTableErrorTableName] = tableName;
+            exception.Data[ExceptionDataParam.BigTableErrorCells] = cells;
+            throw exception;
         }
 
         private string GetCellInfo(DataTable dataTable, BigTableErrorCell[] cells)
@@ -73,13 +63,12 @@ namespace NinetyNine.BigTable
                 BigTableErrorCell cell = cells[i];
                 int rowIdx = cell.rowIdx;
                 int colIdx = cell.colIdx;
-                string value = dataTable.Rows[rowIdx][colIdx].ToString();
 
                 string row = (rowIdx + 1).ToString();
                 string col = columns[colIdx];
                 string position = col + row;
 
-                cellArr[i] = string.Format("{0}({1})", position, value);
+                cellArr[i] = string.Format("{0}", position);
             }
 
             string cellInfo = string.Join(SPACE, cellArr);

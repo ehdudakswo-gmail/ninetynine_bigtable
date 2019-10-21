@@ -21,5 +21,34 @@ namespace NinetyNine.BigTable.Mapper
             int rowIdx = dataTable.Rows.IndexOf(row);
             return rowIdx;
         }
+
+        protected void ThrowException(DataTable dataTable, BigTableErrorCell[] cells, string error)
+        {
+            BigTableErrorData errrorData = new BigTableErrorData
+            {
+                dataTable = dataTable,
+                cells = cells,
+                error = error,
+            };
+
+            bigTableError.ThrowException(errrorData);
+        }
+
+        protected BigTableErrorCell[] GetErrorCells(int rowIdx, Enum[] keys)
+        {
+            int len = keys.Length;
+            BigTableErrorCell[] cells = new BigTableErrorCell[len];
+
+            for (int i = 0; i < len; i++)
+            {
+                cells[i] = new BigTableErrorCell
+                {
+                    rowIdx = rowIdx,
+                    colIdx = GetColumnIdx(keys[i]),
+                };
+            }
+
+            return cells;
+        }
     }
 }

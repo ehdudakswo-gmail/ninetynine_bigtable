@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NinetyNine.BigTable;
+using System;
 using System.Data;
 using System.Windows.Forms;
 
@@ -148,7 +149,16 @@ namespace NinetyNine
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                string tableName = (string)exception.Data[ExceptionDataParam.BigTableErrorTableName];
+                BigTableErrorCell[] cells = (BigTableErrorCell[])exception.Data[ExceptionDataParam.BigTableErrorCells];
+                string message = exception.Message;
+
+                Array values = Enum.GetValues(typeof(MainDataTable));
+                int tabIdx = EnumManager.GetIndex(values, tableName);
+
+                tabControl.SelectedIndex = tabIdx;
+                tabControlManager.HighLight(tabIdx, cells);
+                MessageBox.Show(message);
             }
             finally
             {

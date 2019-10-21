@@ -16,6 +16,17 @@ namespace NinetyNine.BigTable.Mapper
 
         internal override void Mapping()
         {
+            Enum[] statementMappingKeys = new Enum[]
+            {
+                BigTableTitle.HOW5
+            };
+
+            Enum[] statementKeys = new Enum[]
+            {
+                StatementMappingTitle.Statement_Name,
+                StatementMappingTitle.Statement_Standard
+            };
+
             var bigTableRows = bigTable.Rows;
             var bigTableRowsCount = bigTableRows.Count;
 
@@ -29,27 +40,22 @@ namespace NinetyNine.BigTable.Mapper
                 {
                     var bigTableRow = bigTableRows[bigTableRowIdx];
 
-                    Enum[] statementMappingKeys = new Enum[] {
-                        BigTableTitle.HOW5
-                    };
                     string statementMappingKey = BigtableDictionary.GetKey(bigTableRow, statementMappingKeys);
                     if (statementMappingDictionary.ContainsKey(statementMappingKey) == false)
                     {
-                        ThrowStatementMappingKeyError(bigTableRowIdx, statementMappingKeys);
+                        BigTableErrorCell[] errorCells = GetErrorCells(bigTableRowIdx, statementMappingKeys);
+                        string error = string.Format(ERROR_DATA_NONE, statementMappingTable.TableName);
+                        ThrowException(bigTable, errorCells, error);
                     }
 
                     DataRow statementMappingRow = statementMappingDictionary[statementMappingKey];
-                    Enum[] statementKeys = new Enum[] {
-                        StatementMappingTitle.Statement_Name,
-                        StatementMappingTitle.Statement_Standard
-                    };
                     string statementKey = BigtableDictionary.GetKey(statementMappingRow, statementKeys);
                     if (statementDictionary.ContainsKey(statementKey) == false)
                     {
-                        ThrowStatementKeyError(
-                            GetRowIndex(statementMappingTable, statementMappingRow),
-                            statementKeys
-                        );
+                        int statementMappingRowIdx = GetRowIndex(statementMappingTable, statementMappingRow);
+                        BigTableErrorCell[] errorCells = GetErrorCells(statementMappingRowIdx, statementKeys);
+                        string error = string.Format(ERROR_DATA_NONE, statementTable.TableName);
+                        ThrowException(statementMappingTable, errorCells, error);
                     }
 
                     DataRow statementRow = statementDictionary[statementKey];
@@ -99,48 +105,6 @@ namespace NinetyNine.BigTable.Mapper
 
             double resultNum = conversionNum * attributeNum;
             bigTableRow[resultIdx] = resultNum.ToString();
-        }
-
-        private void ThrowStatementMappingKeyError(int rowIdx, Enum[] keys)
-        {
-            BigTableErrorData errrorData = new BigTableErrorData
-            {
-                dataTable = bigTable,
-                cells = new BigTableErrorCell[] {
-                    new BigTableErrorCell
-                    {
-                        rowIdx = rowIdx,
-                        colIdx = GetColumnIdx(keys[0]),
-                    },
-                },
-                error = string.Format(ERROR_DATA_NONE, statementMappingTable.TableName)
-            };
-
-            bigTableError.ThrowException(errrorData);
-        }
-
-        private void ThrowStatementKeyError(int rowIdx, Enum[] keys)
-        {
-            BigTableErrorData errrorData = new BigTableErrorData
-            {
-                dataTable = statementMappingTable,
-                cells = new BigTableErrorCell[]
-                {
-                    new BigTableErrorCell
-                    {
-                        rowIdx = rowIdx,
-                        colIdx = GetColumnIdx(keys[0]),
-                    },
-                    new BigTableErrorCell
-                    {
-                        rowIdx = rowIdx,
-                        colIdx = GetColumnIdx(keys[1]),
-                    }
-                },
-                error = string.Format(ERROR_DATA_NONE, statementTable.TableName)
-            };
-
-            bigTableError.ThrowException(errrorData);
         }
     }
 }

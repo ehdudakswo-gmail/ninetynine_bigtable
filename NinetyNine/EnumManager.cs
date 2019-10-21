@@ -47,6 +47,19 @@ namespace NinetyNine
             return value.GetHashCode();
         }
 
+        internal static int GetIndex(Array values, string description)
+        {
+            foreach (Enum value in values)
+            {
+                if (GetDescription(value) == description)
+                {
+                    return GetIndex(value);
+                }
+            }
+
+            return -1;
+        }
+
         internal static List<string> GetTexts(Array values)
         {
             List<string> texts = new List<string>();

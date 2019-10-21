@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms;
+using NinetyNine.BigTable;
 
 namespace NinetyNine
 {
@@ -55,14 +56,25 @@ namespace NinetyNine
 
         internal void SelectedIndexChanged()
         {
+            RefreshFirstDisplayed();
             RefreshRowHeaderValue();
             Resize();
         }
 
+        private void RefreshFirstDisplayed()
+        {
+            int tabIdx = tabControl.SelectedIndex;
+            DataGridView dataGridView = dataGridViewManager.Get(tabIdx);
+
+            dataGridView.ClearSelection();
+            dataGridView.FirstDisplayedScrollingRowIndex = 0;
+            dataGridView.FirstDisplayedScrollingColumnIndex = 0;
+        }
+
         private void RefreshRowHeaderValue()
         {
-            int idx = tabControl.SelectedIndex;
-            DataGridView dataGridView = dataGridViewManager.Get(idx);
+            int tabIdx = tabControl.SelectedIndex;
+            DataGridView dataGridView = dataGridViewManager.Get(tabIdx);
             dataGridViewManager.RefreshRowHeaderValue(dataGridView);
         }
 
@@ -106,6 +118,25 @@ namespace NinetyNine
         internal DataSet GetDataSet()
         {
             return dataGridViewManager.GetDataSet();
+        }
+
+        internal void HighLight(int tabIdx, BigTableErrorCell[] cells)
+        {
+            DataGridView dataGridView = dataGridViewManager.Get(tabIdx);
+            dataGridView.ClearSelection();
+
+            foreach (BigTableErrorCell cell in cells)
+            {
+                int rowIdx = cell.rowIdx;
+                int colIdx = cell.colIdx;
+                dataGridView.Rows[rowIdx].Cells[colIdx].Selected = true;
+            }
+
+            BigTableErrorCell firstCell = cells[0];
+            int firstRowIdx = firstCell.rowIdx;
+            int firstColIdx = firstCell.colIdx;
+            dataGridView.FirstDisplayedScrollingRowIndex = firstRowIdx;
+            dataGridView.FirstDisplayedScrollingColumnIndex = firstColIdx;
         }
     }
 }

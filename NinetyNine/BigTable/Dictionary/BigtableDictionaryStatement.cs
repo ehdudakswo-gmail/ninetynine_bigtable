@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using NinetyNine.BigTable;
 using NinetyNine.BigTable.Dictionary;
 using NinetyNine.Template;
 
@@ -8,9 +9,15 @@ namespace NinetyNine
 {
     internal class BigtableDictionaryStatement : BigtableDictionary
     {
-        private Array titles = Enum.GetValues(typeof(StatementTitle));
-        private Enum[] keys = new Enum[] {
+        private Array enumValues = Enum.GetValues(typeof(StatementTitle));
+        private Enum[] keys = new Enum[]
+        {
             StatementTitle.Name,
+            StatementTitle.Standard,
+        };
+
+        private HashSet<Enum> emptyCheckSkip = new HashSet<Enum>
+        {
             StatementTitle.Standard,
         };
 
@@ -18,7 +25,6 @@ namespace NinetyNine
         {
             var rows = dataTable.Rows;
             int rowCount = rows.Count;
-            int columnCount = GetColumnCount(titles);
 
             for (int rowIdx = 0; rowIdx < rowCount; rowIdx++)
             {
@@ -30,20 +36,18 @@ namespace NinetyNine
                 {
                     DataRow row = rows[rowIdx];
 
-                    int emptyCheckLastIdx = 0;
-                    int emptyColoumnIdx = GetEmptyIdx(row, 0, emptyCheckLastIdx);
-                    if (emptyColoumnIdx != -1)
+                    int emptyColIdx = GetEmptyIdx(row, enumValues, emptyCheckSkip);
+                    if (emptyColIdx != -1)
                     {
-                        string error = ERROR_VALUE_EMPTY;
-                        bigTableError.ThrowException(dataTable, rowIdx, emptyColoumnIdx, error);
+                        BigTableErrorCell[] errorCells = GetErrorCells(rowIdx, emptyColIdx);
+                        ThrowException(dataTable, errorCells, ERROR_VALUE_EMPTY);
                     }
 
                     string key = GetKey(row, keys);
                     if (dictionary.ContainsKey(key))
                     {
-                        int keyColumnIdx = GetKeyIndex(keys);
-                        string error = string.Format(ERROR_KEY_CONTAIN, key);
-                        bigTableError.ThrowException(dataTable, rowIdx, keyColumnIdx, error);
+                        BigTableErrorCell[] errorCells = GetErrorCells(rowIdx, keys);
+                        ThrowException(dataTable, errorCells, ERROR_KEY_CONTAIN);
                     }
 
                     CheckNumber(StatementTitle.Quantity, row, rowIdx, dataTable);
@@ -57,6 +61,20 @@ namespace NinetyNine
             }
 
             return dictionary;
+        }
+
+        private void CheckNumber(StatementTitle value, DataRow row, int rowIdx, DataTable dataTable)
+        {
+            int colIdx = GetColumnIdx(value);
+            string cellValue = row[colIdx].ToString();
+
+            if (isNumber(cellValue))
+            {
+                return;
+            }
+
+            BigTableErrorCell[] errorCells = GetErrorCells(rowIdx, colIdx);
+            ThrowException(dataTable, errorCells, ERROR_NOT_NUMBER);
         }
     }
 }

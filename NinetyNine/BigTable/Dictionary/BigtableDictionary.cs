@@ -9,19 +9,13 @@ namespace NinetyNine.BigTable.Dictionary
     abstract class BigtableDictionary
     {
         protected readonly string ERROR_VALUE_EMPTY = "값 없음";
-        protected readonly string ERROR_KEY_CONTAIN = "{0} 중복";
-        protected readonly string ERROR_NOT_NUMBER = "{0} 숫자 아님";
+        protected readonly string ERROR_KEY_CONTAIN = "값 중복";
+        protected readonly string ERROR_NOT_NUMBER = "숫자 아님";
 
         protected Dictionary<string, DataRow> dictionary = new Dictionary<string, DataRow>();
         protected BigTableError bigTableError = BigTableError.GetInstance();
 
         abstract internal Dictionary<string, DataRow> Create(DataTable dataTable);
-
-        protected int GetColumnCount(Array titles)
-        {
-            int columnCount = EnumManager.GetLength(titles);
-            return columnCount;
-        }
 
         internal static string GetKey(DataRow row, Enum[] keys)
         {
@@ -39,20 +33,20 @@ namespace NinetyNine.BigTable.Dictionary
             return key;
         }
 
-        protected int GetKeyIndex(Enum[] keys)
+        protected int GetEmptyIdx(DataRow row, Array enumValues, HashSet<Enum> emptyCheckSkip)
         {
-            int idx = EnumManager.GetIndex(keys[0]);
-            return idx;
-        }
-
-        protected int GetEmptyIdx(DataRow row, int startIdx, int endIdx)
-        {
-            for (int i = startIdx; i <= endIdx; i++)
+            foreach (Enum enumValue in enumValues)
             {
-                string value = row[i].ToString();
-                if (isEmpty(value))
+                if (emptyCheckSkip.Contains(enumValue))
                 {
-                    return i;
+                    continue;
+                }
+
+                int colIdx = GetColumnIdx(enumValue);
+                string cellValue = row[colIdx].ToString();
+                if (isEmpty(cellValue))
+                {
+                    return colIdx;
                 }
             }
 
@@ -64,24 +58,59 @@ namespace NinetyNine.BigTable.Dictionary
             return (value == null || value.Equals(""));
         }
 
-        protected void CheckNumber(Enum enumValue, DataRow row, int rowIdx, DataTable dataTable)
+        protected int GetColumnIdx(Enum value)
         {
-            int columnIdx = EnumManager.GetIndex(enumValue);
-            string cellValue = row[columnIdx].ToString();
-
-            if (isNumber(cellValue))
-            {
-                return;
-            }
-
-            string error = string.Format(ERROR_NOT_NUMBER, cellValue);
-            bigTableError.ThrowException(dataTable, rowIdx, columnIdx, error);
+            int idx = EnumManager.GetIndex(value);
+            return idx;
         }
 
-        private bool isNumber(string str)
+        protected bool isNumber(string str)
         {
             double num;
             return double.TryParse(str, out num);
+        }
+
+        protected void ThrowException(DataTable dataTable, BigTableErrorCell[] cells, string error)
+        {
+            BigTableErrorData errrorData = new BigTableErrorData
+            {
+                dataTable = dataTable,
+                cells = cells,
+                error = error,
+            };
+
+            bigTableError.ThrowException(errrorData);
+        }
+
+        protected BigTableErrorCell[] GetErrorCells(int rowIdx, int colIdx)
+        {
+            BigTableErrorCell[] cells = new BigTableErrorCell[]
+            {
+                new BigTableErrorCell
+                {
+                    rowIdx = rowIdx,
+                    colIdx = colIdx,
+                },
+            };
+
+            return cells;
+        }
+
+        protected BigTableErrorCell[] GetErrorCells(int rowIdx, Enum[] keys)
+        {
+            int len = keys.Length;
+            BigTableErrorCell[] cells = new BigTableErrorCell[len];
+
+            for (int i = 0; i < len; i++)
+            {
+                cells[i] = new BigTableErrorCell
+                {
+                    rowIdx = rowIdx,
+                    colIdx = GetColumnIdx(keys[i]),
+                };
+            }
+
+            return cells;
         }
     }
 }
