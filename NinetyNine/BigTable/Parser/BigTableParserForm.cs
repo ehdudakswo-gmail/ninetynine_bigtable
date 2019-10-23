@@ -5,23 +5,38 @@ using System.Data;
 
 namespace NinetyNine.BigTable.Parser
 {
-    enum ParserFormState
-    {
-        None,
-        Subject,
-        DataType,
-        Data,
-        Data2,
-        Data3,
-        Data4,
-        Empty,
-    }
-
     class BigTableParserForm : BigTableParser
     {
-        private readonly string ERROR_MESSAGE_FORMAT = "빅테이블 에러 : {0} LINE {1}";
+        enum ParserFormDataType
+        {
+            None,
+            Construction,
+            ColumnTitle,
+            Block,
+            Floor,
+            FloorDetail,
+        }
 
-        private ParserFormState state;
+        private Enum[] blockColumns =
+        {
+            FormTitle.Floor,
+        };
+
+        private Enum[] floorColumns =
+        {
+            FormTitle.Floor,
+            FormTitle.Mark,
+        };
+
+        private Enum[] floorDetailColumns =
+        {
+            FormTitle.Name,
+            FormTitle.Standard,
+            FormTitle.Calculation,
+            FormTitle.Result,
+        };
+
+        private bool IsAddDataRow = false;
         private BigTableData data = new BigTableData();
         private DataTable bigTable;
         private DataTable formTable;
@@ -49,268 +64,278 @@ namespace NinetyNine.BigTable.Parser
 
         internal override void Parse()
         {
-            for (int idx = 0; idx < formTable.Rows.Count; idx++)
+            var rows = formTable.Rows;
+            int rowsCount = rows.Count;
+
+            for (int rowIdx = 0; rowIdx < rowsCount; rowIdx++)
             {
-                DataRow row = formTable.Rows[idx];
-                state = ParserFormState.None;
+                IsAddDataRow = false;
+                DataRow row = rows[rowIdx];
+                ParserFormDataType dataType = GetDataType(row, rowIdx);
 
-                if (idx == 0)
-                {
-                    HandleSubject(row);
-                }
-                else if (idx == 1)
-                {
-                    HandleData(row);
-                }
-                else if (idx == 2)
-                {
-                    HandleDataColumns(row);
-                }
-                else
-                {
-                    HandleData2(row);
-                    HandleData3(row);
-                    HandleData4(row);
-                }
-
-                HandleEmpty(row);
-                CheckError(idx);
-                AddRow();
+                SetBigTableData(dataType, row, rowIdx);
+                AddDataRow();
             }
         }
 
-        private void HandleSubject(DataRow row)
+        private ParserFormDataType GetDataType(DataRow row, int rowIdx)
         {
-            if (state != ParserFormState.None)
+            if (rowIdx == 0)
             {
-                return;
+                return ParserFormDataType.Construction;
             }
 
-            string row0 = row[0].ToString();
-            string row0Trim = Trim(row0);
-
-            if (row0Trim != DataTableTemplateForm.SUBJECT)
+            if (rowIdx == 1)
             {
-                return;
+                return ParserFormDataType.ColumnTitle;
             }
 
-            state = ParserFormState.Subject;
+            Array values = Enum.GetValues(typeof(FormTitle));
+            Enum[] validColumns = GetValidColumns(row, values);
+
+            if (IsSame(validColumns, blockColumns))
+            {
+                return ParserFormDataType.Block;
+            }
+
+            if (IsContain(validColumns, floorColumns))
+            {
+                return ParserFormDataType.Floor;
+            }
+
+            if (IsSame(validColumns, floorDetailColumns))
+            {
+                return ParserFormDataType.FloorDetail;
+            }
+
+            return ParserFormDataType.None;
         }
 
-        private void HandleDataColumns(DataRow row)
+        private void SetBigTableData(ParserFormDataType dataType, DataRow row, int rowIdx)
         {
-            if (state != ParserFormState.None)
+            switch (dataType)
             {
-                return;
-            }
-
-            string[] dataColumns = DataTableTemplateForm.DATA_COLUMNS;
-            for (int i = 0; i < dataColumns.Length; i++)
-            {
-                string typeString = dataColumns[i];
-                string rowString = row[i].ToString();
-                string rowStringTrim = Trim(rowString);
-
-                if (typeString != rowStringTrim)
-                {
-                    return;
-                }
-            }
-
-            state = ParserFormState.DataType;
-        }
-
-        private void HandleData(DataRow row)
-        {
-            if (state != ParserFormState.None)
-            {
-                return;
-            }
-
-            string row0 = row[0].ToString();
-            string row0Trim = Trim(row0);
-            if (!row0Trim.Contains(DataTableTemplateForm.DATA_TITLE_LEFT))
-            {
-                return;
-            }
-
-            int titleSplitIdx = row0.IndexOf(DataTableTemplateForm.DATA_TITLE_SEPARATOR);
-            if (titleSplitIdx == -1)
-            {
-                return;
-            }
-
-            string[] titles = Split(row0, titleSplitIdx);
-            string titleRight = titles[1];
-            string where1 = titleRight;
-
-            if (isEmpty(titleRight))
-            {
-                return;
-            }
-
-            data.Set(BigTableTitle.WHERE1, where1);
-            state = ParserFormState.Data;
-        }
-
-        private void HandleData2(DataRow row)
-        {
-            if (state != ParserFormState.None)
-            {
-                return;
-            }
-
-            string row0 = row[0].ToString();
-            string row0Trim = Trim(row0);
-            if (!row0Trim.Contains(DataTableTemplateForm.DATA2_TITLE_LEFT))
-            {
-                return;
-            }
-
-            int titleSplitIdx = row0.IndexOf(DataTableTemplateForm.DATA2_TITLE_SEPARATOR);
-            if (titleSplitIdx == -1)
-            {
-                return;
-            }
-
-            string[] titles = Split(row0, titleSplitIdx);
-            string titleRight = titles[1];
-
-            int contentSplitIdx = titleRight.IndexOf(DataTableTemplateForm.DATA2_CONTENT_SEPARATOR);
-            if (contentSplitIdx == -1)
-            {
-                return;
-            }
-
-            string[] contents = Split(titleRight, contentSplitIdx);
-            string contentLeftWithContainer = contents[0];
-            string openContainer = DataTableTemplateForm.DATA2_CONTENT_SUB_CONTAINER_OPEN;
-            string closeContainer = DataTableTemplateForm.DATA2_CONTENT_SUB_CONTAINER_CLOSE;
-
-            if (!contentLeftWithContainer.Contains(openContainer))
-            {
-                return;
-            }
-
-            if (!contentLeftWithContainer.Contains(closeContainer))
-            {
-                return;
-            }
-
-            string removes = openContainer + closeContainer;
-            string contentLeft = Remove(contentLeftWithContainer, removes);
-            string contentRight = contents[1];
-
-            int contentSubSplitIdx = contentLeft.IndexOf(DataTableTemplateForm.DATA2_CONTENT_SUB_SEPARATOR);
-            if (contentSubSplitIdx == -1)
-            {
-                string where2 = contentLeft;
-                string what3 = contentRight;
-                data.Set(BigTableTitle.WHERE2, where2);
-                data.Set(BigTableTitle.WHAT3, what3);
-            }
-            else
-            {
-                string[] contentSubs = Split(contentLeft, contentSubSplitIdx);
-                string contentSubLeft = contentSubs[0];
-                string contentSubRight = contentSubs[1];
-
-                string where2 = contentSubLeft;
-                string where3 = contentSubRight;
-                string what3 = contentRight;
-
-                data.Set(BigTableTitle.WHERE2, where2);
-                data.Set(BigTableTitle.WHERE3, where3);
-                data.Set(BigTableTitle.WHAT3, what3);
-            }
-
-            state = ParserFormState.Data2;
-        }
-
-        private void HandleData3(DataRow row)
-        {
-            if (state != ParserFormState.None)
-            {
-                return;
-            }
-
-            if (isLeastOneEmpty(row, 0, 1))
-            {
-                return;
-            }
-
-            string[] values = GetStringValues(row, 0, 1);
-            string where4 = values[0];
-            string what4 = values[1];
-
-            data.Set(BigTableTitle.WHERE4, where4);
-            data.Set(BigTableTitle.WHAT4, what4);
-            state = ParserFormState.Data3;
-        }
-
-        private void HandleData4(DataRow row)
-        {
-            if (state != ParserFormState.None &&
-                state != ParserFormState.Data3)
-            {
-                return;
-            }
-
-            if (isLeastOneEmpty(row, 2, 5))
-            {
-                return;
-            }
-
-            string[] values = GetStringValues(row, 2, 5);
-            string how4 = values[0];
-            string how5 = values[1];
-            string result1 = values[2];
-            string result2 = values[3];
-
-            data.Set(BigTableTitle.HOW4, how4);
-            data.Set(BigTableTitle.HOW5, how5);
-            data.Set(BigTableTitle.RESULT1, result1);
-            data.Set(BigTableTitle.RESULT2, result2);
-            state = ParserFormState.Data4;
-        }
-
-        private void HandleEmpty(DataRow row)
-        {
-            if (state != ParserFormState.None)
-            {
-                return;
-            }
-
-            if (!isEmpty(row, formTable.Columns.Count))
-            {
-                return;
-            }
-
-            state = ParserFormState.Empty;
-        }
-
-        private void CheckError(int rowIdx)
-        {
-            if (state == ParserFormState.None)
-            {
-                string tableName = formTable.TableName;
-                int line = rowIdx + 1;
-                string errorMessage = string.Format(ERROR_MESSAGE_FORMAT, tableName, line);
-
-                bigTable.Clear();
-                throw new Exception(errorMessage);
+                case ParserFormDataType.None:
+                    Array titles = Enum.GetValues(typeof(FormTitle));
+                    ThrowException(formTable, GetErrorCells(rowIdx, titles), string.Format(ERROR_DATATYPE_NONE));
+                    break;
+                case ParserFormDataType.Construction:
+                    HandleConstruction(row, rowIdx);
+                    break;
+                case ParserFormDataType.ColumnTitle:
+                    HandleColumnTitle(row, rowIdx);
+                    break;
+                case ParserFormDataType.Block:
+                    HandleBlock(row, rowIdx);
+                    break;
+                case ParserFormDataType.Floor:
+                    HandleFloor(row, rowIdx);
+                    break;
+                case ParserFormDataType.FloorDetail:
+                    HandleFloorDetail(row, rowIdx);
+                    break;
+                default:
+                    string exceptionMessage = string.Format(ERROR_DATATYPE_DEFAULT, GetType().Name);
+                    throw new Exception(exceptionMessage);
             }
         }
 
-        private void AddRow()
+        private void HandleConstruction(DataRow row, int rowIdx)
         {
-            if (state != ParserFormState.Data4)
+            int floorColumnIdx = GetColumnIdx(FormTitle.Floor);
+            string floorColumnStr = row[floorColumnIdx].ToString();
+            string[] CONSTRUCTION_NAME_FORMAT = DataTableTemplateForm.CONSTRUCTION_NAME_FORMAT;
+            string formatStr = DataTableTemplateForm.GetFormatString(CONSTRUCTION_NAME_FORMAT);
+
+            if (CheckFormat(floorColumnStr, CONSTRUCTION_NAME_FORMAT) == false)
+            {
+                string error = string.Format(ERROR_FORMAT, formatStr);
+                ThrowException(formTable, GetErrorCells(rowIdx, floorColumnIdx), error);
+            }
+
+            int mainSeparatorIdx = floorColumnStr.IndexOf(DataTableTemplateForm.CONSTRUCTION_NAME_SEPARATOR);
+            string[] label_value = Split(floorColumnStr, mainSeparatorIdx);
+            string label = label_value[0];
+            string value = label_value[1];
+
+            string labelTrim = Trim(label);
+            string CONSTRUCTION_NAME_LABEL = DataTableTemplateForm.CONSTRUCTION_NAME_LABEL;
+            if (labelTrim.Equals(CONSTRUCTION_NAME_LABEL) == false)
+            {
+                string error = string.Format(ERROR_FORMAT, formatStr);
+                ThrowException(formTable, GetErrorCells(rowIdx, floorColumnIdx), error);
+            }
+
+            if (IsEmpty(value))
+            {
+                string error = string.Format(ERROR_VALUE_NONE, CONSTRUCTION_NAME_LABEL);
+                ThrowException(formTable, GetErrorCells(rowIdx, floorColumnIdx), error);
+            }
+
+            data.Set(BigTableTitle.WHERE1, value);
+        }
+
+        private void HandleColumnTitle(DataRow row, int rowIdx)
+        {
+            Array values = Enum.GetValues(typeof(FormTitle));
+            Enum value = FindNotMatchedEnum(values, row);
+
+            if (value != null)
+            {
+                int colIdx = GetColumnIdx(value);
+                string valueString = GetValueString(value);
+                string error = string.Format(ERROR_VALUE_NONE, valueString);
+                ThrowException(formTable, GetErrorCells(rowIdx, colIdx), error);
+            }
+        }
+
+        private void HandleBlock(DataRow row, int rowIdx)
+        {
+            int floorColumnIdx = GetColumnIdx(FormTitle.Floor);
+            string floorColumnStr = row[floorColumnIdx].ToString();
+            string[] BLOCK_NAME_FORMAT = DataTableTemplateForm.BLOCK_NAME_FORMAT;
+            string formatStr = DataTableTemplateForm.GetFormatString(BLOCK_NAME_FORMAT);
+
+            if (CheckFormat(floorColumnStr, BLOCK_NAME_FORMAT) == false)
+            {
+                string error = string.Format(ERROR_FORMAT, formatStr);
+                ThrowException(formTable, GetErrorCells(rowIdx, floorColumnIdx), error);
+            }
+
+            int mainSeparatorIdx = floorColumnStr.IndexOf(DataTableTemplateForm.BLOCK_NAME_SEPARATOR);
+            string[] label_value = Split(floorColumnStr, mainSeparatorIdx);
+            string label = label_value[0];
+            string value = label_value[1];
+
+            string labelTrim = Trim(label);
+            string BLOCK_NAME_LABEL = DataTableTemplateForm.BLOCK_NAME_LABEL;
+            if (labelTrim.Equals(BLOCK_NAME_LABEL) == false)
+            {
+                string error = string.Format(ERROR_FORMAT, formatStr);
+                ThrowException(formTable, GetErrorCells(rowIdx, floorColumnIdx), error);
+            }
+
+            int valueSeparatorIdx = value.IndexOf(DataTableTemplateForm.BLOCK_NAME_VALUE_SEPARATOR);
+            string[] block_what = Split(value, valueSeparatorIdx);
+            string blockContainer = block_what[0];
+            string what = block_what[1];
+
+            string blockContainerFirst = blockContainer.Substring(0, 1);
+            string blockContainerLast = blockContainer.Substring(blockContainer.Length - 1);
+            if (blockContainerFirst.Equals(DataTableTemplateForm.BLOCK_NAME_BLOCK_OPEN) == false ||
+                blockContainerLast.Equals(DataTableTemplateForm.BLOCK_NAME_BLOCK_CLOSE) == false)
+            {
+                string error = string.Format(ERROR_FORMAT, formatStr);
+                ThrowException(formTable, GetErrorCells(rowIdx, floorColumnIdx), error);
+            }
+
+            string[] blockContainerRemoves = new string[] { blockContainerFirst, blockContainerLast };
+            string block = Remove(blockContainer, blockContainerRemoves).Trim();
+            if (IsEmpty(block))
+            {
+                string error = string.Format(ERROR_VALUE_ERROR, BLOCK_NAME_LABEL);
+                ThrowException(formTable, GetErrorCells(rowIdx, floorColumnIdx), error);
+            }
+
+            if (IsEmpty(what))
+            {
+                string error = string.Format(ERROR_VALUE_ERROR, BLOCK_NAME_LABEL);
+                ThrowException(formTable, GetErrorCells(rowIdx, floorColumnIdx), error);
+            }
+
+            int blockSeparatorIdx = block.IndexOf(DataTableTemplateForm.BLOCK_NAME_BLOCK_SEPARATOR);
+            if (blockSeparatorIdx == -1)
+            {
+                data.Set(BigTableTitle.WHERE2, block);
+                data.Set(BigTableTitle.WHAT3, what);
+                return;
+            }
+
+            string[] block_type = Split(block, blockSeparatorIdx);
+            string blockWithType = block_type[0];
+            string type = block_type[1];
+
+            if (IsEmpty(blockWithType) || IsEmpty(type))
+            {
+                string error = string.Format(ERROR_VALUE_ERROR, BLOCK_NAME_LABEL);
+                ThrowException(formTable, GetErrorCells(rowIdx, floorColumnIdx), error);
+            }
+
+            data.Set(BigTableTitle.WHERE2, blockWithType);
+            data.Set(BigTableTitle.WHERE3, type);
+            data.Set(BigTableTitle.WHAT3, what);
+        }
+
+        private void HandleFloor(DataRow row, int rowIdx)
+        {
+            //data set
+            int floorIdx = GetColumnIdx(FormTitle.Floor);
+            int markIdx = GetColumnIdx(FormTitle.Mark);
+
+            string floorStr = row[floorIdx].ToString();
+            string markStr = row[markIdx].ToString();
+
+            data.Set(BigTableTitle.WHERE4, floorStr);
+            data.Set(BigTableTitle.WHAT4, markStr);
+
+            //note check
+            int nameIdx = GetColumnIdx(FormTitle.Name);
+            string nameStr = row[nameIdx].ToString();
+            string nameStrTrim = Trim(nameStr);
+            string FLOOR_NOTE = DataTableTemplateForm.FLOOR_NOTE;
+
+            if (nameStrTrim.Equals(FLOOR_NOTE))
             {
                 return;
             }
 
-            DataRow row = bigTable.NewRow();
+            Enum emptyValue = FindEmptyValue(row, floorDetailColumns);
+            if (emptyValue != null)
+            {
+                int colIdx = GetColumnIdx(emptyValue);
+                ThrowException(formTable, GetErrorCells(rowIdx, colIdx), ERROR_NONE);
+            }
+
+            HandleFloorDetail(row, rowIdx);
+        }
+
+        private void HandleFloorDetail(DataRow row, int rowIdx)
+        {
+            //check valid number
+            int resultIdx = GetColumnIdx(FormTitle.Result);
+            string resultStr = row[resultIdx].ToString();
+            if (IsNumber(resultStr) == false)
+            {
+                string error = string.Format(ERROR_VALUE_NOT_VALID_NUMBER, resultStr);
+                ThrowException(formTable, GetErrorCells(rowIdx, resultIdx), error);
+            }
+
+            //data set
+            int nameIdx = GetColumnIdx(FormTitle.Name);
+            int standardIdx = GetColumnIdx(FormTitle.Standard);
+            int calculationIdx = GetColumnIdx(FormTitle.Calculation);
+
+            string nameStr = row[nameIdx].ToString();
+            string standardStr = row[standardIdx].ToString();
+            string calculationStr = row[calculationIdx].ToString();
+
+            data.Set(BigTableTitle.HOW4, nameStr);
+            data.Set(BigTableTitle.HOW5, standardStr);
+            data.Set(BigTableTitle.RESULT1, calculationStr);
+            data.Set(BigTableTitle.RESULT2, resultStr);
+
+            IsAddDataRow = true;
+        }
+
+        private void AddDataRow()
+        {
+            if (IsAddDataRow == false)
+            {
+                return;
+            }
+
             string[] values = data.GetValues();
+            DataRow row = bigTable.NewRow();
 
             for (int i = 0; i < values.Length; i++)
             {

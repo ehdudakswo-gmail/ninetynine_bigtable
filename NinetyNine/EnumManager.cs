@@ -80,5 +80,23 @@ namespace NinetyNine
 
             return string.Format("{0}: {1}", name, description);
         }
+
+        internal static Enum[] GetEnums(Array values)
+        {
+            List<Enum> list = new List<Enum>();
+            foreach (Enum value in values)
+            {
+                list.Add(value);
+            }
+
+            int len = list.Count;
+            Enum[] enums = new Enum[len];
+            for (int i = 0; i < enums.Length; i++)
+            {
+                enums[i] = list[i];
+            }
+
+            return enums;
+        }
     }
 }

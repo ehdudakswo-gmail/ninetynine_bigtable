@@ -1,16 +1,83 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Text;
 
 namespace NinetyNine.BigTable.Parser
 {
     abstract class BigTableParser
     {
+        protected readonly string ERROR_NONE = "값 없음";
+        protected readonly string ERROR_FORMAT = "'{0}' 형식 에러";
+        protected readonly string ERROR_VALUE_NONE = "{0} 값 없음";
+        protected readonly string ERROR_VALUE_ERROR = "{0} 값 에러";
+        protected readonly string ERROR_VALUE_NOT_VALID_NUMBER = "{0} 유효 숫자 아님";
+        protected readonly string ERROR_DATATYPE_NONE = "알수 없는 형식";
+        protected readonly string ERROR_DATATYPE_DEFAULT = "ERROR_DATATYPE_DEFAULT ({0})";
+
+        protected BigTableError bigTableError = BigTableError.GetInstance();
         abstract internal void Parse();
+
+        protected bool CheckFormat(string str, string[] format)
+        {
+            string trimStr = Trim(str);
+            int[] idxs = GetFirstIdxs(trimStr, format);
+
+            if (IsContain(idxs, -1))
+            {
+                return false;
+            }
+
+            if (IsASC(idxs) == false)
+            {
+                return false;
+            }
+
+            return true;
+        }
 
         protected string Trim(string str)
         {
             return str.Replace(" ", "").Trim();
+        }
+
+        private int[] GetFirstIdxs(string str, string[] format)
+        {
+            int len = format.Length;
+            int[] idxs = new int[len];
+
+            for (int i = 0; i < len; i++)
+            {
+                string formatItem = format[i];
+                idxs[i] = str.IndexOf(formatItem);
+            }
+
+            return idxs;
+        }
+
+        private bool IsContain(int[] arr, int target)
+        {
+            foreach (int item in arr)
+            {
+                if (item == target)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool IsASC(int[] arr)
+        {
+            for (int i = 0; i < arr.Length - 1; i++)
+            {
+                if (arr[i] >= arr[i + 1])
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         protected string[] Split(string str, int idx)
@@ -23,66 +90,102 @@ namespace NinetyNine.BigTable.Parser
             return ret;
         }
 
-        protected string Remove(string str, string removes)
+        protected bool IsEmpty(string str)
         {
-            StringBuilder sb = new StringBuilder(str.Length);
-
-            foreach (char ch in str)
+            if (str == null)
             {
-                if (isContain(removes, ch))
+                return true;
+            }
+
+            string trimStr = str.Trim();
+            if (trimStr.Equals(""))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        protected string Remove(string str, string[] removes)
+        {
+            foreach (string remove in removes)
+            {
+                str = str.Replace(remove, "");
+            }
+
+            return str;
+        }
+
+        protected Enum FindNotMatchedEnum(Array values, DataRow row)
+        {
+            foreach (Enum value in values)
+            {
+                int colIdx = GetColumnIdx(value);
+                string enumString = GetValueString(value);
+                string rowString = row[colIdx].ToString();
+                string rowStringTrim = Trim(row[colIdx].ToString());
+
+                if (enumString.Equals(rowStringTrim) == false)
+                {
+                    return value;
+                }
+            }
+
+            return null;
+        }
+
+        protected int GetColumnIdx(Enum value)
+        {
+            int idx = EnumManager.GetIndex(value);
+            return idx;
+        }
+
+        protected string GetValueString(Enum value)
+        {
+            string str = EnumManager.GetDescription(value);
+            return str;
+        }
+
+        protected Enum[] GetValidColumns(DataRow row, Array values)
+        {
+            List<Enum> columnList = new List<Enum>();
+
+            foreach (Enum enumValue in values)
+            {
+                int colIdx = GetColumnIdx(enumValue);
+                string rowString = row[colIdx].ToString();
+                string rowStringTrim = Trim(rowString);
+
+                if (IsEmpty(rowStringTrim))
                 {
                     continue;
                 }
 
-                sb.Append(ch);
+                columnList.Add(enumValue);
             }
 
-            return sb.ToString();
-        }
-
-        protected bool isContain(string str, char target)
-        {
-            foreach (char ch in str)
+            Enum[] columns = new Enum[columnList.Count];
+            for (int i = 0; i < columns.Length; i++)
             {
-                if (ch == target)
-                {
-                    return true;
-                }
+                columns[i] = columnList[i];
             }
 
-            return false;
+            return columns;
         }
 
-        protected bool isLeastOneEmpty(DataRow row, int from, int to)
+        protected bool IsSame(Enum[] a, Enum[] b)
         {
-            for (int i = from; i <= to; i++)
+            int aLen = a.Length;
+            int bLen = b.Length;
+
+            if (aLen != bLen)
             {
-                string str = row[i].ToString();
-                if (str == "")
-                {
-                    return true;
-                }
+                return false;
             }
 
-            return false;
-        }
-
-        protected string[] GetStringValues(DataRow row, int from, int to)
-        {
-            string[] values = new string[to - from + 1];
-            for (int i = 0; i < values.Length; i++)
+            for (int i = 0; i < aLen; i++)
             {
-                values[i] = row[from + i].ToString();
-            }
-
-            return values;
-        }
-
-        protected bool isEmpty(DataRow row, int columnCount)
-        {
-            for (int i = 0; i < columnCount; i++)
-            {
-                if (isEmpty(row[i].ToString()))
+                if (a[i].Equals(b[i]) == false)
                 {
                     return false;
                 }
@@ -91,9 +194,107 @@ namespace NinetyNine.BigTable.Parser
             return true;
         }
 
-        protected bool isEmpty(string str)
+        protected bool IsContain(Enum[] a, Enum[] b)
         {
-            return (str == null || str == "");
+            int aLen = a.Length;
+            int bLen = b.Length;
+
+            if (aLen < bLen)
+            {
+                return false;
+            }
+
+            Enum[] cutA = Cut(a, bLen);
+            bool isSame = IsSame(cutA, b);
+
+            return isSame;
+        }
+
+        private Enum[] Cut(Enum[] arr, int shortLen)
+        {
+            Enum[] cut = new Enum[shortLen];
+            for (int i = 0; i < cut.Length; i++)
+            {
+                cut[i] = arr[i];
+            }
+
+            return cut;
+        }
+
+        protected Enum FindEmptyValue(DataRow row, Enum[] columns)
+        {
+            foreach (Enum column in columns)
+            {
+                int colIdx = GetColumnIdx(column);
+                string rowStr = row[colIdx].ToString();
+                string rowStrTrim = Trim(rowStr);
+
+                if (IsEmpty(rowStrTrim))
+                {
+                    return column;
+                }
+            }
+
+            return null;
+        }
+
+        protected bool IsNumber(string str)
+        {
+            double num;
+            bool isNumber = double.TryParse(str, out num);
+
+            return isNumber;
+        }
+
+        protected void ThrowException(DataTable dataTable, BigTableErrorCell[] cells, string error)
+        {
+            BigTableErrorData errrorData = new BigTableErrorData
+            {
+                dataTable = dataTable,
+                cells = cells,
+                error = error,
+            };
+
+            bigTableError.ThrowException(errrorData);
+        }
+
+        protected BigTableErrorCell[] GetErrorCells(int rowIdx, int colIdx)
+        {
+            BigTableErrorCell[] cells = new BigTableErrorCell[]
+            {
+                new BigTableErrorCell
+                {
+                    rowIdx = rowIdx,
+                    colIdx = colIdx,
+                },
+            };
+
+            return cells;
+        }
+
+        protected BigTableErrorCell[] GetErrorCells(int rowIdx, Array values)
+        {
+            Enum[] enums = EnumManager.GetEnums(values);
+            BigTableErrorCell[] cells = GetErrorCells(rowIdx, enums);
+
+            return cells;
+        }
+
+        protected BigTableErrorCell[] GetErrorCells(int rowIdx, Enum[] enums)
+        {
+            int len = enums.Length;
+            BigTableErrorCell[] cells = new BigTableErrorCell[len];
+
+            for (int i = 0; i < len; i++)
+            {
+                cells[i] = new BigTableErrorCell
+                {
+                    rowIdx = rowIdx,
+                    colIdx = GetColumnIdx(enums[i]),
+                };
+            }
+
+            return cells;
         }
     }
 }
