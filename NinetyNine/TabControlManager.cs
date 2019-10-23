@@ -12,6 +12,7 @@ namespace NinetyNine
 
         private TabControl tabControl;
         private DataGridViewManager dataGridViewManager = new DataGridViewManager();
+        private int selectedTabIdx = 0;
 
         public TabControlManager(TabControl tabControl)
         {
@@ -56,6 +57,7 @@ namespace NinetyNine
 
         internal void SelectedIndexChanged()
         {
+            selectedTabIdx = tabControl.SelectedIndex;
             RefreshFirstDisplayed();
             RefreshRowHeaderValue();
             Resize();
@@ -63,9 +65,7 @@ namespace NinetyNine
 
         private void RefreshFirstDisplayed()
         {
-            int tabIdx = tabControl.SelectedIndex;
-            DataGridView dataGridView = dataGridViewManager.Get(tabIdx);
-
+            DataGridView dataGridView = dataGridViewManager.Get(selectedTabIdx);
             dataGridView.ClearSelection();
             dataGridView.FirstDisplayedScrollingRowIndex = 0;
             dataGridView.FirstDisplayedScrollingColumnIndex = 0;
@@ -73,16 +73,14 @@ namespace NinetyNine
 
         private void RefreshRowHeaderValue()
         {
-            int tabIdx = tabControl.SelectedIndex;
-            DataGridView dataGridView = dataGridViewManager.Get(tabIdx);
+            DataGridView dataGridView = dataGridViewManager.Get(selectedTabIdx);
             dataGridViewManager.RefreshRowHeaderValue(dataGridView);
         }
 
         internal void Resize()
         {
-            int idx = tabControl.SelectedIndex;
-            DataGridView dataGridView = dataGridViewManager.Get(idx);
-            TabPage tabPage = tabControl.TabPages[idx];
+            DataGridView dataGridView = dataGridViewManager.Get(selectedTabIdx);
+            TabPage tabPage = tabControl.TabPages[selectedTabIdx];
             dataGridView.Size = tabPage.Size;
         }
 

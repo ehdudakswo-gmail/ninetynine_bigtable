@@ -10,7 +10,9 @@ namespace NinetyNine
         private readonly string DESKTOP_PATH = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         private readonly string FILE_OPEN_COMPLETE_MESSAGE = "열기 완료";
         private readonly string FILE_SAVE_COMPLETE_MESSAGE = "저장 완료";
+
         private readonly string BIGTABLE_COMPLETE_MESSAGE = "빅테이블 생성 완료";
+        private readonly string BIGTABLE_ERROR_TAB_IDX_NOT_FOUND = "main tab idx not found";
 
         private TabControlManager tabControlManager;
         private ExcelEPPlusManager excelEPPlusManager = new ExcelEPPlusManager();
@@ -147,18 +149,28 @@ namespace NinetyNine
                 tabControl.SelectedTab = tabPage_BigTable;
                 MessageBox.Show(BIGTABLE_COMPLETE_MESSAGE);
             }
-            catch (Exception exception)
+            catch (BigTableError bigTableError)
             {
-                string tableName = (string)exception.Data[ExceptionDataParam.BigTableErrorTableName];
-                BigTableErrorCell[] cells = (BigTableErrorCell[])exception.Data[ExceptionDataParam.BigTableErrorCells];
-                string message = exception.Message;
+                DataTable dataTable = bigTableError.GetDataTable();
+                string tableName = dataTable.TableName;
+                BigTableErrorCell[] cells = bigTableError.GetCells();
+                string message = bigTableError.GetMessage();
 
                 Array values = Enum.GetValues(typeof(MainDataTable));
                 int tabIdx = EnumManager.GetIndex(values, tableName);
+                if (tabIdx == -1)
+                {
+                    MessageBox.Show(BIGTABLE_ERROR_TAB_IDX_NOT_FOUND);
+                    return;
+                }
 
                 tabControl.SelectedIndex = tabIdx;
                 tabControlManager.HighLight(tabIdx, cells);
                 MessageBox.Show(message);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
             }
             finally
             {

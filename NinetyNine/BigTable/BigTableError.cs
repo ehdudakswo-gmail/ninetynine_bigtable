@@ -16,15 +16,23 @@ namespace NinetyNine.BigTable
         internal int colIdx { get; set; }
     }
 
-    internal class BigTableError
+    internal class BigTableError : Exception
     {
         private static readonly string SPACE = " ";
         private static readonly string NEWLINE = "\n";
 
-        private ExcelDataManager excelDataManager = ExcelDataManager.GetInstance();
         private static BigTableError instance;
+        private ExcelDataManager excelDataManager = ExcelDataManager.GetInstance();
+        private string[] columns;
 
-        private BigTableError() { }
+        private DataTable dataTable;
+        private BigTableErrorCell[] cells;
+        private string message;
+
+        private BigTableError()
+        {
+            columns = excelDataManager.GetBasicColumnHeaderNames();
+        }
 
         internal static BigTableError GetInstance()
         {
@@ -38,18 +46,21 @@ namespace NinetyNine.BigTable
 
         internal void ThrowException(BigTableErrorData data)
         {
-            DataTable dataTable = data.dataTable;
-            BigTableErrorCell[] cells = data.cells;
+            dataTable = data.dataTable;
+            cells = data.cells;
+            message = CreateMessage(data);
 
+            throw this;
+        }
+
+        private string CreateMessage(BigTableErrorData data)
+        {
             string tableName = dataTable.TableName;
             string cellInfo = GetCellInfo(dataTable, cells);
             string error = data.error;
             string message = tableName + SPACE + cellInfo + NEWLINE + error;
 
-            Exception exception = new Exception(message);
-            exception.Data[ExceptionDataParam.BigTableErrorTableName] = tableName;
-            exception.Data[ExceptionDataParam.BigTableErrorCells] = cells;
-            throw exception;
+            return message;
         }
 
         private string GetCellInfo(DataTable dataTable, BigTableErrorCell[] cells)
@@ -73,6 +84,21 @@ namespace NinetyNine.BigTable
 
             string cellInfo = string.Join(SPACE, cellArr);
             return cellInfo;
+        }
+
+        internal DataTable GetDataTable()
+        {
+            return dataTable;
+        }
+
+        internal BigTableErrorCell[] GetCells()
+        {
+            return cells;
+        }
+
+        internal string GetMessage()
+        {
+            return message;
         }
     }
 }
