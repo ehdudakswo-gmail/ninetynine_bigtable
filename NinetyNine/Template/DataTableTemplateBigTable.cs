@@ -31,6 +31,21 @@ namespace NinetyNine.Template
         [Description("부재세부명")]
         WHAT4,
 
+        [Description("대공종")]
+        HOW1,
+
+        [Description("중공종")]
+        HOW2,
+
+        [Description("세공종")]
+        HOW3,
+
+        [Description("작업")]
+        HOW4,
+
+        [Description("작업규격")]
+        HOW5,
+
         [Description("년")]
         WHEN1,
 
@@ -48,21 +63,6 @@ namespace NinetyNine.Template
 
         [Description("종료일(EFT)")]
         WHEN6,
-
-        [Description("대공종")]
-        HOW1,
-
-        [Description("중공종")]
-        HOW2,
-
-        [Description("세공종")]
-        HOW3,
-
-        [Description("작업")]
-        HOW4,
-
-        [Description("작업규격")]
-        HOW5,
 
         [Description("하도급")]
         WHO1,
