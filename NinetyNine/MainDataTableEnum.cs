@@ -20,11 +20,11 @@ namespace NinetyNine
         [Description("조직도")]
         Organization,
 
+        [Description("빅테이블")]
+        BigTable,
+
         [Description("맵핑(내역서)")]
         Mapping_Statement,
-
-        [Description("빅테이블")]
-        BigTable
     }
 
     class MainDataTableEnum

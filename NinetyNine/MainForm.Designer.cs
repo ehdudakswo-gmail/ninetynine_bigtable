@@ -33,7 +33,7 @@
             this.열기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.빅테이블ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.생성ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BigTable1_Parsing_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.도움말ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.라이센스ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ePPlusToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,6 +53,7 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage_Mapping_Statement = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.BigTable2_Mapping_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.tabPage_BigTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BigTable)).BeginInit();
@@ -108,17 +109,18 @@
             // 빅테이블ToolStripMenuItem
             // 
             this.빅테이블ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.생성ToolStripMenuItem});
+            this.BigTable1_Parsing_ToolStripMenuItem,
+            this.BigTable2_Mapping_ToolStripMenuItem});
             this.빅테이블ToolStripMenuItem.Name = "빅테이블ToolStripMenuItem";
             this.빅테이블ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
             this.빅테이블ToolStripMenuItem.Text = "빅테이블";
             // 
-            // 생성ToolStripMenuItem
+            // BigTable1_Parsing_ToolStripMenuItem
             // 
-            this.생성ToolStripMenuItem.Name = "생성ToolStripMenuItem";
-            this.생성ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
-            this.생성ToolStripMenuItem.Text = "생성";
-            this.생성ToolStripMenuItem.Click += new System.EventHandler(this.생성ToolStripMenuItem_Click);
+            this.BigTable1_Parsing_ToolStripMenuItem.Name = "BigTable1_Parsing_ToolStripMenuItem";
+            this.BigTable1_Parsing_ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.BigTable1_Parsing_ToolStripMenuItem.Text = "1차 (Parsing)";
+            this.BigTable1_Parsing_ToolStripMenuItem.Click += new System.EventHandler(this.BigTable1_Parsing_ToolStripMenuItem_Click);
             // 
             // 도움말ToolStripMenuItem
             // 
@@ -252,8 +254,8 @@
             this.tabControl.Controls.Add(this.tabPage_Statement);
             this.tabControl.Controls.Add(this.tabPage_Schedule);
             this.tabControl.Controls.Add(this.tabPage_Organization);
-            this.tabControl.Controls.Add(this.tabPage_Mapping_Statement);
             this.tabControl.Controls.Add(this.tabPage_BigTable);
+            this.tabControl.Controls.Add(this.tabPage_Mapping_Statement);
             this.tabControl.Location = new System.Drawing.Point(12, 40);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
@@ -279,6 +281,13 @@
             this.dataGridView1.RowTemplate.Height = 27;
             this.dataGridView1.Size = new System.Drawing.Size(240, 150);
             this.dataGridView1.TabIndex = 1;
+            // 
+            // BigTable2_Mapping_ToolStripMenuItem
+            // 
+            this.BigTable2_Mapping_ToolStripMenuItem.Name = "BigTable2_Mapping_ToolStripMenuItem";
+            this.BigTable2_Mapping_ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.BigTable2_Mapping_ToolStripMenuItem.Text = "2차 (Mapping)";
+            this.BigTable2_Mapping_ToolStripMenuItem.Click += new System.EventHandler(this.BigTable2_Mapping_ToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -324,7 +333,7 @@
         private System.Windows.Forms.ToolStripMenuItem 라이센스ToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem ePPlusToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 빅테이블ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 생성ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem BigTable1_Parsing_ToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage_BigTable;
         private System.Windows.Forms.DataGridView dataGridView_BigTable;
         private System.Windows.Forms.TabPage tabPage_Organization;
@@ -339,6 +348,7 @@
         private System.Windows.Forms.TabPage tabPage_Mapping_Statement;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ToolStripMenuItem newtonsoftJsonToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem BigTable2_Mapping_ToolStripMenuItem;
     }
 }
 

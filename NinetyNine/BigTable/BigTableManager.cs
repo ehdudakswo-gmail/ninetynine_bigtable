@@ -8,29 +8,53 @@ using System.Threading.Tasks;
 
 namespace NinetyNine
 {
+    enum BigTableManagerState
+    {
+        Unknown,
+        Parsing,
+        Mapping,
+    }
+
     internal class BigTableManager
     {
+        private readonly string ERROR_STATE_DEFUALT = "BigTableManagerState default";
         private readonly string ERROR_EMPTY_SHEET = "{0} SHEET 내용이 필요합니다.";
 
+        private BigTableManagerState state = BigTableManagerState.Unknown;
         private DataSet dataSet;
         private DataTable bigTable;
 
-        internal Task<string> Refresh(DataSet dataSet)
+        internal Task<string> Refresh(BigTableManagerState state, DataSet dataSet)
         {
             return Task.Run(() =>
             {
+                this.state = state;
                 this.dataSet = dataSet;
                 bigTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.BigTable);
-                Check();
 
-                bigTable.Clear();
-                CreateBigTable();
-
+                HandleState();
                 return dataSet.ToString();
             });
         }
 
-        private void Check()
+        private void HandleState()
+        {
+            switch (state)
+            {
+                case BigTableManagerState.Parsing:
+                    CheckDataSet();
+                    bigTable.Clear();
+                    Parsing();
+                    break;
+                case BigTableManagerState.Mapping:
+                    Mapping();
+                    break;
+                default:
+                    throw new Exception(ERROR_STATE_DEFUALT);
+            }
+        }
+
+        private void CheckDataSet()
         {
             foreach (DataTable dataTable in dataSet.Tables)
             {
@@ -53,18 +77,24 @@ namespace NinetyNine
             return (dataTable.Rows.Count == 0);
         }
 
-        private void CreateBigTable()
+        private void Parsing()
         {
             DataTable formTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Form);
             BigTableParserForm formParser = new BigTableParserForm(bigTable, formTable);
             formParser.Parse();
+        }
 
+        private void Mapping()
+        {
             DataTable statementMappingTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Statement);
             DataTable statementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Statement);
+
             BigtableDictionary BigtableDictionaryStatementMapping = new BigtableDictionaryStatementMapping();
             BigtableDictionary BigtableDictionaryStatement = new BigtableDictionaryStatement();
+
             Dictionary<string, DataRow> statementMappingDictionary = BigtableDictionaryStatementMapping.Create(statementMappingTable);
             Dictionary<string, DataRow> statementDictionary = BigtableDictionaryStatement.Create(statementTable);
+
             BigTableMapper statementMapper = new BigTableMapperStatement
             {
                 bigTable = bigTable,

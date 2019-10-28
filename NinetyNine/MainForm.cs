@@ -11,11 +11,12 @@ namespace NinetyNine
         private readonly string FILE_OPEN_COMPLETE_MESSAGE = "열기 완료";
         private readonly string FILE_SAVE_COMPLETE_MESSAGE = "저장 완료";
 
-        private readonly string BIGTABLE_COMPLETE_MESSAGE = "빅테이블 생성 완료";
+        private readonly string BIGTABLE_COMPLETE_MESSAGE = "빅테이블 {0} 완료";
         private readonly string BIGTABLE_ERROR_TAB_IDX_NOT_FOUND = "main tab idx not found";
 
         private TabControlManager tabControlManager;
         private ExcelEPPlusManager excelEPPlusManager = new ExcelEPPlusManager();
+        private BigTableManager bigTableManager = new BigTableManager();
 
         public MainForm()
         {
@@ -137,17 +138,29 @@ namespace NinetyNine
             }
         }
 
-        private async void 생성ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void BigTable1_Parsing_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetBigTable(BigTable1_Parsing_ToolStripMenuItem);
+        }
+
+        private void BigTable2_Mapping_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetBigTable(BigTable2_Mapping_ToolStripMenuItem);
+        }
+
+        private async void SetBigTable(ToolStripMenuItem menuItem)
         {
             try
             {
                 SetWaitState();
-                BigTableManager bigTableManager = new BigTableManager();
+                BigTableManagerState state = GetBigTableManagerState(menuItem);
                 DataSet dataSet = tabControlManager.GetDataSet();
-                string result = await bigTableManager.Refresh(dataSet);
+                string bigTableResult = await bigTableManager.Refresh(state, dataSet);
 
                 tabControl.SelectedTab = tabPage_BigTable;
-                MessageBox.Show(BIGTABLE_COMPLETE_MESSAGE);
+                string menuText = menuItem.Text;
+                string completeMessage = string.Format(BIGTABLE_COMPLETE_MESSAGE, menuText);
+                MessageBox.Show(completeMessage);
             }
             catch (BigTableError bigTableError)
             {
@@ -175,6 +188,22 @@ namespace NinetyNine
             finally
             {
                 SetDefaultState();
+            }
+        }
+
+        private BigTableManagerState GetBigTableManagerState(ToolStripMenuItem menuItem)
+        {
+            if (menuItem.Equals(BigTable1_Parsing_ToolStripMenuItem))
+            {
+                return BigTableManagerState.Parsing;
+            }
+            else if (menuItem.Equals(BigTable2_Mapping_ToolStripMenuItem))
+            {
+                return BigTableManagerState.Mapping;
+            }
+            else
+            {
+                return BigTableManagerState.Unknown;
             }
         }
     }
