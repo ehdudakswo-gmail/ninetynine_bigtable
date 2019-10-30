@@ -21,6 +21,10 @@ namespace NinetyNine
             StatementTitle.Standard,
         };
 
+        internal override void SetTemplate(DataTable bigTable, DataTable dictionaryTable)
+        {
+        }
+
         internal override Dictionary<string, DataRow> Create(DataTable dataTable)
         {
             var rows = dataTable.Rows;

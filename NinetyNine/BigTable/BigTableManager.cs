@@ -45,6 +45,7 @@ namespace NinetyNine
                     CheckDataSet();
                     bigTable.Clear();
                     Parsing();
+                    SetMappingTemplate();
                     break;
                 case BigTableManagerState.Mapping:
                     Mapping();
@@ -82,6 +83,13 @@ namespace NinetyNine
             DataTable formTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Form);
             BigTableParserForm formParser = new BigTableParserForm(bigTable, formTable);
             formParser.Parse();
+        }
+
+        private void SetMappingTemplate()
+        {
+            DataTable statementMappingTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Statement);
+            BigTableDictionary statementMappingBigTableDictionary = new BigTableDictionaryStatementMapping();
+            statementMappingBigTableDictionary.SetTemplate(bigTable, statementMappingTable);
         }
 
         private void Mapping()

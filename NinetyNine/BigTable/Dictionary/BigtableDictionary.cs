@@ -1,5 +1,6 @@
 ﻿
 using Newtonsoft.Json;
+using NinetyNine.Template;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,7 +16,45 @@ namespace NinetyNine.BigTable.Dictionary
         protected Dictionary<string, DataRow> dictionary = new Dictionary<string, DataRow>();
         protected BigTableError bigTableError = BigTableError.GetInstance();
 
+        abstract internal void SetTemplate(DataTable bigTable, DataTable dictionaryTable);
         abstract internal Dictionary<string, DataRow> Create(DataTable dataTable);
+
+        protected void SetKeyTemplate(DataTable bigTable, BigTableTitle bigTableKeyColumn, DataTable dictionaryTable, Enum dictionaryKeyColumn)
+        {
+            var dictionaryRows = dictionaryTable.Rows;
+            int dictionaryColIdx = GetColumnIdx(dictionaryKeyColumn);
+
+            SortedSet<string> sortedBigTableKeys = GetSortedBigTableKeys(bigTable, bigTableKeyColumn);
+            foreach (string bigTableKey in sortedBigTableKeys)
+            {
+                DataRow newRow = dictionaryTable.NewRow();
+                dictionaryRows.Add(newRow);
+                newRow[dictionaryColIdx] = bigTableKey;
+            }
+        }
+
+        private SortedSet<string> GetSortedBigTableKeys(DataTable bigTable, BigTableTitle bigTableKeyColumn)
+        {
+            SortedSet<string> sortedKeySet = new SortedSet<string>();
+            var rows = bigTable.Rows;
+            int rowCount = rows.Count;
+            int colIdx = GetColumnIdx(bigTableKeyColumn);
+
+            for (int rowIdx = 0; rowIdx < rowCount; rowIdx++)
+            {
+                if (rowIdx == 0)
+                {
+                    //template
+                }
+                else
+                {
+                    string key = rows[rowIdx][colIdx].ToString();
+                    sortedKeySet.Add(key);
+                }
+            }
+
+            return sortedKeySet;
+        }
 
         internal static string GetKey(DataRow row, Enum[] keys)
         {

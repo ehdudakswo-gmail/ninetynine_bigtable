@@ -25,6 +25,16 @@ namespace NinetyNine.BigTable.Dictionary
             StatementMappingTitle.Statement_Standard,
         };
 
+        internal override void SetTemplate(DataTable bigTable, DataTable dictionaryTable)
+        {
+            DataTableTemplate template = new DataTableTemplateStatementMapping();
+            dictionaryTable.Clear();
+            template.Set(dictionaryTable);
+
+            Enum dictionaryKeyColumn = keys[0];
+            SetKeyTemplate(bigTable, BigTableTitle.HOW5, dictionaryTable, dictionaryKeyColumn);
+        }
+
         internal override Dictionary<string, DataRow> Create(DataTable dataTable)
         {
             var rows = dataTable.Rows;
