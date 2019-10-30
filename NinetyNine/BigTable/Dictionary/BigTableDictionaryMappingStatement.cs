@@ -5,34 +5,30 @@ using System.Data;
 
 namespace NinetyNine.BigTable.Dictionary
 {
-    class BigTableDictionaryStatementMapping : BigTableDictionary
+    class BigTableDictionaryMappingStatement : BigTableDictionary
     {
         private Enum[] keys = new Enum[]
         {
-            StatementMappingTitle.Form_Standard,
+            MappingStatementTitle.Form_Standard,
         };
 
         private HashSet<string> valueKeyCheck = new HashSet<string>();
         private Enum[] valueKeys = new Enum[]
         {
-            StatementMappingTitle.Statement_Name,
-            StatementMappingTitle.Statement_Standard,
+            MappingStatementTitle.Statement_Name,
+            MappingStatementTitle.Statement_Standard,
         };
 
-        private Array enumValues = Enum.GetValues(typeof(StatementMappingTitle));
+        private Array enumValues = Enum.GetValues(typeof(MappingStatementTitle));
         private HashSet<Enum> emptyCheckSkip = new HashSet<Enum>
         {
-            StatementMappingTitle.Statement_Standard,
+            MappingStatementTitle.Statement_Standard,
         };
 
         internal override void SetTemplate(DataTable bigTable, DataTable dictionaryTable)
         {
-            DataTableTemplate template = new DataTableTemplateStatementMapping();
-            dictionaryTable.Clear();
-            template.Set(dictionaryTable);
-
-            Enum dictionaryKeyColumn = keys[0];
-            SetKeyTemplate(bigTable, BigTableTitle.HOW5, dictionaryTable, dictionaryKeyColumn);
+            RefreshTemplate(dictionaryTable, new DataTableTemplateMappingStatement());
+            SetKeyTemplate(bigTable, BigTableTitle.HOW5, dictionaryTable, keys[0]);
         }
 
         internal override Dictionary<string, DataRow> Create(DataTable dataTable)

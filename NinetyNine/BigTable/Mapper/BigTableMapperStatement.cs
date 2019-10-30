@@ -9,22 +9,22 @@ namespace NinetyNine.BigTable.Mapper
     class BigTableMapperStatement : BigTableMapper
     {
         internal DataTable bigTable { get; set; }
-        internal DataTable statementMappingTable { get; set; }
+        internal DataTable mappingStatementTable { get; set; }
         internal DataTable statementTable { get; set; }
-        internal Dictionary<string, DataRow> statementMappingDictionary { get; set; }
+        internal Dictionary<string, DataRow> mappingStatementDictionary { get; set; }
         internal Dictionary<string, DataRow> statementDictionary { get; set; }
 
         internal override void Mapping()
         {
-            Enum[] statementMappingKeys = new Enum[]
+            Enum[] mappingStatementKeys = new Enum[]
             {
                 BigTableTitle.HOW5
             };
 
             Enum[] statementKeys = new Enum[]
             {
-                StatementMappingTitle.Statement_Name,
-                StatementMappingTitle.Statement_Standard
+                MappingStatementTitle.Statement_Name,
+                MappingStatementTitle.Statement_Standard
             };
 
             var bigTableRows = bigTable.Rows;
@@ -40,22 +40,22 @@ namespace NinetyNine.BigTable.Mapper
                 {
                     var bigTableRow = bigTableRows[bigTableRowIdx];
 
-                    string statementMappingKey = BigTableDictionary.GetKey(bigTableRow, statementMappingKeys);
-                    if (statementMappingDictionary.ContainsKey(statementMappingKey) == false)
+                    string mappingStatementKey = BigTableDictionary.GetKey(bigTableRow, mappingStatementKeys);
+                    if (mappingStatementDictionary.ContainsKey(mappingStatementKey) == false)
                     {
-                        BigTableErrorCell[] errorCells = GetErrorCells(bigTableRowIdx, statementMappingKeys);
-                        string error = string.Format(ERROR_DATA_NONE, statementMappingTable.TableName);
+                        BigTableErrorCell[] errorCells = GetErrorCells(bigTableRowIdx, mappingStatementKeys);
+                        string error = string.Format(ERROR_DATA_NONE, mappingStatementTable.TableName);
                         ThrowException(bigTable, errorCells, error);
                     }
 
-                    DataRow statementMappingRow = statementMappingDictionary[statementMappingKey];
-                    string statementKey = BigTableDictionary.GetKey(statementMappingRow, statementKeys);
+                    DataRow mappingStatementRow = mappingStatementDictionary[mappingStatementKey];
+                    string statementKey = BigTableDictionary.GetKey(mappingStatementRow, statementKeys);
                     if (statementDictionary.ContainsKey(statementKey) == false)
                     {
-                        int statementMappingRowIdx = GetRowIndex(statementMappingTable, statementMappingRow);
-                        BigTableErrorCell[] errorCells = GetErrorCells(statementMappingRowIdx, statementKeys);
+                        int mappingStatementRowIdx = GetRowIndex(mappingStatementTable, mappingStatementRow);
+                        BigTableErrorCell[] errorCells = GetErrorCells(mappingStatementRowIdx, statementKeys);
                         string error = string.Format(ERROR_DATA_NONE, statementTable.TableName);
-                        ThrowException(statementMappingTable, errorCells, error);
+                        ThrowException(mappingStatementTable, errorCells, error);
                     }
 
                     DataRow statementRow = statementDictionary[statementKey];

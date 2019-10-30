@@ -34,6 +34,7 @@
             this.저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.빅테이블ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BigTable1_Parsing_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BigTable2_Mapping_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.도움말ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.라이센스ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ePPlusToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,8 +53,9 @@
             this.dataGridView_Form = new System.Windows.Forms.DataGridView();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage_Mapping_Statement = new System.Windows.Forms.TabPage();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.BigTable2_Mapping_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataGridView_Mapping_Statement = new System.Windows.Forms.DataGridView();
+            this.tabPage_Mapping_WHAT = new System.Windows.Forms.TabPage();
+            this.dataGridView_Mapping_WHAT = new System.Windows.Forms.DataGridView();
             this.menuStrip.SuspendLayout();
             this.tabPage_BigTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BigTable)).BeginInit();
@@ -67,7 +69,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Form)).BeginInit();
             this.tabControl.SuspendLayout();
             this.tabPage_Mapping_Statement.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Mapping_Statement)).BeginInit();
+            this.tabPage_Mapping_WHAT.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Mapping_WHAT)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -118,9 +122,16 @@
             // BigTable1_Parsing_ToolStripMenuItem
             // 
             this.BigTable1_Parsing_ToolStripMenuItem.Name = "BigTable1_Parsing_ToolStripMenuItem";
-            this.BigTable1_Parsing_ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.BigTable1_Parsing_ToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.BigTable1_Parsing_ToolStripMenuItem.Text = "1차 (Parsing)";
             this.BigTable1_Parsing_ToolStripMenuItem.Click += new System.EventHandler(this.BigTable1_Parsing_ToolStripMenuItem_Click);
+            // 
+            // BigTable2_Mapping_ToolStripMenuItem
+            // 
+            this.BigTable2_Mapping_ToolStripMenuItem.Name = "BigTable2_Mapping_ToolStripMenuItem";
+            this.BigTable2_Mapping_ToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
+            this.BigTable2_Mapping_ToolStripMenuItem.Text = "2차 (Mapping)";
+            this.BigTable2_Mapping_ToolStripMenuItem.Click += new System.EventHandler(this.BigTable2_Mapping_ToolStripMenuItem_Click);
             // 
             // 도움말ToolStripMenuItem
             // 
@@ -256,6 +267,7 @@
             this.tabControl.Controls.Add(this.tabPage_Organization);
             this.tabControl.Controls.Add(this.tabPage_BigTable);
             this.tabControl.Controls.Add(this.tabPage_Mapping_Statement);
+            this.tabControl.Controls.Add(this.tabPage_Mapping_WHAT);
             this.tabControl.Location = new System.Drawing.Point(12, 40);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
@@ -265,7 +277,7 @@
             // 
             // tabPage_Mapping_Statement
             // 
-            this.tabPage_Mapping_Statement.Controls.Add(this.dataGridView1);
+            this.tabPage_Mapping_Statement.Controls.Add(this.dataGridView_Mapping_Statement);
             this.tabPage_Mapping_Statement.Location = new System.Drawing.Point(4, 25);
             this.tabPage_Mapping_Statement.Name = "tabPage_Mapping_Statement";
             this.tabPage_Mapping_Statement.Size = new System.Drawing.Size(768, 330);
@@ -273,21 +285,33 @@
             this.tabPage_Mapping_Statement.Text = "Mapping_Statement";
             this.tabPage_Mapping_Statement.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // dataGridView_Mapping_Statement
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 27;
-            this.dataGridView1.Size = new System.Drawing.Size(240, 150);
-            this.dataGridView1.TabIndex = 1;
+            this.dataGridView_Mapping_Statement.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_Mapping_Statement.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_Mapping_Statement.Name = "dataGridView_Mapping_Statement";
+            this.dataGridView_Mapping_Statement.RowTemplate.Height = 27;
+            this.dataGridView_Mapping_Statement.Size = new System.Drawing.Size(240, 150);
+            this.dataGridView_Mapping_Statement.TabIndex = 1;
             // 
-            // BigTable2_Mapping_ToolStripMenuItem
+            // tabPage_Mapping_WHAT
             // 
-            this.BigTable2_Mapping_ToolStripMenuItem.Name = "BigTable2_Mapping_ToolStripMenuItem";
-            this.BigTable2_Mapping_ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
-            this.BigTable2_Mapping_ToolStripMenuItem.Text = "2차 (Mapping)";
-            this.BigTable2_Mapping_ToolStripMenuItem.Click += new System.EventHandler(this.BigTable2_Mapping_ToolStripMenuItem_Click);
+            this.tabPage_Mapping_WHAT.Controls.Add(this.dataGridView_Mapping_WHAT);
+            this.tabPage_Mapping_WHAT.Location = new System.Drawing.Point(4, 25);
+            this.tabPage_Mapping_WHAT.Name = "tabPage_Mapping_WHAT";
+            this.tabPage_Mapping_WHAT.Size = new System.Drawing.Size(768, 330);
+            this.tabPage_Mapping_WHAT.TabIndex = 7;
+            this.tabPage_Mapping_WHAT.Text = "tabPage_Mapping_WHAT";
+            this.tabPage_Mapping_WHAT.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView_Mapping_WHAT
+            // 
+            this.dataGridView_Mapping_WHAT.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_Mapping_WHAT.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_Mapping_WHAT.Name = "dataGridView_Mapping_WHAT";
+            this.dataGridView_Mapping_WHAT.RowTemplate.Height = 27;
+            this.dataGridView_Mapping_WHAT.Size = new System.Drawing.Size(240, 150);
+            this.dataGridView_Mapping_WHAT.TabIndex = 2;
             // 
             // MainForm
             // 
@@ -315,7 +339,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Form)).EndInit();
             this.tabControl.ResumeLayout(false);
             this.tabPage_Mapping_Statement.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Mapping_Statement)).EndInit();
+            this.tabPage_Mapping_WHAT.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Mapping_WHAT)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -346,9 +372,11 @@
         private System.Windows.Forms.DataGridView dataGridView_Form;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPage_Mapping_Statement;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridView_Mapping_Statement;
         private System.Windows.Forms.ToolStripMenuItem newtonsoftJsonToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem BigTable2_Mapping_ToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage_Mapping_WHAT;
+        private System.Windows.Forms.DataGridView dataGridView_Mapping_WHAT;
     }
 }
 

@@ -25,6 +25,9 @@ namespace NinetyNine
 
         [Description("맵핑(내역서)")]
         Mapping_Statement,
+
+        [Description("맵핑(WHAT)")]
+        Mapping_WHAT
     }
 
     class MainDataTableEnum
@@ -76,10 +79,12 @@ namespace NinetyNine
                     return new DataTableTemplateSchedule();
                 case MainDataTable.Organization:
                     return new DataTableTemplateOrganization();
-                case MainDataTable.Mapping_Statement:
-                    return new DataTableTemplateStatementMapping();
                 case MainDataTable.BigTable:
                     return new DataTableTemplateBigTable();
+                case MainDataTable.Mapping_Statement:
+                    return new DataTableTemplateMappingStatement();
+                case MainDataTable.Mapping_WHAT:
+                    return new DataTableTemplateMappingWHAT();
                 default:
                     throw new Exception("MainDataTableEnum GetDataTableTemplate Exception");
             }

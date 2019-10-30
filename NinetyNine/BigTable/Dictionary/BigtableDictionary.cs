@@ -19,6 +19,12 @@ namespace NinetyNine.BigTable.Dictionary
         abstract internal void SetTemplate(DataTable bigTable, DataTable dictionaryTable);
         abstract internal Dictionary<string, DataRow> Create(DataTable dataTable);
 
+        protected void RefreshTemplate(DataTable dataTable, DataTableTemplate template)
+        {
+            dataTable.Clear();
+            template.Set(dataTable);
+        }
+
         protected void SetKeyTemplate(DataTable bigTable, BigTableTitle bigTableKeyColumn, DataTable dictionaryTable, Enum dictionaryKeyColumn)
         {
             var dictionaryRows = dictionaryTable.Rows;

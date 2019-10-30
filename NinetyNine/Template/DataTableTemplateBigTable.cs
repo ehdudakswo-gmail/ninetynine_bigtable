@@ -19,10 +19,10 @@ namespace NinetyNine.Template
         [Description("층")]
         WHERE4,
 
-        [Description("구조체")]
+        [Description("구조체명")]
         WHAT1,
 
-        [Description("구조체세부")]
+        [Description("구조체구분명")]
         WHAT2,
 
         [Description("부재명")]

@@ -59,11 +59,6 @@ namespace NinetyNine
         {
             foreach (DataTable dataTable in dataSet.Tables)
             {
-                if (dataTable == bigTable)
-                {
-                    continue;
-                }
-
                 if (isEmpty(dataTable))
                 {
                     string tableName = dataTable.TableName;
@@ -87,28 +82,33 @@ namespace NinetyNine
 
         private void SetMappingTemplate()
         {
-            DataTable statementMappingTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Statement);
-            BigTableDictionary statementMappingBigTableDictionary = new BigTableDictionaryStatementMapping();
-            statementMappingBigTableDictionary.SetTemplate(bigTable, statementMappingTable);
+            DataTable mappingStatementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Statement);
+            DataTable mappingWhatTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_WHAT);
+
+            BigTableDictionary mappingStatementBigTableDictionary = new BigTableDictionaryMappingStatement();
+            BigTableDictionary mappingWhatBigTableDictionary = new BigTableDictionaryMappingWhat();
+
+            mappingStatementBigTableDictionary.SetTemplate(bigTable, mappingStatementTable);
+            mappingWhatBigTableDictionary.SetTemplate(bigTable, mappingWhatTable);
         }
 
         private void Mapping()
         {
-            DataTable statementMappingTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Statement);
+            DataTable mappingStatementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Statement);
             DataTable statementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Statement);
 
-            BigTableDictionary statementMappingBigTableDictionary = new BigTableDictionaryStatementMapping();
+            BigTableDictionary mappingStatementBigTableDictionary = new BigTableDictionaryMappingStatement();
             BigTableDictionary statementBigTableDictionary = new BigTableDictionaryStatement();
 
-            Dictionary<string, DataRow> statementMappingDictionary = statementMappingBigTableDictionary.Create(statementMappingTable);
+            Dictionary<string, DataRow> mappingStatementDictionary = mappingStatementBigTableDictionary.Create(mappingStatementTable);
             Dictionary<string, DataRow> statementDictionary = statementBigTableDictionary.Create(statementTable);
 
             BigTableMapper statementMapper = new BigTableMapperStatement
             {
                 bigTable = bigTable,
-                statementMappingTable = statementMappingTable,
+                mappingStatementTable = mappingStatementTable,
                 statementTable = statementTable,
-                statementMappingDictionary = statementMappingDictionary,
+                mappingStatementDictionary = mappingStatementDictionary,
                 statementDictionary = statementDictionary,
             };
             statementMapper.Mapping();
