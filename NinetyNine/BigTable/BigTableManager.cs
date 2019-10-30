@@ -89,11 +89,11 @@ namespace NinetyNine
             DataTable statementMappingTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Statement);
             DataTable statementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Statement);
 
-            BigtableDictionary BigtableDictionaryStatementMapping = new BigtableDictionaryStatementMapping();
-            BigtableDictionary BigtableDictionaryStatement = new BigtableDictionaryStatement();
+            BigTableDictionary statementMappingBigTableDictionary = new BigTableDictionaryStatementMapping();
+            BigTableDictionary statementBigTableDictionary = new BigTableDictionaryStatement();
 
-            Dictionary<string, DataRow> statementMappingDictionary = BigtableDictionaryStatementMapping.Create(statementMappingTable);
-            Dictionary<string, DataRow> statementDictionary = BigtableDictionaryStatement.Create(statementTable);
+            Dictionary<string, DataRow> statementMappingDictionary = statementMappingBigTableDictionary.Create(statementMappingTable);
+            Dictionary<string, DataRow> statementDictionary = statementBigTableDictionary.Create(statementTable);
 
             BigTableMapper statementMapper = new BigTableMapperStatement
             {

@@ -6,7 +6,7 @@ using System.Data;
 
 namespace NinetyNine.BigTable.Dictionary
 {
-    abstract class BigtableDictionary
+    abstract class BigTableDictionary
     {
         protected readonly string ERROR_VALUE_EMPTY = "값 없음";
         protected readonly string ERROR_KEY_CONTAIN = "값 중복";

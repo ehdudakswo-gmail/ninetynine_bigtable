@@ -7,7 +7,7 @@ using NinetyNine.Template;
 
 namespace NinetyNine
 {
-    internal class BigtableDictionaryStatement : BigtableDictionary
+    internal class BigTableDictionaryStatement : BigTableDictionary
     {
         private Array enumValues = Enum.GetValues(typeof(StatementTitle));
         private Enum[] keys = new Enum[]

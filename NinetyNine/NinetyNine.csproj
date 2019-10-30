@@ -59,10 +59,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BigTable\Dictionary\BigtableDictionaryStatement.cs" />
+    <Compile Include="BigTable\Dictionary\BigTableDictionaryStatement.cs" />
     <Compile Include="BigTable\BigTableError.cs" />
-    <Compile Include="BigTable\Dictionary\BigtableDictionary.cs" />
-    <Compile Include="BigTable\Dictionary\BigtableDictionaryStatementMapping.cs" />
+    <Compile Include="BigTable\Dictionary\BigTableDictionary.cs" />
+    <Compile Include="BigTable\Dictionary\BigTableDictionaryStatementMapping.cs" />
     <Compile Include="BigTable\Mapper\BigTableMapper.cs" />
     <Compile Include="BigTable\Mapper\BigTableMapperStatement.cs" />
     <Compile Include="BigTable\Parser\BigTableData.cs" />

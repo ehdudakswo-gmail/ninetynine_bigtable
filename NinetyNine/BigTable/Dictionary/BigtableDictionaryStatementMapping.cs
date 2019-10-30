@@ -5,7 +5,7 @@ using System.Data;
 
 namespace NinetyNine.BigTable.Dictionary
 {
-    class BigtableDictionaryStatementMapping : BigtableDictionary
+    class BigTableDictionaryStatementMapping : BigTableDictionary
     {
         private Enum[] keys = new Enum[]
         {

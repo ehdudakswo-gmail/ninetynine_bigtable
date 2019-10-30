@@ -40,7 +40,7 @@ namespace NinetyNine.BigTable.Mapper
                 {
                     var bigTableRow = bigTableRows[bigTableRowIdx];
 
-                    string statementMappingKey = BigtableDictionary.GetKey(bigTableRow, statementMappingKeys);
+                    string statementMappingKey = BigTableDictionary.GetKey(bigTableRow, statementMappingKeys);
                     if (statementMappingDictionary.ContainsKey(statementMappingKey) == false)
                     {
                         BigTableErrorCell[] errorCells = GetErrorCells(bigTableRowIdx, statementMappingKeys);
@@ -49,7 +49,7 @@ namespace NinetyNine.BigTable.Mapper
                     }
 
                     DataRow statementMappingRow = statementMappingDictionary[statementMappingKey];
-                    string statementKey = BigtableDictionary.GetKey(statementMappingRow, statementKeys);
+                    string statementKey = BigTableDictionary.GetKey(statementMappingRow, statementKeys);
                     if (statementDictionary.ContainsKey(statementKey) == false)
                     {
                         int statementMappingRowIdx = GetRowIndex(statementMappingTable, statementMappingRow);
