@@ -10,6 +10,7 @@ namespace NinetyNine
 {
     enum BigTableManagerState
     {
+        None,
         Unknown,
         Parsing,
         Mapping,
@@ -20,17 +21,17 @@ namespace NinetyNine
         private readonly string ERROR_STATE_DEFUALT = "BigTableManagerState default";
         private readonly string ERROR_EMPTY_SHEET = "{0} SHEET 내용이 필요합니다.";
 
-        private BigTableManagerState state = BigTableManagerState.Unknown;
         private DataSet dataSet;
-        private DataTable bigTable;
+        private BigTableManagerState state = BigTableManagerState.None;
+        private BigTableParser parser;
 
-        internal Task<string> Refresh(BigTableManagerState state, DataSet dataSet)
+        internal Task<string> Refresh(DataSet dataSet, BigTableManagerState state, BigTableParser parser)
         {
             return Task.Run(() =>
             {
-                this.state = state;
                 this.dataSet = dataSet;
-                bigTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.BigTable);
+                this.state = state;
+                this.parser = parser;
 
                 HandleState();
                 return dataSet.ToString();
@@ -43,7 +44,6 @@ namespace NinetyNine
             {
                 case BigTableManagerState.Parsing:
                     CheckDataSet();
-                    bigTable.Clear();
                     Parsing();
                     SetMappingTemplate();
                     break;
@@ -75,13 +75,18 @@ namespace NinetyNine
 
         private void Parsing()
         {
+            DataTable bigTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.BigTable);
             DataTable formTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Form);
-            BigTableParserForm formParser = new BigTableParserForm(bigTable, formTable);
-            formParser.Parse();
+
+            bigTable.Clear();
+            parser.SetTables(bigTable, formTable);
+            parser.SetBigTableTitles();
+            parser.Parse();
         }
 
         private void SetMappingTemplate()
         {
+            DataTable bigTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.BigTable);
             DataTable mappingStatementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Statement);
             DataTable mappingWhatTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_WHAT);
 
@@ -94,6 +99,7 @@ namespace NinetyNine
 
         private void Mapping()
         {
+            DataTable bigTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.BigTable);
             DataTable mappingStatementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Statement);
             DataTable statementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Statement);
 

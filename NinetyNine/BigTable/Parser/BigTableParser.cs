@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NinetyNine.Template;
+using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -14,8 +15,32 @@ namespace NinetyNine.BigTable.Parser
         protected readonly string ERROR_DATATYPE_NONE = "알수 없는 형식";
         protected readonly string ERROR_DATATYPE_DEFAULT = "ERROR_DATATYPE_DEFAULT ({0})";
 
+        protected DataTable bigTable;
+        protected DataTable formTable;
+
+        protected BigTableData data = new BigTableData();
         protected BigTableError bigTableError = BigTableError.GetInstance();
         abstract internal void Parse();
+
+        internal void SetTables(DataTable bigTable, DataTable formTable)
+        {
+            this.bigTable = bigTable;
+            this.formTable = formTable;
+        }
+
+        internal void SetBigTableTitles()
+        {
+            Array values = Enum.GetValues(typeof(BigTableTitle));
+            List<string> texts = EnumManager.GetTexts(values);
+
+            DataRow row = bigTable.NewRow();
+            bigTable.Rows.Add(row);
+
+            for (int i = 0; i < texts.Count; i++)
+            {
+                row[i] = texts[i];
+            }
+        }
 
         protected bool CheckFormat(string str, string[] format)
         {

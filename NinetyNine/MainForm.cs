@@ -1,4 +1,5 @@
 ﻿using NinetyNine.BigTable;
+using NinetyNine.BigTable.Parser;
 using System;
 using System.Data;
 using System.Windows.Forms;
@@ -11,7 +12,7 @@ namespace NinetyNine
         private readonly string FILE_OPEN_COMPLETE_MESSAGE = "열기 완료";
         private readonly string FILE_SAVE_COMPLETE_MESSAGE = "저장 완료";
 
-        private readonly string BIGTABLE_COMPLETE_MESSAGE = "빅테이블 {0} 완료";
+        private readonly string BIGTABLE_COMPLETE_MESSAGE = "{0} 완료";
         private readonly string BIGTABLE_ERROR_TAB_IDX_NOT_FOUND = "main tab idx not found";
 
         private TabControlManager tabControlManager;
@@ -138,28 +139,40 @@ namespace NinetyNine
             }
         }
 
-        private void BigTable1_Parsing_ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void BigTable_Parsing_ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetBigTable(BigTable1_Parsing_ToolStripMenuItem);
+            ToolStripMenuItem menuItem = sender as ToolStripMenuItem;
+            BigTableParser parser = GetBigTableParser(menuItem);
+            RefreshBigTable(BigTableManagerState.Parsing, parser);
         }
 
-        private void BigTable2_Mapping_ToolStripMenuItem_Click(object sender, EventArgs e)
+        private BigTableParser GetBigTableParser(ToolStripMenuItem menuItem)
         {
-            SetBigTable(BigTable2_Mapping_ToolStripMenuItem);
+            if (menuItem == 평택도생주골조수량산출서20121109제출3차ToolStripMenuItem)
+            {
+                return new BigTableParserForm();
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        private async void SetBigTable(ToolStripMenuItem menuItem)
+        private void BigTable_Mapping_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RefreshBigTable(BigTableManagerState.Mapping, null);
+        }
+
+        private async void RefreshBigTable(BigTableManagerState state, BigTableParser parser)
         {
             try
             {
                 SetWaitState();
-                BigTableManagerState state = GetBigTableManagerState(menuItem);
                 DataSet dataSet = tabControlManager.GetDataSet();
-                string bigTableResult = await bigTableManager.Refresh(state, dataSet);
+                await bigTableManager.Refresh(dataSet, state, parser);
 
                 tabControl.SelectedTab = tabPage_BigTable;
-                string menuText = menuItem.Text;
-                string completeMessage = string.Format(BIGTABLE_COMPLETE_MESSAGE, menuText);
+                string completeMessage = string.Format(BIGTABLE_COMPLETE_MESSAGE, state.ToString());
                 MessageBox.Show(completeMessage);
             }
             catch (BigTableError bigTableError)
@@ -183,27 +196,11 @@ namespace NinetyNine
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                MessageBox.Show(exception.ToString());
             }
             finally
             {
                 SetDefaultState();
-            }
-        }
-
-        private BigTableManagerState GetBigTableManagerState(ToolStripMenuItem menuItem)
-        {
-            if (menuItem.Equals(BigTable1_Parsing_ToolStripMenuItem))
-            {
-                return BigTableManagerState.Parsing;
-            }
-            else if (menuItem.Equals(BigTable2_Mapping_ToolStripMenuItem))
-            {
-                return BigTableManagerState.Mapping;
-            }
-            else
-            {
-                return BigTableManagerState.Unknown;
             }
         }
     }

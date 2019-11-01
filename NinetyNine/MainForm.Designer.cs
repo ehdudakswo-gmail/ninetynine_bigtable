@@ -33,8 +33,8 @@
             this.열기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.빅테이블ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.BigTable1_Parsing_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.BigTable2_Mapping_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BigTable_Parsing_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BigTable_Mapping_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.도움말ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.라이센스ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ePPlusToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,6 +56,7 @@
             this.dataGridView_Mapping_Statement = new System.Windows.Forms.DataGridView();
             this.tabPage_Mapping_WHAT = new System.Windows.Forms.TabPage();
             this.dataGridView_Mapping_WHAT = new System.Windows.Forms.DataGridView();
+            this.평택도생주골조수량산출서20121109제출3차ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.tabPage_BigTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BigTable)).BeginInit();
@@ -113,25 +114,26 @@
             // 빅테이블ToolStripMenuItem
             // 
             this.빅테이블ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.BigTable1_Parsing_ToolStripMenuItem,
-            this.BigTable2_Mapping_ToolStripMenuItem});
+            this.BigTable_Parsing_ToolStripMenuItem,
+            this.BigTable_Mapping_ToolStripMenuItem});
             this.빅테이블ToolStripMenuItem.Name = "빅테이블ToolStripMenuItem";
             this.빅테이블ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
             this.빅테이블ToolStripMenuItem.Text = "빅테이블";
             // 
-            // BigTable1_Parsing_ToolStripMenuItem
+            // BigTable_Parsing_ToolStripMenuItem
             // 
-            this.BigTable1_Parsing_ToolStripMenuItem.Name = "BigTable1_Parsing_ToolStripMenuItem";
-            this.BigTable1_Parsing_ToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
-            this.BigTable1_Parsing_ToolStripMenuItem.Text = "1차 (Parsing)";
-            this.BigTable1_Parsing_ToolStripMenuItem.Click += new System.EventHandler(this.BigTable1_Parsing_ToolStripMenuItem_Click);
+            this.BigTable_Parsing_ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.평택도생주골조수량산출서20121109제출3차ToolStripMenuItem});
+            this.BigTable_Parsing_ToolStripMenuItem.Name = "BigTable_Parsing_ToolStripMenuItem";
+            this.BigTable_Parsing_ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.BigTable_Parsing_ToolStripMenuItem.Text = "1차 (Parsing)";
             // 
-            // BigTable2_Mapping_ToolStripMenuItem
+            // BigTable_Mapping_ToolStripMenuItem
             // 
-            this.BigTable2_Mapping_ToolStripMenuItem.Name = "BigTable2_Mapping_ToolStripMenuItem";
-            this.BigTable2_Mapping_ToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
-            this.BigTable2_Mapping_ToolStripMenuItem.Text = "2차 (Mapping)";
-            this.BigTable2_Mapping_ToolStripMenuItem.Click += new System.EventHandler(this.BigTable2_Mapping_ToolStripMenuItem_Click);
+            this.BigTable_Mapping_ToolStripMenuItem.Name = "BigTable_Mapping_ToolStripMenuItem";
+            this.BigTable_Mapping_ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.BigTable_Mapping_ToolStripMenuItem.Text = "2차 (Mapping)";
+            this.BigTable_Mapping_ToolStripMenuItem.Click += new System.EventHandler(this.BigTable_Mapping_ToolStripMenuItem_Click);
             // 
             // 도움말ToolStripMenuItem
             // 
@@ -313,6 +315,13 @@
             this.dataGridView_Mapping_WHAT.Size = new System.Drawing.Size(240, 150);
             this.dataGridView_Mapping_WHAT.TabIndex = 2;
             // 
+            // 평택도생주골조수량산출서20121109제출3차ToolStripMenuItem
+            // 
+            this.평택도생주골조수량산출서20121109제출3차ToolStripMenuItem.Name = "평택도생주골조수량산출서20121109제출3차ToolStripMenuItem";
+            this.평택도생주골조수량산출서20121109제출3차ToolStripMenuItem.Size = new System.Drawing.Size(411, 26);
+            this.평택도생주골조수량산출서20121109제출3차ToolStripMenuItem.Text = "평택 도생주 골조수량산출서(20121109 제출 3차)";
+            this.평택도생주골조수량산출서20121109제출3차ToolStripMenuItem.Click += new System.EventHandler(this.BigTable_Parsing_ToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -359,7 +368,7 @@
         private System.Windows.Forms.ToolStripMenuItem 라이센스ToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem ePPlusToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 빅테이블ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem BigTable1_Parsing_ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem BigTable_Parsing_ToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage_BigTable;
         private System.Windows.Forms.DataGridView dataGridView_BigTable;
         private System.Windows.Forms.TabPage tabPage_Organization;
@@ -374,9 +383,10 @@
         private System.Windows.Forms.TabPage tabPage_Mapping_Statement;
         private System.Windows.Forms.DataGridView dataGridView_Mapping_Statement;
         private System.Windows.Forms.ToolStripMenuItem newtonsoftJsonToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem BigTable2_Mapping_ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem BigTable_Mapping_ToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage_Mapping_WHAT;
         private System.Windows.Forms.DataGridView dataGridView_Mapping_WHAT;
+        private System.Windows.Forms.ToolStripMenuItem 평택도생주골조수량산출서20121109제출3차ToolStripMenuItem;
     }
 }
 
