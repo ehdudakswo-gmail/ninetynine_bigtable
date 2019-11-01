@@ -1,5 +1,6 @@
 ﻿using NinetyNine.BigTable;
 using NinetyNine.BigTable.Parser;
+using NinetyNine.Template;
 using System;
 using System.Data;
 using System.Windows.Forms;
@@ -150,7 +151,7 @@ namespace NinetyNine
         {
             if (menuItem == 평택도생주골조수량산출서20121109제출3차ToolStripMenuItem)
             {
-                return new BigTableParserForm();
+                return new 평택도생주골조수량산출서20121109제출3차();
             }
             else
             {

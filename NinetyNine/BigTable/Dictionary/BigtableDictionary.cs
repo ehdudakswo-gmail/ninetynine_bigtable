@@ -21,8 +21,7 @@ namespace NinetyNine.BigTable.Dictionary
 
         protected void RefreshTemplate(DataTable dataTable, DataTableTemplate template)
         {
-            dataTable.Clear();
-            template.Set(dataTable);
+            template.Refresh(dataTable);
         }
 
         protected void SetKeyTemplate(DataTable bigTable, BigTableTitle bigTableKeyColumn, DataTable dictionaryTable, Enum dictionaryKeyColumn)

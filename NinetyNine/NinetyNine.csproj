@@ -68,7 +68,7 @@
     <Compile Include="BigTable\Mapper\BigTableMapperStatement.cs" />
     <Compile Include="BigTable\Parser\BigTableData.cs" />
     <Compile Include="BigTable\BigTableManager.cs" />
-    <Compile Include="BigTable\Parser\BigTableParserForm.cs" />
+    <Compile Include="BigTable\Parser\평택도생주골조수량산출서20121109제출3차.cs" />
     <Compile Include="BigTable\Parser\BigTableParser.cs" />
     <Compile Include="DataGridViewManager.cs" />
     <Compile Include="ExceptionDataParamEnum.cs" />

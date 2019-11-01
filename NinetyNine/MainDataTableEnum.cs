@@ -60,7 +60,7 @@ namespace NinetyNine
                 string tableName = GetDescription(value);
                 DataTable dataTable = excelDataManager.GetBasicDataTable(tableName);
                 DataTableTemplate template = GetDataTableTemplate(value);
-                template.Set(dataTable);
+                template.Refresh(dataTable);
                 tables.Add(dataTable);
             }
 

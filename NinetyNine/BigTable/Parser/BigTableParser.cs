@@ -7,19 +7,19 @@ namespace NinetyNine.BigTable.Parser
 {
     abstract class BigTableParser
     {
-        protected readonly string ERROR_NONE = "값 없음";
-        protected readonly string ERROR_FORMAT = "'{0}' 형식 에러";
+        protected readonly string ERROR_NONE = "{0} 없음";
         protected readonly string ERROR_VALUE_NONE = "{0} 값 없음";
-        protected readonly string ERROR_VALUE_ERROR = "{0} 값 에러";
-        protected readonly string ERROR_VALUE_NOT_VALID_NUMBER = "{0} 유효 숫자 아님";
-        protected readonly string ERROR_DATATYPE_NONE = "알수 없는 형식";
-        protected readonly string ERROR_DATATYPE_DEFAULT = "ERROR_DATATYPE_DEFAULT ({0})";
+        protected readonly string ERROR_NUMBER_CHECK = "{0} 유효 숫자 아님";
+        protected readonly string ERROR_DATATYPE_UNKNOWN = "ERROR_DATATYPE_UNKNOWN";
+        protected readonly string ERROR_DATATYPE_DEFAULT = "ERROR_DATATYPE_DEFAULT";
 
         protected DataTable bigTable;
         protected DataTable formTable;
 
-        protected BigTableData data = new BigTableData();
+        protected BigTableData bigTableData = new BigTableData();
         protected BigTableError bigTableError = BigTableError.GetInstance();
+        protected bool IsAddDataRow = false;
+
         abstract internal void Parse();
 
         internal void SetTables(DataTable bigTable, DataTable formTable)
@@ -42,22 +42,14 @@ namespace NinetyNine.BigTable.Parser
             }
         }
 
-        protected bool CheckFormat(string str, string[] format)
+        protected bool IsStartWith(DataRow row, Enum column, string TARGET)
         {
-            string trimStr = Trim(str);
-            int[] idxs = GetFirstIdxs(trimStr, format);
+            int colIdx = GetColumnIdx(column);
+            string rowStr = row[colIdx].ToString();
+            string rowStrTrim = Trim(rowStr);
+            bool isStartWith = rowStrTrim.StartsWith(TARGET);
 
-            if (IsContain(idxs, -1))
-            {
-                return false;
-            }
-
-            if (IsASC(idxs) == false)
-            {
-                return false;
-            }
-
-            return true;
+            return isStartWith;
         }
 
         protected string Trim(string str)
@@ -65,47 +57,7 @@ namespace NinetyNine.BigTable.Parser
             return str.Replace(" ", "").Trim();
         }
 
-        private int[] GetFirstIdxs(string str, string[] format)
-        {
-            int len = format.Length;
-            int[] idxs = new int[len];
-
-            for (int i = 0; i < len; i++)
-            {
-                string formatItem = format[i];
-                idxs[i] = str.IndexOf(formatItem);
-            }
-
-            return idxs;
-        }
-
-        private bool IsContain(int[] arr, int target)
-        {
-            foreach (int item in arr)
-            {
-                if (item == target)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private bool IsASC(int[] arr)
-        {
-            for (int i = 0; i < arr.Length - 1; i++)
-            {
-                if (arr[i] >= arr[i + 1])
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        protected string[] Split(string str, int idx)
+        protected string[] Separate(string str, int idx)
         {
             string[] ret = new string[2];
 
@@ -138,37 +90,14 @@ namespace NinetyNine.BigTable.Parser
                 str = str.Replace(remove, "");
             }
 
-            return str;
-        }
-
-        protected Enum FindNotMatchedEnum(Array values, DataRow row)
-        {
-            foreach (Enum value in values)
-            {
-                int colIdx = GetColumnIdx(value);
-                string enumString = GetValueString(value);
-                string rowString = row[colIdx].ToString();
-                string rowStringTrim = Trim(row[colIdx].ToString());
-
-                if (enumString.Equals(rowStringTrim) == false)
-                {
-                    return value;
-                }
-            }
-
-            return null;
+            string strTrim = str.Trim();
+            return strTrim;
         }
 
         protected int GetColumnIdx(Enum value)
         {
             int idx = EnumManager.GetIndex(value);
             return idx;
-        }
-
-        protected string GetValueString(Enum value)
-        {
-            string str = EnumManager.GetDescription(value);
-            return str;
         }
 
         protected Enum[] GetValidColumns(DataRow row, Array values)
@@ -246,21 +175,22 @@ namespace NinetyNine.BigTable.Parser
             return cut;
         }
 
-        protected Enum FindEmptyValue(DataRow row, Enum[] columns)
+        protected bool IsMatched(Array values, DataRow row)
         {
-            foreach (Enum column in columns)
+            foreach (Enum value in values)
             {
-                int colIdx = GetColumnIdx(column);
+                int colIdx = GetColumnIdx(value);
                 string rowStr = row[colIdx].ToString();
                 string rowStrTrim = Trim(rowStr);
+                string description = EnumManager.GetDescription(value);
 
-                if (IsEmpty(rowStrTrim))
+                if (rowStrTrim != description)
                 {
-                    return column;
+                    return false;
                 }
             }
 
-            return null;
+            return true;
         }
 
         protected bool IsNumber(string str)
@@ -269,6 +199,29 @@ namespace NinetyNine.BigTable.Parser
             bool isNumber = double.TryParse(str, out num);
 
             return isNumber;
+        }
+
+        protected void SetData(BigTableTitle bigTableValue, string str)
+        {
+            bigTableData.Set(bigTableValue, str);
+        }
+
+        protected void AddDataRow()
+        {
+            if (IsAddDataRow == false)
+            {
+                return;
+            }
+
+            string[] values = bigTableData.GetValues();
+            DataRow row = bigTable.NewRow();
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                row[i] = values[i];
+            }
+
+            bigTable.Rows.Add(row);
         }
 
         protected void ThrowException(DataTable dataTable, BigTableErrorCell[] cells, string error)
