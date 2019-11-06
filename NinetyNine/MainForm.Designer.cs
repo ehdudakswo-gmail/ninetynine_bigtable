@@ -34,6 +34,7 @@
             this.저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.빅테이블ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BigTable_Parsing_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.평택도생주골조수량산출서20121109제출3차ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BigTable_Mapping_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.도움말ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.라이센스ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,11 +53,12 @@
             this.tabPage_Form = new System.Windows.Forms.TabPage();
             this.dataGridView_Form = new System.Windows.Forms.DataGridView();
             this.tabControl = new System.Windows.Forms.TabControl();
-            this.tabPage_Mapping_Statement = new System.Windows.Forms.TabPage();
+            this.tabPage_Mapping_Work = new System.Windows.Forms.TabPage();
             this.dataGridView_Mapping_Statement = new System.Windows.Forms.DataGridView();
             this.tabPage_Mapping_WHAT = new System.Windows.Forms.TabPage();
             this.dataGridView_Mapping_WHAT = new System.Windows.Forms.DataGridView();
-            this.평택도생주골조수량산출서20121109제출3차ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage_Mapping_Floor = new System.Windows.Forms.TabPage();
+            this.dataGridView_Mapping_Floor = new System.Windows.Forms.DataGridView();
             this.menuStrip.SuspendLayout();
             this.tabPage_BigTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BigTable)).BeginInit();
@@ -69,10 +71,12 @@
             this.tabPage_Form.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Form)).BeginInit();
             this.tabControl.SuspendLayout();
-            this.tabPage_Mapping_Statement.SuspendLayout();
+            this.tabPage_Mapping_Work.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Mapping_Statement)).BeginInit();
             this.tabPage_Mapping_WHAT.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Mapping_WHAT)).BeginInit();
+            this.tabPage_Mapping_Floor.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Mapping_Floor)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -84,7 +88,8 @@
             this.도움말ToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(800, 28);
+            this.menuStrip.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
+            this.menuStrip.Size = new System.Drawing.Size(700, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -94,20 +99,20 @@
             this.열기ToolStripMenuItem,
             this.저장ToolStripMenuItem});
             this.파일ToolStripMenuItem.Name = "파일ToolStripMenuItem";
-            this.파일ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
+            this.파일ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.파일ToolStripMenuItem.Text = "파일";
             // 
             // 열기ToolStripMenuItem
             // 
             this.열기ToolStripMenuItem.Name = "열기ToolStripMenuItem";
-            this.열기ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
+            this.열기ToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
             this.열기ToolStripMenuItem.Text = "열기";
             this.열기ToolStripMenuItem.Click += new System.EventHandler(this.열기ToolStripMenuItem_Click);
             // 
             // 저장ToolStripMenuItem
             // 
             this.저장ToolStripMenuItem.Name = "저장ToolStripMenuItem";
-            this.저장ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
+            this.저장ToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
             this.저장ToolStripMenuItem.Text = "저장";
             this.저장ToolStripMenuItem.Click += new System.EventHandler(this.저장ToolStripMenuItem_Click);
             // 
@@ -117,7 +122,7 @@
             this.BigTable_Parsing_ToolStripMenuItem,
             this.BigTable_Mapping_ToolStripMenuItem});
             this.빅테이블ToolStripMenuItem.Name = "빅테이블ToolStripMenuItem";
-            this.빅테이블ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+            this.빅테이블ToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
             this.빅테이블ToolStripMenuItem.Text = "빅테이블";
             // 
             // BigTable_Parsing_ToolStripMenuItem
@@ -125,13 +130,20 @@
             this.BigTable_Parsing_ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.평택도생주골조수량산출서20121109제출3차ToolStripMenuItem});
             this.BigTable_Parsing_ToolStripMenuItem.Name = "BigTable_Parsing_ToolStripMenuItem";
-            this.BigTable_Parsing_ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.BigTable_Parsing_ToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.BigTable_Parsing_ToolStripMenuItem.Text = "1차 (Parsing)";
+            // 
+            // 평택도생주골조수량산출서20121109제출3차ToolStripMenuItem
+            // 
+            this.평택도생주골조수량산출서20121109제출3차ToolStripMenuItem.Name = "평택도생주골조수량산출서20121109제출3차ToolStripMenuItem";
+            this.평택도생주골조수량산출서20121109제출3차ToolStripMenuItem.Size = new System.Drawing.Size(341, 22);
+            this.평택도생주골조수량산출서20121109제출3차ToolStripMenuItem.Text = "평택 도생주 골조수량산출서(20121109 제출 3차)";
+            this.평택도생주골조수량산출서20121109제출3차ToolStripMenuItem.Click += new System.EventHandler(this.BigTable_Parsing_ToolStripMenuItem_Click);
             // 
             // BigTable_Mapping_ToolStripMenuItem
             // 
             this.BigTable_Mapping_ToolStripMenuItem.Name = "BigTable_Mapping_ToolStripMenuItem";
-            this.BigTable_Mapping_ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.BigTable_Mapping_ToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.BigTable_Mapping_ToolStripMenuItem.Text = "2차 (Mapping)";
             this.BigTable_Mapping_ToolStripMenuItem.Click += new System.EventHandler(this.BigTable_Mapping_ToolStripMenuItem_Click);
             // 
@@ -140,7 +152,7 @@
             this.도움말ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.라이센스ToolStripMenuItem1});
             this.도움말ToolStripMenuItem.Name = "도움말ToolStripMenuItem";
-            this.도움말ToolStripMenuItem.Size = new System.Drawing.Size(66, 24);
+            this.도움말ToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
             this.도움말ToolStripMenuItem.Text = "도움말";
             // 
             // 라이센스ToolStripMenuItem1
@@ -149,27 +161,28 @@
             this.ePPlusToolStripMenuItem1,
             this.newtonsoftJsonToolStripMenuItem});
             this.라이센스ToolStripMenuItem1.Name = "라이센스ToolStripMenuItem1";
-            this.라이센스ToolStripMenuItem1.Size = new System.Drawing.Size(144, 26);
+            this.라이센스ToolStripMenuItem1.Size = new System.Drawing.Size(122, 22);
             this.라이센스ToolStripMenuItem1.Text = "라이센스";
             // 
             // ePPlusToolStripMenuItem1
             // 
             this.ePPlusToolStripMenuItem1.Name = "ePPlusToolStripMenuItem1";
-            this.ePPlusToolStripMenuItem1.Size = new System.Drawing.Size(194, 26);
+            this.ePPlusToolStripMenuItem1.Size = new System.Drawing.Size(162, 22);
             this.ePPlusToolStripMenuItem1.Text = "EPPlus";
             // 
             // newtonsoftJsonToolStripMenuItem
             // 
             this.newtonsoftJsonToolStripMenuItem.Name = "newtonsoftJsonToolStripMenuItem";
-            this.newtonsoftJsonToolStripMenuItem.Size = new System.Drawing.Size(194, 26);
+            this.newtonsoftJsonToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.newtonsoftJsonToolStripMenuItem.Text = "Newtonsoft.Json";
             // 
             // tabPage_BigTable
             // 
             this.tabPage_BigTable.Controls.Add(this.dataGridView_BigTable);
-            this.tabPage_BigTable.Location = new System.Drawing.Point(4, 25);
+            this.tabPage_BigTable.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_BigTable.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage_BigTable.Name = "tabPage_BigTable";
-            this.tabPage_BigTable.Size = new System.Drawing.Size(768, 330);
+            this.tabPage_BigTable.Size = new System.Drawing.Size(671, 261);
             this.tabPage_BigTable.TabIndex = 4;
             this.tabPage_BigTable.Text = "BigTable";
             this.tabPage_BigTable.UseVisualStyleBackColor = true;
@@ -178,17 +191,19 @@
             // 
             this.dataGridView_BigTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_BigTable.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_BigTable.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView_BigTable.Name = "dataGridView_BigTable";
             this.dataGridView_BigTable.RowTemplate.Height = 27;
-            this.dataGridView_BigTable.Size = new System.Drawing.Size(240, 150);
+            this.dataGridView_BigTable.Size = new System.Drawing.Size(210, 120);
             this.dataGridView_BigTable.TabIndex = 0;
             // 
             // tabPage_Organization
             // 
             this.tabPage_Organization.Controls.Add(this.dataGridView_Organization);
-            this.tabPage_Organization.Location = new System.Drawing.Point(4, 25);
+            this.tabPage_Organization.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Organization.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage_Organization.Name = "tabPage_Organization";
-            this.tabPage_Organization.Size = new System.Drawing.Size(768, 330);
+            this.tabPage_Organization.Size = new System.Drawing.Size(671, 261);
             this.tabPage_Organization.TabIndex = 2;
             this.tabPage_Organization.Text = "Organization";
             this.tabPage_Organization.UseVisualStyleBackColor = true;
@@ -197,18 +212,20 @@
             // 
             this.dataGridView_Organization.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_Organization.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_Organization.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView_Organization.Name = "dataGridView_Organization";
             this.dataGridView_Organization.RowTemplate.Height = 27;
-            this.dataGridView_Organization.Size = new System.Drawing.Size(240, 150);
+            this.dataGridView_Organization.Size = new System.Drawing.Size(210, 120);
             this.dataGridView_Organization.TabIndex = 0;
             // 
             // tabPage_Schedule
             // 
             this.tabPage_Schedule.Controls.Add(this.dataGridView_Schedule);
-            this.tabPage_Schedule.Location = new System.Drawing.Point(4, 25);
+            this.tabPage_Schedule.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Schedule.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage_Schedule.Name = "tabPage_Schedule";
-            this.tabPage_Schedule.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_Schedule.Size = new System.Drawing.Size(768, 330);
+            this.tabPage_Schedule.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabPage_Schedule.Size = new System.Drawing.Size(671, 261);
             this.tabPage_Schedule.TabIndex = 1;
             this.tabPage_Schedule.Text = "Schedule";
             this.tabPage_Schedule.UseVisualStyleBackColor = true;
@@ -217,18 +234,20 @@
             // 
             this.dataGridView_Schedule.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_Schedule.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_Schedule.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView_Schedule.Name = "dataGridView_Schedule";
             this.dataGridView_Schedule.RowTemplate.Height = 27;
-            this.dataGridView_Schedule.Size = new System.Drawing.Size(240, 150);
+            this.dataGridView_Schedule.Size = new System.Drawing.Size(210, 120);
             this.dataGridView_Schedule.TabIndex = 0;
             // 
             // tabPage_Statement
             // 
             this.tabPage_Statement.Controls.Add(this.dataGridView_Statement);
-            this.tabPage_Statement.Location = new System.Drawing.Point(4, 25);
+            this.tabPage_Statement.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Statement.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage_Statement.Name = "tabPage_Statement";
-            this.tabPage_Statement.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_Statement.Size = new System.Drawing.Size(768, 330);
+            this.tabPage_Statement.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabPage_Statement.Size = new System.Drawing.Size(671, 261);
             this.tabPage_Statement.TabIndex = 0;
             this.tabPage_Statement.Text = "Statement";
             this.tabPage_Statement.UseVisualStyleBackColor = true;
@@ -237,17 +256,19 @@
             // 
             this.dataGridView_Statement.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_Statement.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_Statement.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView_Statement.Name = "dataGridView_Statement";
             this.dataGridView_Statement.RowTemplate.Height = 27;
-            this.dataGridView_Statement.Size = new System.Drawing.Size(240, 150);
+            this.dataGridView_Statement.Size = new System.Drawing.Size(210, 120);
             this.dataGridView_Statement.TabIndex = 0;
             // 
             // tabPage_Form
             // 
             this.tabPage_Form.Controls.Add(this.dataGridView_Form);
-            this.tabPage_Form.Location = new System.Drawing.Point(4, 25);
+            this.tabPage_Form.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Form.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage_Form.Name = "tabPage_Form";
-            this.tabPage_Form.Size = new System.Drawing.Size(768, 330);
+            this.tabPage_Form.Size = new System.Drawing.Size(671, 261);
             this.tabPage_Form.TabIndex = 3;
             this.tabPage_Form.Text = "Form";
             this.tabPage_Form.UseVisualStyleBackColor = true;
@@ -256,9 +277,10 @@
             // 
             this.dataGridView_Form.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_Form.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_Form.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView_Form.Name = "dataGridView_Form";
             this.dataGridView_Form.RowTemplate.Height = 27;
-            this.dataGridView_Form.Size = new System.Drawing.Size(240, 150);
+            this.dataGridView_Form.Size = new System.Drawing.Size(210, 120);
             this.dataGridView_Form.TabIndex = 0;
             // 
             // tabControl
@@ -268,68 +290,88 @@
             this.tabControl.Controls.Add(this.tabPage_Schedule);
             this.tabControl.Controls.Add(this.tabPage_Organization);
             this.tabControl.Controls.Add(this.tabPage_BigTable);
-            this.tabControl.Controls.Add(this.tabPage_Mapping_Statement);
+            this.tabControl.Controls.Add(this.tabPage_Mapping_Work);
+            this.tabControl.Controls.Add(this.tabPage_Mapping_Floor);
             this.tabControl.Controls.Add(this.tabPage_Mapping_WHAT);
-            this.tabControl.Location = new System.Drawing.Point(12, 40);
+            this.tabControl.Location = new System.Drawing.Point(10, 32);
+            this.tabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(776, 359);
+            this.tabControl.Size = new System.Drawing.Size(679, 287);
             this.tabControl.TabIndex = 1;
             this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
             // 
-            // tabPage_Mapping_Statement
+            // tabPage_Mapping_Work
             // 
-            this.tabPage_Mapping_Statement.Controls.Add(this.dataGridView_Mapping_Statement);
-            this.tabPage_Mapping_Statement.Location = new System.Drawing.Point(4, 25);
-            this.tabPage_Mapping_Statement.Name = "tabPage_Mapping_Statement";
-            this.tabPage_Mapping_Statement.Size = new System.Drawing.Size(768, 330);
-            this.tabPage_Mapping_Statement.TabIndex = 6;
-            this.tabPage_Mapping_Statement.Text = "Mapping_Statement";
-            this.tabPage_Mapping_Statement.UseVisualStyleBackColor = true;
+            this.tabPage_Mapping_Work.Controls.Add(this.dataGridView_Mapping_Statement);
+            this.tabPage_Mapping_Work.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Mapping_Work.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabPage_Mapping_Work.Name = "tabPage_Mapping_Work";
+            this.tabPage_Mapping_Work.Size = new System.Drawing.Size(671, 261);
+            this.tabPage_Mapping_Work.TabIndex = 6;
+            this.tabPage_Mapping_Work.Text = "Mapping_Work";
+            this.tabPage_Mapping_Work.UseVisualStyleBackColor = true;
             // 
             // dataGridView_Mapping_Statement
             // 
             this.dataGridView_Mapping_Statement.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_Mapping_Statement.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_Mapping_Statement.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView_Mapping_Statement.Name = "dataGridView_Mapping_Statement";
             this.dataGridView_Mapping_Statement.RowTemplate.Height = 27;
-            this.dataGridView_Mapping_Statement.Size = new System.Drawing.Size(240, 150);
+            this.dataGridView_Mapping_Statement.Size = new System.Drawing.Size(210, 120);
             this.dataGridView_Mapping_Statement.TabIndex = 1;
             // 
             // tabPage_Mapping_WHAT
             // 
             this.tabPage_Mapping_WHAT.Controls.Add(this.dataGridView_Mapping_WHAT);
-            this.tabPage_Mapping_WHAT.Location = new System.Drawing.Point(4, 25);
+            this.tabPage_Mapping_WHAT.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Mapping_WHAT.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage_Mapping_WHAT.Name = "tabPage_Mapping_WHAT";
-            this.tabPage_Mapping_WHAT.Size = new System.Drawing.Size(768, 330);
+            this.tabPage_Mapping_WHAT.Size = new System.Drawing.Size(671, 261);
             this.tabPage_Mapping_WHAT.TabIndex = 7;
-            this.tabPage_Mapping_WHAT.Text = "tabPage_Mapping_WHAT";
+            this.tabPage_Mapping_WHAT.Text = "Mapping_WHAT";
             this.tabPage_Mapping_WHAT.UseVisualStyleBackColor = true;
             // 
             // dataGridView_Mapping_WHAT
             // 
             this.dataGridView_Mapping_WHAT.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_Mapping_WHAT.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_Mapping_WHAT.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView_Mapping_WHAT.Name = "dataGridView_Mapping_WHAT";
             this.dataGridView_Mapping_WHAT.RowTemplate.Height = 27;
-            this.dataGridView_Mapping_WHAT.Size = new System.Drawing.Size(240, 150);
+            this.dataGridView_Mapping_WHAT.Size = new System.Drawing.Size(210, 120);
             this.dataGridView_Mapping_WHAT.TabIndex = 2;
             // 
-            // 평택도생주골조수량산출서20121109제출3차ToolStripMenuItem
+            // tabPage_Mapping_Floor
             // 
-            this.평택도생주골조수량산출서20121109제출3차ToolStripMenuItem.Name = "평택도생주골조수량산출서20121109제출3차ToolStripMenuItem";
-            this.평택도생주골조수량산출서20121109제출3차ToolStripMenuItem.Size = new System.Drawing.Size(411, 26);
-            this.평택도생주골조수량산출서20121109제출3차ToolStripMenuItem.Text = "평택 도생주 골조수량산출서(20121109 제출 3차)";
-            this.평택도생주골조수량산출서20121109제출3차ToolStripMenuItem.Click += new System.EventHandler(this.BigTable_Parsing_ToolStripMenuItem_Click);
+            this.tabPage_Mapping_Floor.Controls.Add(this.dataGridView_Mapping_Floor);
+            this.tabPage_Mapping_Floor.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Mapping_Floor.Name = "tabPage_Mapping_Floor";
+            this.tabPage_Mapping_Floor.Size = new System.Drawing.Size(671, 261);
+            this.tabPage_Mapping_Floor.TabIndex = 8;
+            this.tabPage_Mapping_Floor.Text = "Mapping_Floor";
+            this.tabPage_Mapping_Floor.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView_Mapping_Floor
+            // 
+            this.dataGridView_Mapping_Floor.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_Mapping_Floor.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_Mapping_Floor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dataGridView_Mapping_Floor.Name = "dataGridView_Mapping_Floor";
+            this.dataGridView_Mapping_Floor.RowTemplate.Height = 27;
+            this.dataGridView_Mapping_Floor.Size = new System.Drawing.Size(210, 120);
+            this.dataGridView_Mapping_Floor.TabIndex = 2;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(700, 360);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MainForm";
             this.Text = "NinetyNine";
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -347,10 +389,12 @@
             this.tabPage_Form.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Form)).EndInit();
             this.tabControl.ResumeLayout(false);
-            this.tabPage_Mapping_Statement.ResumeLayout(false);
+            this.tabPage_Mapping_Work.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Mapping_Statement)).EndInit();
             this.tabPage_Mapping_WHAT.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Mapping_WHAT)).EndInit();
+            this.tabPage_Mapping_Floor.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Mapping_Floor)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -380,13 +424,15 @@
         private System.Windows.Forms.TabPage tabPage_Form;
         private System.Windows.Forms.DataGridView dataGridView_Form;
         private System.Windows.Forms.TabControl tabControl;
-        private System.Windows.Forms.TabPage tabPage_Mapping_Statement;
+        private System.Windows.Forms.TabPage tabPage_Mapping_Work;
         private System.Windows.Forms.DataGridView dataGridView_Mapping_Statement;
         private System.Windows.Forms.ToolStripMenuItem newtonsoftJsonToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem BigTable_Mapping_ToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage_Mapping_WHAT;
         private System.Windows.Forms.DataGridView dataGridView_Mapping_WHAT;
         private System.Windows.Forms.ToolStripMenuItem 평택도생주골조수량산출서20121109제출3차ToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage_Mapping_Floor;
+        private System.Windows.Forms.DataGridView dataGridView_Mapping_Floor;
     }
 }
 

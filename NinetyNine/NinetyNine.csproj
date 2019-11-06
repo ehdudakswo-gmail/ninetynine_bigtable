@@ -59,12 +59,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BigTable\Dictionary\BigTableDictionaryFloor.cs" />
+    <Compile Include="BigTable\Dictionary\BigTableDictionarySchedule.cs" />
     <Compile Include="BigTable\Dictionary\BigTableDictionaryStatement.cs" />
     <Compile Include="BigTable\BigTableError.cs" />
     <Compile Include="BigTable\Dictionary\BigTableDictionary.cs" />
     <Compile Include="BigTable\Dictionary\BigTableDictionaryMappingStatement.cs" />
     <Compile Include="BigTable\Dictionary\BigTableDictionaryMappingWhat.cs" />
+    <Compile Include="BigTable\Dictionary\BigTableDictionaryWork.cs" />
     <Compile Include="BigTable\Mapper\BigTableMapper.cs" />
+    <Compile Include="BigTable\Mapper\BigTableMapperSchedule.cs" />
     <Compile Include="BigTable\Mapper\BigTableMapperStatement.cs" />
     <Compile Include="BigTable\Parser\BigTableData.cs" />
     <Compile Include="BigTable\BigTableManager.cs" />
@@ -72,6 +76,7 @@
     <Compile Include="BigTable\Parser\BigTableParser.cs" />
     <Compile Include="DataGridViewManager.cs" />
     <Compile Include="ExceptionDataParamEnum.cs" />
+    <Compile Include="Template\DataTableTemplateMappingFloor.cs" />
     <Compile Include="Template\DataTableTemplateMappingStatement.cs" />
     <Compile Include="Template\DataTableTemplate.cs" />
     <Compile Include="Template\DataTableTemplateBigTable.cs" />

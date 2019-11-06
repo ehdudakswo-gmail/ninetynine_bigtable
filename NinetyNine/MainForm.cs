@@ -108,7 +108,7 @@ namespace NinetyNine
                 }
                 catch (Exception exception)
                 {
-                    MessageBox.Show(exception.Message);
+                    MessageBox.Show(exception.ToString());
                 }
                 finally
                 {
@@ -131,7 +131,7 @@ namespace NinetyNine
                 }
                 catch (Exception exception)
                 {
-                    MessageBox.Show(exception.Message);
+                    MessageBox.Show(exception.ToString());
                 }
                 finally
                 {

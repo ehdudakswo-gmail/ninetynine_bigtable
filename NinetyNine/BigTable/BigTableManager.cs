@@ -87,27 +87,38 @@ namespace NinetyNine
         private void SetMappingTemplate()
         {
             DataTable bigTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.BigTable);
-            DataTable mappingStatementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Statement);
-            DataTable mappingWhatTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_WHAT);
+            DataTable workTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Work);
+            DataTable floorTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Floor);
+            DataTable whatTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_WHAT);
 
             BigTableDictionary mappingStatementBigTableDictionary = new BigTableDictionaryMappingStatement();
-            BigTableDictionary mappingWhatBigTableDictionary = new BigTableDictionaryMappingWhat();
+            BigTableDictionary floorBigTableDictionary = new BigTableDictionaryFloor();
+            BigTableDictionary whatBigTableDictionary = new BigTableDictionaryMappingWhat();
 
-            mappingStatementBigTableDictionary.SetTemplate(bigTable, mappingStatementTable);
-            mappingWhatBigTableDictionary.SetTemplate(bigTable, mappingWhatTable);
+            mappingStatementBigTableDictionary.SetTemplate(bigTable, workTable);
+            floorBigTableDictionary.SetTemplate(bigTable, floorTable);
+            whatBigTableDictionary.SetTemplate(bigTable, whatTable);
         }
 
         private void Mapping()
         {
             DataTable bigTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.BigTable);
-            DataTable mappingStatementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Statement);
             DataTable statementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Statement);
+            DataTable scheduleTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Schedule);
+            DataTable mappingStatementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Work);
+            DataTable workTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Work);
 
             BigTableDictionary mappingStatementBigTableDictionary = new BigTableDictionaryMappingStatement();
             BigTableDictionary statementBigTableDictionary = new BigTableDictionaryStatement();
+            BigTableDictionary workBigTableDictionary = new BigTableDictionaryWork();
+            BigTableDictionary floorBigTableDictionary = new BigTableDictionaryFloor();
+            BigTableDictionary scheduleBigTableDictionary = new BigTableDictionarySchedule();
 
             Dictionary<string, DataRow> mappingStatementDictionary = mappingStatementBigTableDictionary.Create(mappingStatementTable);
             Dictionary<string, DataRow> statementDictionary = statementBigTableDictionary.Create(statementTable);
+            Dictionary<string, DataRow> workDictionary = workBigTableDictionary.Create(workTable);
+            Dictionary<string, DataRow> floorDictionary = floorBigTableDictionary.Create(workTable);
+            Dictionary<string, DataRow> scheduleDictionary = scheduleBigTableDictionary.Create(scheduleTable);
 
             BigTableMapper statementMapper = new BigTableMapperStatement
             {
@@ -117,7 +128,17 @@ namespace NinetyNine
                 mappingStatementDictionary = mappingStatementDictionary,
                 statementDictionary = statementDictionary,
             };
+
+            BigTableMapper scheduleMapper = new BigTableMapperSchedule
+            {
+                bigTable = bigTable,
+                workDictionary = workDictionary,
+                floorDictionary = floorDictionary,
+                scheduleDictionary = scheduleDictionary,
+            };
+
             statementMapper.Mapping();
+            scheduleMapper.Mapping();
         }
     }
 }

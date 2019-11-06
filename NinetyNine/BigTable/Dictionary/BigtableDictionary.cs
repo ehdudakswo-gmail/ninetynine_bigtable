@@ -9,6 +9,9 @@ namespace NinetyNine.BigTable.Dictionary
 {
     abstract class BigTableDictionary
     {
+        protected readonly string ERROR_FORMAT = "ERROR_FORMAT";
+        protected readonly string ERROR_KEY_CONTAINS = "ERROR_KEY_CONTAINS";
+
         protected readonly string ERROR_VALUE_EMPTY = "값 없음";
         protected readonly string ERROR_KEY_CONTAIN = "값 중복";
         protected readonly string ERROR_NOT_NUMBER = "숫자 아님";
@@ -40,7 +43,9 @@ namespace NinetyNine.BigTable.Dictionary
 
         private SortedSet<string> GetSortedBigTableKeys(DataTable bigTable, BigTableTitle bigTableKeyColumn)
         {
-            SortedSet<string> sortedKeySet = new SortedSet<string>();
+            var comparer = new keyCompare();
+            SortedSet<string> sortedKeySet = new SortedSet<string>(comparer);
+
             var rows = bigTable.Rows;
             int rowCount = rows.Count;
             int colIdx = GetColumnIdx(bigTableKeyColumn);
@@ -49,7 +54,7 @@ namespace NinetyNine.BigTable.Dictionary
             {
                 if (rowIdx == 0)
                 {
-                    //template
+                    //bigTable template
                 }
                 else
                 {
@@ -59,6 +64,26 @@ namespace NinetyNine.BigTable.Dictionary
             }
 
             return sortedKeySet;
+        }
+
+        private class keyCompare : Comparer<string>
+        {
+            public override int Compare(string aStr, string bStr)
+            {
+                int aNum;
+                int bNum;
+                bool isANUM = int.TryParse(aStr, out aNum);
+                bool isBNUM = int.TryParse(bStr, out bNum);
+
+                if (isANUM && isBNUM)
+                {
+                    return aNum - bNum;
+                }
+                else
+                {
+                    return string.Compare(aStr, bStr);
+                }
+            }
         }
 
         internal static string GetKey(DataRow row, Enum[] keys)
@@ -73,6 +98,12 @@ namespace NinetyNine.BigTable.Dictionary
                 keyArr[i] = row[columnIdx].ToString();
             }
 
+            string key = GetKey(keyArr);
+            return key;
+        }
+
+        protected static string GetKey(string[] keyArr)
+        {
             string key = JsonConvert.SerializeObject(keyArr);
             return key;
         }
@@ -88,7 +119,7 @@ namespace NinetyNine.BigTable.Dictionary
 
                 int colIdx = GetColumnIdx(enumValue);
                 string cellValue = row[colIdx].ToString();
-                if (isEmpty(cellValue))
+                if (IsEmpty(cellValue))
                 {
                     return colIdx;
                 }
@@ -97,9 +128,20 @@ namespace NinetyNine.BigTable.Dictionary
             return -1;
         }
 
-        private bool isEmpty(string value)
+        protected bool IsEmpty(string str)
         {
-            return (value == null || value.Equals(""));
+            if (str == null)
+            {
+                return true;
+            }
+
+            string trim = str.Trim();
+            if (trim == "")
+            {
+                return true;
+            }
+
+            return false;
         }
 
         protected int GetColumnIdx(Enum value)

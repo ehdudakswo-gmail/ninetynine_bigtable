@@ -23,10 +23,13 @@ namespace NinetyNine
         [Description("빅테이블")]
         BigTable,
 
-        [Description("맵핑(내역서)")]
-        Mapping_Statement,
+        [Description("WORK")]
+        Mapping_Work,
 
-        [Description("맵핑(WHAT)")]
+        [Description("FLOOR")]
+        Mapping_Floor,
+
+        [Description("WHAT")]
         Mapping_WHAT
     }
 
@@ -81,8 +84,10 @@ namespace NinetyNine
                     return new DataTableTemplateOrganization();
                 case MainDataTable.BigTable:
                     return new DataTableTemplateBigTable();
-                case MainDataTable.Mapping_Statement:
+                case MainDataTable.Mapping_Work:
                     return new DataTableTemplateMappingStatement();
+                case MainDataTable.Mapping_Floor:
+                    return new DataTableTemplateMappingFloor();
                 case MainDataTable.Mapping_WHAT:
                     return new DataTableTemplateMappingWHAT();
                 default:

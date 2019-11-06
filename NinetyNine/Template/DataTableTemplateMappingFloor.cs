@@ -5,22 +5,16 @@ using System.Data;
 
 namespace NinetyNine.Template
 {
-    enum MappingStatementTitle
+    enum MappingFloorTitle
     {
-        [Description("산출서-규격")]
-        Form_Standard,
+        [Description("산출서-층")]
+        Form_Floor,
 
-        [Description("내역서-품명")]
-        Statement_Name,
-
-        [Description("내역서-규격")]
-        Statement_Standard,
-
-        [Description("공정표-Description")]
-        Schedule_Description,
+        [Description("공정표-구분")]
+        Schedule_Floor,
     }
 
-    internal class DataTableTemplateMappingStatement : DataTableTemplate
+    class DataTableTemplateMappingFloor : DataTableTemplate
     {
         internal override DataTable GetTemplateDataTable()
         {
@@ -37,7 +31,7 @@ namespace NinetyNine.Template
 
         private void SetRow0(DataRow row)
         {
-            Array values = Enum.GetValues(typeof(MappingStatementTitle));
+            Array values = Enum.GetValues(typeof(MappingFloorTitle));
             List<string> descriptions = EnumManager.GetAllDescriptions(values);
 
             for (int i = 0; i < descriptions.Count; i++)
