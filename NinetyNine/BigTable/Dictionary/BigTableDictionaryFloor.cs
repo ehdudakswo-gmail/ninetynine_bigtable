@@ -15,7 +15,7 @@ namespace NinetyNine.BigTable.Dictionary
         internal override void SetTemplate(DataTable bigTable, DataTable dictionaryTable)
         {
             RefreshTemplate(dictionaryTable, new DataTableTemplateMappingFloor());
-            SetKeyTemplate(bigTable, BigTableTitle.WHERE4, dictionaryTable, keys[0]);
+            SetKeyTemplate(bigTable, BigTableTitle.WHERE2, dictionaryTable, keys[0]);
         }
 
         internal override Dictionary<string, DataRow> Create(DataTable dataTable)

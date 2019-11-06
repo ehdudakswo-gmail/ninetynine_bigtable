@@ -10,25 +10,25 @@ namespace NinetyNine.Template
         [Description("프로젝트")]
         WHERE1,
 
-        [Description("동")]
+        [Description("층")]
         WHERE2,
 
-        [Description("타입")]
+        [Description("평형")]
         WHERE3,
 
-        [Description("층")]
+        [Description("실")]
         WHERE4,
 
-        [Description("구조체명")]
+        [Description("구조체")]
         WHAT1,
 
-        [Description("구조체구분명")]
+        [Description("구조체구분")]
         WHAT2,
 
-        [Description("부재명")]
+        [Description("부재")]
         WHAT3,
 
-        [Description("부재세부명")]
+        [Description("부재명")]
         WHAT4,
 
         [Description("대공종")]
@@ -43,7 +43,7 @@ namespace NinetyNine.Template
         [Description("작업")]
         HOW4,
 
-        [Description("작업규격")]
+        [Description("규격")]
         HOW5,
 
         [Description("년")]
@@ -52,23 +52,41 @@ namespace NinetyNine.Template
         [Description("분기")]
         WHEN2,
 
-        [Description("월(Month)")]
+        [Description("월")]
         WHEN3,
 
-        [Description("주(Week)")]
+        [Description("주")]
         WHEN4,
 
-        [Description("시작일(EST)")]
+        [Description("Plan EST")]
         WHEN5,
 
-        [Description("종료일(EFT)")]
+        [Description("Plan EFT")]
         WHEN6,
 
-        [Description("하도급")]
+        [Description("Actual EST")]
+        WHEN7,
+
+        [Description("Actual EFT")]
+        WHEN8,
+
+        [Description("도급")]
         WHO1,
 
-        [Description("하도급 세부")]
+        [Description("작업조")]
         WHO2,
+
+        [Description("관리회사")]
+        WHO3,
+
+        [Description("관리조직")]
+        WHO4,
+
+        [Description("관리자")]
+        WHO5,
+
+        [Description("비고구분")]
+        WHY1,
 
         [Description("단위")]
         ATTRIBUTE1,
@@ -82,7 +100,7 @@ namespace NinetyNine.Template
         [Description("경비단가")]
         ATTRIBUTE4,
 
-        [Description("단가")]
+        [Description("총단가")]
         ATTRIBUTE5,
 
         [Description("산출식")]

@@ -275,7 +275,6 @@ namespace NinetyNine.BigTable.Parser
                 ThrowException(formTable, GetErrorCells(rowIdx, colIdx), error);
             }
 
-            SetData(BigTableTitle.WHERE2, blockValue);
             SetData(BigTableTitle.WHAT3, what);
         }
 
@@ -287,7 +286,7 @@ namespace NinetyNine.BigTable.Parser
             string floorStr = row[floorColIdx].ToString();
             string markStr = row[markColIdx].ToString();
 
-            SetData(BigTableTitle.WHERE4, floorStr);
+            SetData(BigTableTitle.WHERE2, floorStr);
             SetData(BigTableTitle.WHAT4, markStr);
         }
 
