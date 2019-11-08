@@ -23,15 +23,13 @@ namespace NinetyNine
 
         private DataSet dataSet;
         private BigTableManagerState state = BigTableManagerState.None;
-        private BigTableParser parser;
 
-        internal Task<string> Refresh(DataSet dataSet, BigTableManagerState state, BigTableParser parser)
+        internal Task<string> Refresh(DataSet dataSet, BigTableManagerState state)
         {
             return Task.Run(() =>
             {
                 this.dataSet = dataSet;
                 this.state = state;
-                this.parser = parser;
 
                 HandleState();
                 return dataSet.ToString();
@@ -45,7 +43,7 @@ namespace NinetyNine
                 case BigTableManagerState.Parsing:
                     CheckDataSet();
                     Parsing();
-                    SetMappingTemplate();
+                    SetMappingKeys();
                     break;
                 case BigTableManagerState.Mapping:
                     Mapping();
@@ -77,68 +75,22 @@ namespace NinetyNine
         {
             DataTable bigTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.BigTable);
             DataTable formTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Form);
+            BigTableParser formParser = new BigTableParserForm();
 
             bigTable.Clear();
-            parser.SetTables(bigTable, formTable);
-            parser.SetBigTableTitles();
-            parser.Parse();
+            formParser.SetTables(bigTable, formTable);
+            formParser.SetBigTableTitles();
+            formParser.Parse();
         }
 
-        private void SetMappingTemplate()
+        private void SetMappingKeys()
         {
-            DataTable bigTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.BigTable);
-            DataTable workTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Work);
-            DataTable floorTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Floor);
-            DataTable whatTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_WHAT);
 
-            BigTableDictionary mappingStatementBigTableDictionary = new BigTableDictionaryMappingStatement();
-            BigTableDictionary floorBigTableDictionary = new BigTableDictionaryFloor();
-            BigTableDictionary whatBigTableDictionary = new BigTableDictionaryMappingWhat();
-
-            mappingStatementBigTableDictionary.SetTemplate(bigTable, workTable);
-            floorBigTableDictionary.SetTemplate(bigTable, floorTable);
-            whatBigTableDictionary.SetTemplate(bigTable, whatTable);
         }
 
         private void Mapping()
         {
-            DataTable bigTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.BigTable);
-            DataTable statementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Statement);
-            DataTable scheduleTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Schedule);
-            DataTable mappingStatementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Work);
-            DataTable workTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Mapping_Work);
 
-            BigTableDictionary mappingStatementBigTableDictionary = new BigTableDictionaryMappingStatement();
-            BigTableDictionary statementBigTableDictionary = new BigTableDictionaryStatement();
-            BigTableDictionary workBigTableDictionary = new BigTableDictionaryWork();
-            BigTableDictionary floorBigTableDictionary = new BigTableDictionaryFloor();
-            BigTableDictionary scheduleBigTableDictionary = new BigTableDictionarySchedule();
-
-            Dictionary<string, DataRow> mappingStatementDictionary = mappingStatementBigTableDictionary.Create(mappingStatementTable);
-            Dictionary<string, DataRow> statementDictionary = statementBigTableDictionary.Create(statementTable);
-            Dictionary<string, DataRow> workDictionary = workBigTableDictionary.Create(workTable);
-            Dictionary<string, DataRow> floorDictionary = floorBigTableDictionary.Create(workTable);
-            Dictionary<string, DataRow> scheduleDictionary = scheduleBigTableDictionary.Create(scheduleTable);
-
-            BigTableMapper statementMapper = new BigTableMapperStatement
-            {
-                bigTable = bigTable,
-                mappingStatementTable = mappingStatementTable,
-                statementTable = statementTable,
-                mappingStatementDictionary = mappingStatementDictionary,
-                statementDictionary = statementDictionary,
-            };
-
-            BigTableMapper scheduleMapper = new BigTableMapperSchedule
-            {
-                bigTable = bigTable,
-                workDictionary = workDictionary,
-                floorDictionary = floorDictionary,
-                scheduleDictionary = scheduleDictionary,
-            };
-
-            statementMapper.Mapping();
-            scheduleMapper.Mapping();
         }
     }
 }

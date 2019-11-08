@@ -23,14 +23,11 @@ namespace NinetyNine
         [Description("빅테이블")]
         BigTable,
 
-        [Description("WORK")]
-        Mapping_Work,
+        [Description("HOW5")]
+        HOW5,
 
-        [Description("FLOOR")]
-        Mapping_Floor,
-
-        [Description("WHAT")]
-        Mapping_WHAT
+        [Description("WHERE2")]
+        WHERE2,
     }
 
     class MainDataTableEnum
@@ -84,12 +81,10 @@ namespace NinetyNine
                     return new DataTableTemplateOrganization();
                 case MainDataTable.BigTable:
                     return new DataTableTemplateBigTable();
-                case MainDataTable.Mapping_Work:
-                    return new DataTableTemplateMappingStatement();
-                case MainDataTable.Mapping_Floor:
-                    return new DataTableTemplateMappingFloor();
-                case MainDataTable.Mapping_WHAT:
-                    return new DataTableTemplateMappingWHAT();
+                case MainDataTable.HOW5:
+                    return new DataTableTemplateBigTableHOW5();
+                case MainDataTable.WHERE2:
+                    return new DataTableTemplateBigTableWHERE2();
                 default:
                     throw new Exception("MainDataTableEnum GetDataTableTemplate Exception");
             }

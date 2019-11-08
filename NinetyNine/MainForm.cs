@@ -142,35 +142,21 @@ namespace NinetyNine
 
         private void BigTable_Parsing_ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem menuItem = sender as ToolStripMenuItem;
-            BigTableParser parser = GetBigTableParser(menuItem);
-            RefreshBigTable(BigTableManagerState.Parsing, parser);
-        }
-
-        private BigTableParser GetBigTableParser(ToolStripMenuItem menuItem)
-        {
-            if (menuItem == 평택도생주골조수량산출서20121109제출3차ToolStripMenuItem)
-            {
-                return new 평택도생주골조수량산출서20121109제출3차();
-            }
-            else
-            {
-                return null;
-            }
+            RefreshBigTable(BigTableManagerState.Parsing);
         }
 
         private void BigTable_Mapping_ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RefreshBigTable(BigTableManagerState.Mapping, null);
+            RefreshBigTable(BigTableManagerState.Mapping);
         }
 
-        private async void RefreshBigTable(BigTableManagerState state, BigTableParser parser)
+        private async void RefreshBigTable(BigTableManagerState state)
         {
             try
             {
                 SetWaitState();
                 DataSet dataSet = tabControlManager.GetDataSet();
-                await bigTableManager.Refresh(dataSet, state, parser);
+                await bigTableManager.Refresh(dataSet, state);
 
                 tabControl.SelectedTab = tabPage_BigTable;
                 string completeMessage = string.Format(BIGTABLE_COMPLETE_MESSAGE, state.ToString());
