@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 
@@ -32,31 +31,23 @@ namespace NinetyNine.Template
         Total,
     }
 
-
     internal class DataTableTemplateStatement : DataTableTemplate
     {
         internal override DataTable GetTemplateDataTable()
         {
-            string templateTableName = GetTemplateTableName();
-            DataTable templateTable = ExcelDataManager.GetBasicDataTable(templateTableName);
-            DataRowCollection rows = templateTable.Rows;
+            Init();
 
-            DataRow row0 = templateTable.NewRow();
+            DataRow row0 = dataTable.NewRow();
             SetRow0(row0);
             rows.Add(row0);
 
-            return templateTable;
+            return dataTable;
         }
 
         private void SetRow0(DataRow row)
         {
             Array values = Enum.GetValues(typeof(StatementTitle));
-            List<string> descriptions = EnumManager.GetAllDescriptions(values);
-
-            for (int i = 0; i < descriptions.Count; i++)
-            {
-                row[i] = descriptions[i];
-            }
+            SetTitleDescriptions(row, values);
         }
     }
 }

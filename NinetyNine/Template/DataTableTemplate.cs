@@ -1,4 +1,5 @@
-﻿using NinetyNine.BigTable;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace NinetyNine.Template
@@ -6,28 +7,51 @@ namespace NinetyNine.Template
     abstract class DataTableTemplate
     {
         protected ExcelDataManager ExcelDataManager = ExcelDataManager.GetInstance();
+        protected DataTable dataTable;
+        protected DataRowCollection rows;
 
         abstract internal DataTable GetTemplateDataTable();
 
-        internal void Refresh(DataTable dataTable)
+        protected void Init()
         {
-            dataTable.Clear();
-            DataTable templateTable = GetTemplateDataTable();
-            DataRowCollection dataRows = dataTable.Rows;
-            int columnCount = dataTable.Columns.Count;
+            string tableName = GetType().Name;
+            dataTable = ExcelDataManager.GetBasicDataTable(tableName);
+            rows = dataTable.Rows;
+        }
 
-            foreach (DataRow templateRow in templateTable.Rows)
+        protected void SetTitleDescriptions(DataRow row, Array values)
+        {
+            List<string> descriptions = EnumManager.GetAllDescriptions(values);
+
+            for (int i = 0; i < descriptions.Count; i++)
             {
-                DataRow newRow = dataTable.NewRow();
-                CopyValue(newRow, templateRow, columnCount);
-                dataRows.Add(newRow);
+                row[i] = descriptions[i];
             }
         }
 
-        protected string GetTemplateTableName()
+        protected void SetTitleTexts(DataRow row, Array values)
         {
-            string className = GetType().Name;
-            return className;
+            List<string> texts = EnumManager.GetTexts(values);
+
+            for (int i = 0; i < texts.Count; i++)
+            {
+                row[i] = texts[i];
+            }
+        }
+
+        internal void Refresh(DataTable targetTable)
+        {
+            targetTable.Clear();
+            DataTable templateTable = GetTemplateDataTable();
+            DataRowCollection dataRows = targetTable.Rows;
+            int columnCount = targetTable.Columns.Count;
+
+            foreach (DataRow templateRow in templateTable.Rows)
+            {
+                DataRow newRow = targetTable.NewRow();
+                CopyValue(newRow, templateRow, columnCount);
+                dataRows.Add(newRow);
+            }
         }
 
         private void CopyValue(DataRow dataRow, DataRow templateRow, int columnCount)

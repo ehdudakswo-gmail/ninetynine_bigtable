@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 
@@ -110,45 +109,38 @@ namespace NinetyNine.Template
         RESULT2,
 
         [Description("수량변환")]
-        RESULT2_1,
-
-        [Description("재료비")]
         RESULT3,
 
-        [Description("노무비")]
+        [Description("재료비")]
         RESULT4,
 
-        [Description("경비")]
+        [Description("노무비")]
         RESULT5,
 
-        [Description("총금액")]
+        [Description("경비")]
         RESULT6,
+
+        [Description("총금액")]
+        RESULT7,
     }
 
     internal class DataTableTemplateBigTable : DataTableTemplate
     {
         internal override DataTable GetTemplateDataTable()
         {
-            string templateTableName = GetTemplateTableName();
-            DataTable templateTable = ExcelDataManager.GetBasicDataTable(templateTableName);
-            DataRowCollection rows = templateTable.Rows;
+            Init();
 
-            DataRow row0 = templateTable.NewRow();
+            DataRow row0 = dataTable.NewRow();
             SetRow0(row0);
             rows.Add(row0);
 
-            return templateTable;
+            return dataTable;
         }
 
         private void SetRow0(DataRow row)
         {
             Array values = Enum.GetValues(typeof(BigTableTitle));
-            List<string> texts = EnumManager.GetTexts(values);
-
-            for (int i = 0; i < texts.Count; i++)
-            {
-                row[i] = texts[i];
-            }
+            SetTitleTexts(row, values);
         }
     }
 }

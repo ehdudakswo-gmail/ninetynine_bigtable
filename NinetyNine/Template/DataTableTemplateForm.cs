@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 
 namespace NinetyNine.Template
 {
@@ -8,15 +6,13 @@ namespace NinetyNine.Template
     {
         internal override DataTable GetTemplateDataTable()
         {
-            string templateTableName = GetTemplateTableName();
-            DataTable templateTable = ExcelDataManager.GetBasicDataTable(templateTableName);
-            DataRowCollection rows = templateTable.Rows;
+            Init();
 
-            DataRow row0 = templateTable.NewRow();
+            DataRow row0 = dataTable.NewRow();
             SetRow0(row0);
             rows.Add(row0);
 
-            return templateTable;
+            return dataTable;
         }
 
         private void SetRow0(DataRow row)

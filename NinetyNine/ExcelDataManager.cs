@@ -130,14 +130,9 @@ namespace NinetyNine
                 DataRow newRow = dataTable.NewRow();
                 for (int col = 1; col <= colCount; col++)
                 {
-                    var excelValue = worksheet.Cells[row, col].Value;
-                    if (excelValue == null)
-                    {
-                        continue;
-                    }
-
+                    var excelText = worksheet.Cells[row, col].Text;
                     int idx = col - 1;
-                    newRow[idx] = excelValue.ToString();
+                    newRow[idx] = excelText;
                 }
 
                 dataTable.Rows.Add(newRow);

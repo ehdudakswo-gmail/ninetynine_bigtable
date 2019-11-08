@@ -9,32 +9,24 @@ namespace NinetyNine
 {
     internal class BigTableDictionaryStatement : BigTableDictionary
     {
-        private Array enumValues = Enum.GetValues(typeof(StatementTitle));
-        private Enum[] keys = new Enum[]
-        {
-            StatementTitle.Name,
-            StatementTitle.Standard,
-        };
-
-        private HashSet<Enum> emptyCheckSkip = new HashSet<Enum>
-        {
-            StatementTitle.Standard,
-        };
-
-        internal override void SetTemplate(DataTable bigTable, DataTable dictionaryTable)
+        internal BigTableDictionaryStatement(DataTable dataTable, DataTableTemplate template) : base(dataTable, template)
         {
         }
 
-        internal override Dictionary<string, DataRow> Create(DataTable dataTable)
+        internal override void SetMappingKeys(SortedSet<string[]> sortedKeys)
         {
-            var rows = dataTable.Rows;
-            int rowCount = rows.Count;
+        }
 
-            for (int rowIdx = 0; rowIdx < rowCount; rowIdx++)
+        internal override Dictionary<string, DataRow> Create()
+        {
+            Array enumValues = Enum.GetValues(typeof(StatementTitle));
+            Enum[] keys = new Enum[] { StatementTitle.Name, StatementTitle.Standard, };
+            HashSet<Enum> emptyCheckSkip = new HashSet<Enum> { StatementTitle.Standard, };
+
+            for (int rowIdx = 0; rowIdx < rows.Count; rowIdx++)
             {
-                if (rowIdx == 0)
+                if (rowIdx < templateRowsCount)
                 {
-                    //template check
                 }
                 else
                 {

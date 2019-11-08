@@ -10,78 +10,50 @@ namespace NinetyNine.BigTable.Dictionary
     abstract class BigTableDictionary
     {
         protected readonly string ERROR_FORMAT = "ERROR_FORMAT";
-        protected readonly string ERROR_KEY_CONTAINS = "ERROR_KEY_CONTAINS";
+        protected readonly string ERROR_EMPTY = "ERROR_EMPTY";
+        protected readonly string ERROR_KEY_CONTAIN = "ERROR_KEY_CONTAIN";
+        protected readonly string ERROR_NOT_NUMBER = "ERROR_NOT_NUMBER";
 
         protected readonly string ERROR_VALUE_EMPTY = "값 없음";
-        protected readonly string ERROR_KEY_CONTAIN = "값 중복";
-        protected readonly string ERROR_NOT_NUMBER = "숫자 아님";
 
         protected Dictionary<string, DataRow> dictionary = new Dictionary<string, DataRow>();
         protected BigTableError bigTableError = BigTableError.GetInstance();
 
-        abstract internal void SetTemplate(DataTable bigTable, DataTable dictionaryTable);
-        abstract internal Dictionary<string, DataRow> Create(DataTable dataTable);
+        protected DataTable dataTable;
+        protected DataTableTemplate template;
+        protected DataRowCollection rows;
+        protected int templateRowsCount;
 
-        protected void RefreshTemplate(DataTable dataTable, DataTableTemplate template)
+        abstract internal void SetMappingKeys(SortedSet<string[]> sortedKeys);
+        abstract internal Dictionary<string, DataRow> Create();
+
+        internal BigTableDictionary(DataTable dataTable, DataTableTemplate template)
+        {
+            this.dataTable = dataTable;
+            this.template = template;
+
+            rows = dataTable.Rows;
+            templateRowsCount = template.GetTemplateDataTable().Rows.Count;
+        }
+
+        protected void RefreshTemplate()
         {
             template.Refresh(dataTable);
         }
 
-        protected void SetKeyTemplate(DataTable bigTable, BigTableTitle bigTableKeyColumn, DataTable dictionaryTable, Enum dictionaryKeyColumn)
+        protected void SetMappingKeys(SortedSet<string[]> sortedKeys, Enum[] keys)
         {
-            var dictionaryRows = dictionaryTable.Rows;
-            int dictionaryColIdx = GetColumnIdx(dictionaryKeyColumn);
-
-            SortedSet<string> sortedBigTableKeys = GetSortedBigTableKeys(bigTable, bigTableKeyColumn);
-            foreach (string bigTableKey in sortedBigTableKeys)
+            foreach (string[] sortedKey in sortedKeys)
             {
-                DataRow newRow = dictionaryTable.NewRow();
-                dictionaryRows.Add(newRow);
-                newRow[dictionaryColIdx] = bigTableKey;
-            }
-        }
+                DataRow row = dataTable.NewRow();
+                dataTable.Rows.Add(row);
 
-        private SortedSet<string> GetSortedBigTableKeys(DataTable bigTable, BigTableTitle bigTableKeyColumn)
-        {
-            var comparer = new keyCompare();
-            SortedSet<string> sortedKeySet = new SortedSet<string>(comparer);
-
-            var rows = bigTable.Rows;
-            int rowCount = rows.Count;
-            int colIdx = GetColumnIdx(bigTableKeyColumn);
-
-            for (int rowIdx = 0; rowIdx < rowCount; rowIdx++)
-            {
-                if (rowIdx == 0)
+                int keyLen = keys.Length;
+                for (int i = 0; i < keyLen; i++)
                 {
-                    //bigTable template
-                }
-                else
-                {
-                    string key = rows[rowIdx][colIdx].ToString();
-                    sortedKeySet.Add(key);
-                }
-            }
-
-            return sortedKeySet;
-        }
-
-        private class keyCompare : Comparer<string>
-        {
-            public override int Compare(string aStr, string bStr)
-            {
-                int aNum;
-                int bNum;
-                bool isANUM = int.TryParse(aStr, out aNum);
-                bool isBNUM = int.TryParse(bStr, out bNum);
-
-                if (isANUM && isBNUM)
-                {
-                    return aNum - bNum;
-                }
-                else
-                {
-                    return string.Compare(aStr, bStr);
+                    string keyStr = sortedKey[i];
+                    int keyColIdx = GetColumnIdx(keys[i]);
+                    row[keyColIdx] = keyStr;
                 }
             }
         }

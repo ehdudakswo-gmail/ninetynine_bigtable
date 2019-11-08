@@ -28,20 +28,6 @@ namespace NinetyNine.BigTable.Parser
             this.formTable = formTable;
         }
 
-        internal void SetBigTableTitles()
-        {
-            Array values = Enum.GetValues(typeof(BigTableTitle));
-            List<string> texts = EnumManager.GetTexts(values);
-
-            DataRow row = bigTable.NewRow();
-            bigTable.Rows.Add(row);
-
-            for (int i = 0; i < texts.Count; i++)
-            {
-                row[i] = texts[i];
-            }
-        }
-
         protected bool IsStartWith(DataRow row, Enum column, string TARGET)
         {
             int colIdx = GetColumnIdx(column);
