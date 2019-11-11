@@ -7,18 +7,16 @@ namespace NinetyNine.BigTable.Parser
 {
     abstract class BigTableParser
     {
-        protected readonly string ERROR_NONE = "{0} 없음";
-        protected readonly string ERROR_VALUE_NONE = "{0} 값 없음";
-        protected readonly string ERROR_NUMBER_CHECK = "{0} 유효 숫자 아님";
-        protected readonly string ERROR_DATATYPE_UNKNOWN = "ERROR_DATATYPE_UNKNOWN";
-        protected readonly string ERROR_DATATYPE_DEFAULT = "ERROR_DATATYPE_DEFAULT";
+        protected readonly string ERROR_ROW = "ERROR_ROW";
+        protected readonly string ERROR_SWITCH_DEFAULT = "ERROR_SWITCH_DEFAULT";
 
         protected DataTable bigTable;
         protected DataTable formTable;
+        protected DataRowCollection rows;
+        protected int rowIdx = 0;
 
         protected BigTableData bigTableData = new BigTableData();
         protected BigTableError bigTableError = BigTableError.GetInstance();
-        protected bool IsAddDataRow = false;
 
         abstract internal void Parse();
 
@@ -26,24 +24,16 @@ namespace NinetyNine.BigTable.Parser
         {
             this.bigTable = bigTable;
             this.formTable = formTable;
+            rows = formTable.Rows;
         }
 
-        protected bool IsStartWith(DataRow row, Enum column, string TARGET)
+        protected int GetColumnIdx(Enum value)
         {
-            int colIdx = GetColumnIdx(column);
-            string rowStr = row[colIdx].ToString();
-            string rowStrTrim = Trim(rowStr);
-            bool isStartWith = rowStrTrim.StartsWith(TARGET);
-
-            return isStartWith;
+            int idx = EnumManager.GetIndex(value);
+            return idx;
         }
 
-        protected string Trim(string str)
-        {
-            return str.Replace(" ", "").Trim();
-        }
-
-        protected string[] Separate(string str, int idx)
+        protected string[] Split(string str, int idx)
         {
             string[] ret = new string[2];
 
@@ -69,6 +59,11 @@ namespace NinetyNine.BigTable.Parser
             return false;
         }
 
+        protected string Trim(string str)
+        {
+            return str.Replace(" ", "").Trim();
+        }
+
         protected string Remove(string str, string[] removes)
         {
             foreach (string remove in removes)
@@ -80,113 +75,6 @@ namespace NinetyNine.BigTable.Parser
             return strTrim;
         }
 
-        protected int GetColumnIdx(Enum value)
-        {
-            int idx = EnumManager.GetIndex(value);
-            return idx;
-        }
-
-        protected Enum[] GetValidColumns(DataRow row, Array values)
-        {
-            List<Enum> columnList = new List<Enum>();
-
-            foreach (Enum enumValue in values)
-            {
-                int colIdx = GetColumnIdx(enumValue);
-                string rowString = row[colIdx].ToString();
-                string rowStringTrim = Trim(rowString);
-
-                if (IsEmpty(rowStringTrim))
-                {
-                    continue;
-                }
-
-                columnList.Add(enumValue);
-            }
-
-            Enum[] columns = new Enum[columnList.Count];
-            for (int i = 0; i < columns.Length; i++)
-            {
-                columns[i] = columnList[i];
-            }
-
-            return columns;
-        }
-
-        protected bool IsSame(Enum[] a, Enum[] b)
-        {
-            int aLen = a.Length;
-            int bLen = b.Length;
-
-            if (aLen != bLen)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < aLen; i++)
-            {
-                if (a[i].Equals(b[i]) == false)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        protected bool IsContain(Enum[] a, Enum[] b)
-        {
-            int aLen = a.Length;
-            int bLen = b.Length;
-
-            if (aLen < bLen)
-            {
-                return false;
-            }
-
-            Enum[] cutA = Cut(a, bLen);
-            bool isSame = IsSame(cutA, b);
-
-            return isSame;
-        }
-
-        private Enum[] Cut(Enum[] arr, int shortLen)
-        {
-            Enum[] cut = new Enum[shortLen];
-            for (int i = 0; i < cut.Length; i++)
-            {
-                cut[i] = arr[i];
-            }
-
-            return cut;
-        }
-
-        protected bool IsMatched(Array values, DataRow row)
-        {
-            foreach (Enum value in values)
-            {
-                int colIdx = GetColumnIdx(value);
-                string rowStr = row[colIdx].ToString();
-                string rowStrTrim = Trim(rowStr);
-                string description = EnumManager.GetDescription(value);
-
-                if (rowStrTrim != description)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        protected bool IsNumber(string str)
-        {
-            double num;
-            bool isNumber = double.TryParse(str, out num);
-
-            return isNumber;
-        }
-
         protected void SetData(BigTableTitle bigTableValue, string str)
         {
             bigTableData.Set(bigTableValue, str);
@@ -194,11 +82,6 @@ namespace NinetyNine.BigTable.Parser
 
         protected void AddDataRow()
         {
-            if (IsAddDataRow == false)
-            {
-                return;
-            }
-
             string[] values = bigTableData.GetValues();
             DataRow row = bigTable.NewRow();
 
@@ -210,33 +93,18 @@ namespace NinetyNine.BigTable.Parser
             bigTable.Rows.Add(row);
         }
 
-        protected void ThrowException(DataTable dataTable, BigTableErrorCell[] cells, string error)
+        protected void ThrowException(DataTable dataTable, int rowIdx, Array titles, string error)
         {
             BigTableErrorData errrorData = new BigTableErrorData
             {
                 dataTable = dataTable,
-                cells = cells,
+                cells = GetErrorCells(rowIdx, titles),
                 error = error,
             };
 
             bigTableError.ThrowException(errrorData);
         }
-
-        protected BigTableErrorCell[] GetErrorCells(int rowIdx, int colIdx)
-        {
-            BigTableErrorCell[] cells = new BigTableErrorCell[]
-            {
-                new BigTableErrorCell
-                {
-                    rowIdx = rowIdx,
-                    colIdx = colIdx,
-                },
-            };
-
-            return cells;
-        }
-
-        protected BigTableErrorCell[] GetErrorCells(int rowIdx, Array values)
+        private BigTableErrorCell[] GetErrorCells(int rowIdx, Array values)
         {
             Enum[] enums = EnumManager.GetEnums(values);
             BigTableErrorCell[] cells = GetErrorCells(rowIdx, enums);
@@ -244,7 +112,7 @@ namespace NinetyNine.BigTable.Parser
             return cells;
         }
 
-        protected BigTableErrorCell[] GetErrorCells(int rowIdx, Enum[] enums)
+        private BigTableErrorCell[] GetErrorCells(int rowIdx, Enum[] enums)
         {
             int len = enums.Length;
             BigTableErrorCell[] cells = new BigTableErrorCell[len];

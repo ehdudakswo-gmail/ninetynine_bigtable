@@ -215,7 +215,7 @@ namespace NinetyNine
             };
 
             statementMapper.Mapping();
-            scheduleMapper.Mapping();
+            //scheduleMapper.Mapping();
             whatMapper.Mapping();
             howMapper.Mapping();
         }

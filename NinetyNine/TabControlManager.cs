@@ -58,7 +58,7 @@ namespace NinetyNine
         internal void SelectedIndexChanged()
         {
             selectedTabIdx = tabControl.SelectedIndex;
-            RefreshFirstDisplayed();
+            //RefreshFirstDisplayed();
             RefreshRowHeaderValue();
             Resize();
         }

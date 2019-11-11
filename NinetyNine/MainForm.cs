@@ -10,7 +10,7 @@ namespace NinetyNine
 {
     public partial class MainForm : Form
     {
-        private readonly string FORM_TITLE = "NinetyNine ({0})";
+        private readonly string FORM_TITLE = "평택-마감(조적+미장+타일+방수) [{0}]";
         private readonly string DESKTOP_PATH = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         private readonly string FILE_OPEN_COMPLETE_MESSAGE = "열기 완료";
         private readonly string FILE_SAVE_COMPLETE_MESSAGE = "저장 완료";

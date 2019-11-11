@@ -13,13 +13,13 @@ namespace NinetyNine.BigTable
                 string x1 = x[1];
                 string y1 = y[1];
 
-                if (x1 != y1)
+                if (x0 != y0)
                 {
-                    return x1.CompareTo(y1);
+                    return x0.CompareTo(y0);
                 }
                 else
                 {
-                    return x0.CompareTo(y0);
+                    return x1.CompareTo(y1);
                 }
             }
         }
