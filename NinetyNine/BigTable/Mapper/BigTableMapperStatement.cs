@@ -51,7 +51,7 @@ namespace NinetyNine.BigTable.Mapper
                     Mapping(bigTableRow, BigTableTitle.ATTRIBUTE4, statementRow, StatementTitle.Expenses);
                     Mapping(bigTableRow, BigTableTitle.ATTRIBUTE5, statementRow, StatementTitle.Total);
 
-                    ConvertQuantity(bigTableRow);
+                    MappingConversionQuantity(bigTableRow, workRow);
                     MappingResult(bigTableRow, BigTableTitle.RESULT4, BigTableTitle.ATTRIBUTE2);
                     MappingResult(bigTableRow, BigTableTitle.RESULT5, BigTableTitle.ATTRIBUTE3);
                     MappingResult(bigTableRow, BigTableTitle.RESULT6, BigTableTitle.ATTRIBUTE4);
@@ -60,30 +60,34 @@ namespace NinetyNine.BigTable.Mapper
             }
         }
 
-        private void ConvertQuantity(DataRow bigTableRow)
+        private void MappingConversionQuantity(DataRow bigTableRow, DataRow workRow)
         {
-            int result2Idx = GetColumnIdx(BigTableTitle.RESULT2);
-            int result3Idx = GetColumnIdx(BigTableTitle.RESULT3);
-            bigTableRow[result3Idx] = bigTableRow[result2Idx];
+            double quantity = GetNum(bigTableRow, BigTableTitle.RESULT2);
+            double conversion = GetNum(workRow, WorkTitle.ConversionQuantity);
+            double result = (quantity / conversion);
+
+            int resultIdx = GetColumnIdx(BigTableTitle.RESULT3);
+            bigTableRow[resultIdx] = result;
         }
 
-        private void MappingResult(DataRow bigTableRow, BigTableTitle result, BigTableTitle attribute)
+        private void MappingResult(DataRow bigTableRow, BigTableTitle resultTitle, BigTableTitle attributeTitle)
         {
-            int conversionIdx = GetColumnIdx(BigTableTitle.RESULT3);
-            int resultIdx = GetColumnIdx(result);
-            int attributeIdx = GetColumnIdx(attribute);
+            double conversion = GetNum(bigTableRow, BigTableTitle.RESULT3);
+            double attribute = GetNum(bigTableRow, attributeTitle);
+            double result = (conversion * attribute);
 
-            string conversionStr = bigTableRow[conversionIdx].ToString();
-            string attributeStr = bigTableRow[attributeIdx].ToString();
+            int resultIdx = GetColumnIdx(resultTitle);
+            bigTableRow[resultIdx] = result;
+        }
 
-            double conversionNum;
-            double attributeNum;
+        private double GetNum(DataRow row, Enum title)
+        {
+            int colIdx = GetColumnIdx(title);
+            string str = row[colIdx].ToString();
+            double num;
 
-            double.TryParse(conversionStr, out conversionNum);
-            double.TryParse(attributeStr, out attributeNum);
-
-            double resultNum = conversionNum * attributeNum;
-            bigTableRow[resultIdx] = resultNum.ToString();
+            double.TryParse(str, out num);
+            return num;
         }
     }
 }

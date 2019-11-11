@@ -108,7 +108,7 @@ namespace NinetyNine.Template
         [Description("수량")]
         RESULT2,
 
-        [Description("수량변환")]
+        [Description("변환수량")]
         RESULT3,
 
         [Description("재료비")]

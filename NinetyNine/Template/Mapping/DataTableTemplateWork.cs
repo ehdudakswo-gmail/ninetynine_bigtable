@@ -12,6 +12,9 @@ namespace NinetyNine.Template.Mapping
         [Description("빅테이블: 규격")]
         BigTable_WorkStandard,
 
+        [Description("변환수량(나누기)")]
+        ConversionQuantity,
+
         [Description("내역서: 품명")]
         Statement_Name,
 
