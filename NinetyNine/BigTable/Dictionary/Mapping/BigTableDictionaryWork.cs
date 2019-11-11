@@ -8,7 +8,7 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
 {
     class BigTableDictionaryWork : BigTableDictionary
     {
-        private Enum[] keys = new Enum[] { BigTableWorkTitle.BigTable_WorkName, BigTableWorkTitle.BigTable_WorkStandard, };
+        private Enum[] keys = new Enum[] { WorkTitle.BigTable_WorkName, WorkTitle.BigTable_WorkStandard, };
 
         internal BigTableDictionaryWork(DataTable dataTable, DataTableTemplate template) : base(dataTable, template)
         {

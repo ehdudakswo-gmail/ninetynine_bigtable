@@ -4,7 +4,7 @@ using System.Data;
 
 namespace NinetyNine.Template.Mapping
 {
-    enum BigTableFloorTitle
+    enum FloorTitle
     {
         [Description("빅테이블: 층")]
         BigTable_Floor,
@@ -28,7 +28,7 @@ namespace NinetyNine.Template.Mapping
 
         private void SetRow0(DataRow row)
         {
-            Array values = Enum.GetValues(typeof(BigTableFloorTitle));
+            Array values = Enum.GetValues(typeof(FloorTitle));
             SetTitleDescriptions(row, values);
         }
     }

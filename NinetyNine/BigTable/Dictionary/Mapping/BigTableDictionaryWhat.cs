@@ -8,7 +8,7 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
 {
     class BigTableDictionaryWhat : BigTableDictionary
     {
-        private Enum[] keys = new Enum[] { BigTableWhatTitle.BigTable_Floor };
+        private Enum[] keys = new Enum[] { WhatTitle.BigTable_Floor };
 
         internal BigTableDictionaryWhat(DataTable dataTable, DataTableTemplate template) : base(dataTable, template)
         {

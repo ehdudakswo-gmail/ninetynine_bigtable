@@ -48,8 +48,8 @@ namespace NinetyNine.BigTable.Mapper
                     DataRow floorRow = floorDictionary[floorKey];
                     DataRow workRow = workDictionary[workKey];
 
-                    string floorRowStr = GetString(floorRow, BigTableFloorTitle.Schedule_Floor);
-                    string workRowStr = GetString(workRow, BigTableWorkTitle.Schedule_Description);
+                    string floorRowStr = GetString(floorRow, FloorTitle.Schedule_Floor);
+                    string workRowStr = GetString(workRow, WorkTitle.Schedule_Description);
                     string schedulekey = GetKey(new string[] { floorRowStr, workRowStr });
 
                     if (scheduleDictionary.ContainsKey(schedulekey) == false)

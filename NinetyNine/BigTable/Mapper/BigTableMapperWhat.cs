@@ -37,8 +37,8 @@ namespace NinetyNine.BigTable.Mapper
                     }
 
                     DataRow whatRow = whatDictionary[whatKey];
-                    Mapping(bigTableRow, BigTableTitle.WHAT1, whatRow, BigTableWhatTitle.BigTable_Structure);
-                    Mapping(bigTableRow, BigTableTitle.WHAT2, whatRow, BigTableWhatTitle.BigTable_StructureSeparation);
+                    Mapping(bigTableRow, BigTableTitle.WHAT1, whatRow, WhatTitle.BigTable_Structure);
+                    Mapping(bigTableRow, BigTableTitle.WHAT2, whatRow, WhatTitle.BigTable_StructureSeparation);
                 }
             }
         }
