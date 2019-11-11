@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BigTable\BigTableMappingKeyComparer.cs" />
+    <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryHow.cs" />
     <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryWhat.cs" />
     <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryWork.cs" />
     <Compile Include="BigTable\Dictionary\BigTableDictionarySchedule.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="BigTable\Dictionary\BigTableDictionary.cs" />
     <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryFloor.cs" />
     <Compile Include="BigTable\Mapper\BigTableMapper.cs" />
+    <Compile Include="BigTable\Mapper\BigTableMapperHow.cs" />
     <Compile Include="BigTable\Mapper\BigTableMapperSchedule.cs" />
     <Compile Include="BigTable\Mapper\BigTableMapperStatement.cs" />
     <Compile Include="BigTable\Mapper\BigTableMapperWhat.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="DataGridViewManager.cs" />
     <Compile Include="ExceptionDataParamEnum.cs" />
     <Compile Include="Template\Mapping\DataTableTemplateFloor.cs" />
+    <Compile Include="Template\Mapping\DataTableTemplateHow.cs" />
     <Compile Include="Template\Mapping\DataTableTemplateWhat.cs" />
     <Compile Include="Template\Mapping\DataTableTemplateWork.cs" />
     <Compile Include="Template\DataTableTemplate.cs" />

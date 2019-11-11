@@ -32,6 +32,9 @@ namespace NinetyNine
 
         [Description("What")]
         What,
+
+        [Description("How")]
+        How,
     }
 
     class MainDataTableEnum
@@ -91,6 +94,8 @@ namespace NinetyNine
                     return new DataTableTemplateFloor();
                 case MainDataTable.What:
                     return new DataTableTemplateWhat();
+                case MainDataTable.How:
+                    return new DataTableTemplateHow();
                 default:
                     throw new Exception("MainDataTableEnum GetDataTableTemplate Exception");
             }

@@ -47,5 +47,16 @@ namespace NinetyNine.BigTable
                 }
             }
         }
+
+        internal class HowComparer : IComparer<string[]>
+        {
+            public int Compare(string[] x, string[] y)
+            {
+                string x0 = x[0];
+                string y0 = y[0];
+
+                return x0.CompareTo(y0);
+            }
+        }
     }
 }

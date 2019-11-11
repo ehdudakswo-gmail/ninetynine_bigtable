@@ -36,12 +36,14 @@ namespace NinetyNine
         private DataTable workTable;
         private DataTable floorTable;
         private DataTable whatTable;
+        private DataTable howTable;
 
         private BigTableDictionary statementBigTableDictionary;
         private BigTableDictionary scheduleBigTableDictionary;
         private BigTableDictionary workBigTableDictionary;
         private BigTableDictionary floorBigTableDictionary;
         private BigTableDictionary whatBigTableDictionary;
+        private BigTableDictionary howBigTableDictionary;
 
         internal Task<string> Refresh(DataSet dataSet, BigTableManagerState state)
         {
@@ -67,6 +69,7 @@ namespace NinetyNine
             workTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Work);
             floorTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Floor);
             whatTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.What);
+            howTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.How);
         }
 
         private void SetDictionary()
@@ -76,6 +79,7 @@ namespace NinetyNine
             workBigTableDictionary = new BigTableDictionaryWork(workTable, new DataTableTemplateWork());
             floorBigTableDictionary = new BigTableDictionaryFloor(floorTable, new DataTableTemplateFloor());
             whatBigTableDictionary = new BigTableDictionaryWhat(whatTable, new DataTableTemplateWhat());
+            howBigTableDictionary = new BigTableDictionaryHow(howTable, new DataTableTemplateHow());
         }
 
         private void HandleState()
@@ -138,10 +142,12 @@ namespace NinetyNine
             IComparer<string[]> workComparer = new BigTableMappingKeyComparer.WorkComparer();
             IComparer<string[]> floorComparer = new BigTableMappingKeyComparer.FloorComparer();
             IComparer<string[]> whatComparer = floorComparer;
+            IComparer<string[]> howComparer = new BigTableMappingKeyComparer.HowComparer();
 
             SortedSet<string[]> workSortedKeys = new SortedSet<string[]>(workComparer);
             SortedSet<string[]> floorSortedKeys = new SortedSet<string[]>(floorComparer);
             SortedSet<string[]> whatSortedKeys = new SortedSet<string[]>(whatComparer);
+            SortedSet<string[]> howSortedKeys = new SortedSet<string[]>(howComparer);
 
             for (int rowIdx = 0; rowIdx < bigTableRowsCount; rowIdx++)
             {
@@ -158,12 +164,14 @@ namespace NinetyNine
                     workSortedKeys.Add(new string[] { workName, workStandard });
                     floorSortedKeys.Add(new string[] { floor });
                     whatSortedKeys.Add(new string[] { floor });
+                    howSortedKeys.Add(new string[] { workName });
                 }
             }
 
             workBigTableDictionary.SetMappingKeys(workSortedKeys);
             floorBigTableDictionary.SetMappingKeys(floorSortedKeys);
             whatBigTableDictionary.SetMappingKeys(whatSortedKeys);
+            howBigTableDictionary.SetMappingKeys(howSortedKeys);
         }
 
         private string GetString(DataRow row, Enum title)
@@ -181,6 +189,7 @@ namespace NinetyNine
             Dictionary<string, DataRow> workDictionary = workBigTableDictionary.Create();
             Dictionary<string, DataRow> floorDictionary = floorBigTableDictionary.Create();
             Dictionary<string, DataRow> whatDictionary = whatBigTableDictionary.Create();
+            Dictionary<string, DataRow> howDictionary = howBigTableDictionary.Create();
 
             BigTableMapper statementMapper = new BigTableMapperStatement
             {
@@ -200,10 +209,16 @@ namespace NinetyNine
                 bigTable = bigTable,
                 whatDictionary = whatDictionary,
             };
+            BigTableMapper howMapper = new BigTableMapperHow
+            {
+                bigTable = bigTable,
+                howDictionary = howDictionary,
+            };
 
             statementMapper.Mapping();
             scheduleMapper.Mapping();
             whatMapper.Mapping();
+            howMapper.Mapping();
         }
     }
 }
