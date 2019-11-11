@@ -29,6 +29,9 @@ namespace NinetyNine.Template
 
         [Description("계")]
         Total,
+
+        [Description("비고")]
+        Note,
     }
 
     internal class DataTableTemplateStatement : DataTableTemplate

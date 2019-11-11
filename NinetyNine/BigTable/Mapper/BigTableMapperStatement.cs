@@ -50,6 +50,7 @@ namespace NinetyNine.BigTable.Mapper
                     Mapping(bigTableRow, BigTableTitle.ATTRIBUTE3, statementRow, StatementTitle.LaborCost);
                     Mapping(bigTableRow, BigTableTitle.ATTRIBUTE4, statementRow, StatementTitle.Expenses);
                     Mapping(bigTableRow, BigTableTitle.ATTRIBUTE5, statementRow, StatementTitle.Total);
+                    Mapping(bigTableRow, BigTableTitle.WHY1, statementRow, StatementTitle.Note);
 
                     MappingConversionQuantity(bigTableRow, workRow);
                     MappingResult(bigTableRow, BigTableTitle.RESULT4, BigTableTitle.ATTRIBUTE2);
