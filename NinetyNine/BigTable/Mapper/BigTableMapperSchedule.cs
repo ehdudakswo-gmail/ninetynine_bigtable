@@ -4,6 +4,7 @@ using NinetyNine.Template.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 
 namespace NinetyNine.BigTable.Mapper
 {
@@ -58,12 +59,87 @@ namespace NinetyNine.BigTable.Mapper
                     }
 
                     DataRow scheduleRow = scheduleDictionary[schedulekey];
+                    DateTime dateTime = GetDateTime(scheduleRow, ScheduleTitle.Actual_Start);
+
+                    Mapping(bigTableRow, BigTableTitle.WHEN1, GetYear(dateTime));
+                    Mapping(bigTableRow, BigTableTitle.WHEN2, GetQuarter(dateTime));
+                    Mapping(bigTableRow, BigTableTitle.WHEN3, GetMonth(dateTime));
+                    Mapping(bigTableRow, BigTableTitle.WHEN4, GetWeekOfMonth(dateTime, null));
                     Mapping(bigTableRow, BigTableTitle.WHEN5, scheduleRow, ScheduleTitle.Plan_Start);
                     Mapping(bigTableRow, BigTableTitle.WHEN6, scheduleRow, ScheduleTitle.Plan_Finish);
                     Mapping(bigTableRow, BigTableTitle.WHEN7, scheduleRow, ScheduleTitle.Actual_Start);
                     Mapping(bigTableRow, BigTableTitle.WHEN8, scheduleRow, ScheduleTitle.Actual_Finish);
                 }
             }
+        }
+
+        private void Mapping(DataRow row, Enum title, string str)
+        {
+            int colIdx = GetColumnIdx(title);
+            row[colIdx] = str;
+        }
+
+        private DateTime GetDateTime(DataRow scheduleRow, ScheduleTitle title)
+        {
+            int colIdx = GetColumnIdx(title);
+            string dateStr = scheduleRow[colIdx].ToString();
+            DateTime dateTime = DateTime.Parse(dateStr);
+
+            return dateTime;
+        }
+
+        private string GetYear(DateTime dateTime)
+        {
+            string year = dateTime.ToString("yyyy");
+
+            return year;
+        }
+
+        private string GetQuarter(DateTime dateTime)
+        {
+            string monthStr = dateTime.ToString("MM");
+            int monthNum;
+            int.TryParse(monthStr, out monthNum);
+
+            int quarterNum = ((monthNum - 1) / 3) + 1;
+            string quarterStr = quarterNum.ToString();
+
+            return quarterStr;
+        }
+
+        private string GetMonth(DateTime dateTime)
+        {
+            string month = dateTime.ToString("MM");
+
+            return month;
+        }
+
+        private string GetWeekOfMonth(DateTime sourceDate, CultureInfo cultureInfo)
+        {
+            if (cultureInfo == null)
+            {
+                cultureInfo = CultureInfo.CurrentCulture;
+            }
+
+            DateTime firstDayOfMonth = DateTime.Parse(sourceDate.ToString("yyyy-MM-01"));
+            int firstWeekOfMonth = GetWeekOfYear(firstDayOfMonth, cultureInfo);
+            int sourceWeekOfMonth = GetWeekOfYear(sourceDate, cultureInfo);
+            int result = (sourceWeekOfMonth - firstWeekOfMonth) + 1;
+
+            return result.ToString();
+        }
+
+        private int GetWeekOfYear(DateTime sourceDate, CultureInfo cultureInfo)
+        {
+            if (cultureInfo == null)
+            {
+                cultureInfo = CultureInfo.CurrentCulture;
+            }
+
+            CalendarWeekRule calendarWeekRule = cultureInfo.DateTimeFormat.CalendarWeekRule;
+            DayOfWeek firstDayOfWeek = cultureInfo.DateTimeFormat.FirstDayOfWeek;
+
+            return cultureInfo.Calendar.GetWeekOfYear(sourceDate, calendarWeekRule, firstDayOfWeek);
         }
     }
 }
