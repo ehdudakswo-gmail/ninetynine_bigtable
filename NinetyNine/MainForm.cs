@@ -3,13 +3,14 @@ using NinetyNine.BigTable.Parser;
 using NinetyNine.Template;
 using System;
 using System.Data;
+using System.IO;
 using System.Windows.Forms;
 
 namespace NinetyNine
 {
     public partial class MainForm : Form
     {
-        private readonly string FORM_TITLE = "NinetyNine";
+        private readonly string FORM_TITLE = "NinetyNine ({0})";
         private readonly string DESKTOP_PATH = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         private readonly string FILE_OPEN_COMPLETE_MESSAGE = "열기 완료";
         private readonly string FILE_SAVE_COMPLETE_MESSAGE = "저장 완료";
@@ -47,8 +48,14 @@ namespace NinetyNine
 
         private void SetForm()
         {
-            Text = FORM_TITLE;
+            SetFormTitle("");
             WindowState = FormWindowState.Maximized;
+        }
+
+        private void SetFormTitle(string fileName)
+        {
+            string title = string.Format(FORM_TITLE, fileName);
+            Text = title;
         }
 
         private void SetTabControl()
@@ -103,9 +110,12 @@ namespace NinetyNine
                     SetWaitState();
                     string fileName = openFileDialog.FileName;
                     DataSet dataSet = await excelEPPlusManager.GetDataSet(fileName);
+
                     tabControlManager.Check(dataSet);
                     tabControlManager.Refresh(dataSet);
                     tabControl.SelectedIndex = 0;
+
+                    SetFormTitle(Path.GetFileName(fileName));
                     MessageBox.Show(FILE_OPEN_COMPLETE_MESSAGE);
                 }
                 catch (Exception exception)
