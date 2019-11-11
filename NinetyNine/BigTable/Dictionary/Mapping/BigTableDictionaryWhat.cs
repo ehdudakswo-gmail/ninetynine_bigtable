@@ -6,11 +6,11 @@ using System.Data;
 
 namespace NinetyNine.BigTable.Dictionary.Mapping
 {
-    class BigTableDictionaryWork : BigTableDictionary
+    class BigTableDictionaryWhat : BigTableDictionary
     {
-        private Enum[] keys = new Enum[] { BigTableWorkTitle.BigTable_WorkName, BigTableWorkTitle.BigTable_WorkStandard, };
+        private Enum[] keys = new Enum[] { BigTableWhatTitle.BigTable_Floor };
 
-        internal BigTableDictionaryWork(DataTable dataTable, DataTableTemplate template) : base(dataTable, template)
+        internal BigTableDictionaryWhat(DataTable dataTable, DataTableTemplate template) : base(dataTable, template)
         {
         }
 
@@ -22,7 +22,6 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
 
         internal override Dictionary<string, DataRow> Create()
         {
-
             for (int rowIdx = 0; rowIdx < rows.Count; rowIdx++)
             {
                 if (rowIdx < templateRowsCount)
@@ -34,12 +33,9 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
                     BigTableErrorCell[] errorCells = GetErrorCells(rowIdx, keys);
 
                     int key1ColIdx = GetColumnIdx(keys[0]);
-                    int key2ColIdx = GetColumnIdx(keys[1]);
-
                     string key1Str = row[key1ColIdx].ToString();
-                    string key2Str = row[key2ColIdx].ToString();
 
-                    if (IsEmpty(key1Str) || IsEmpty(key2Str))
+                    if (IsEmpty(key1Str))
                     {
                         ThrowException(dataTable, errorCells, ERROR_EMPTY);
                     }

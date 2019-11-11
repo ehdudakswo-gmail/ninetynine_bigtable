@@ -1,5 +1,6 @@
 ﻿using NinetyNine.BigTable.Dictionary;
 using NinetyNine.Template;
+using NinetyNine.Template.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Data;

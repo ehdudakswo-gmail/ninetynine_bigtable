@@ -1,8 +1,10 @@
 ﻿using NinetyNine.BigTable;
 using NinetyNine.BigTable.Dictionary;
+using NinetyNine.BigTable.Dictionary.Mapping;
 using NinetyNine.BigTable.Mapper;
 using NinetyNine.BigTable.Parser;
 using NinetyNine.Template;
+using NinetyNine.Template.Mapping;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -33,11 +35,13 @@ namespace NinetyNine
         private DataTable scheduleTable;
         private DataTable workTable;
         private DataTable floorTable;
+        private DataTable whatTable;
 
         private BigTableDictionary statementBigTableDictionary;
         private BigTableDictionary scheduleBigTableDictionary;
         private BigTableDictionary workBigTableDictionary;
         private BigTableDictionary floorBigTableDictionary;
+        private BigTableDictionary whatBigTableDictionary;
 
         internal Task<string> Refresh(DataSet dataSet, BigTableManagerState state)
         {
@@ -62,6 +66,7 @@ namespace NinetyNine
             scheduleTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Schedule);
             workTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Work);
             floorTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Floor);
+            whatTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.What);
         }
 
         private void SetDictionary()
@@ -70,6 +75,7 @@ namespace NinetyNine
             scheduleBigTableDictionary = new BigTableDictionarySchedule(scheduleTable, new DataTableTemplateSchedule());
             workBigTableDictionary = new BigTableDictionaryWork(workTable, new DataTableTemplateWork());
             floorBigTableDictionary = new BigTableDictionaryFloor(floorTable, new DataTableTemplateFloor());
+            whatBigTableDictionary = new BigTableDictionaryWhat(whatTable, new DataTableTemplateWhat());
         }
 
         private void HandleState()
@@ -124,16 +130,18 @@ namespace NinetyNine
 
         private void SetMappingKeys()
         {
-            IComparer<string[]> workComparer = new BigTableMappingKeyComparer.WorkComparer();
-            IComparer<string[]> floorComparer = new BigTableMappingKeyComparer.FloorComparer();
-
-            SortedSet<string[]> workSortedKeys = new SortedSet<string[]>(workComparer);
-            SortedSet<string[]> floorSortedKeys = new SortedSet<string[]>(floorComparer);
-
             DataTableTemplate template = new DataTableTemplateBigTable();
             DataTable templateDataTable = template.GetTemplateDataTable();
             int templateRowsCount = templateDataTable.Rows.Count;
             int bigTableRowsCount = bigTable.Rows.Count;
+
+            IComparer<string[]> workComparer = new BigTableMappingKeyComparer.WorkComparer();
+            IComparer<string[]> floorComparer = new BigTableMappingKeyComparer.FloorComparer();
+            IComparer<string[]> whatComparer = floorComparer;
+
+            SortedSet<string[]> workSortedKeys = new SortedSet<string[]>(workComparer);
+            SortedSet<string[]> floorSortedKeys = new SortedSet<string[]>(floorComparer);
+            SortedSet<string[]> whatSortedKeys = new SortedSet<string[]>(whatComparer);
 
             for (int rowIdx = 0; rowIdx < bigTableRowsCount; rowIdx++)
             {
@@ -149,11 +157,13 @@ namespace NinetyNine
 
                     workSortedKeys.Add(new string[] { workName, workStandard });
                     floorSortedKeys.Add(new string[] { floor });
+                    whatSortedKeys.Add(new string[] { floor });
                 }
             }
 
             workBigTableDictionary.SetMappingKeys(workSortedKeys);
             floorBigTableDictionary.SetMappingKeys(floorSortedKeys);
+            whatBigTableDictionary.SetMappingKeys(whatSortedKeys);
         }
 
         private string GetString(DataRow row, Enum title)
@@ -170,6 +180,7 @@ namespace NinetyNine
             Dictionary<string, DataRow> scheduleDictionary = scheduleBigTableDictionary.Create();
             Dictionary<string, DataRow> workDictionary = workBigTableDictionary.Create();
             Dictionary<string, DataRow> floorDictionary = floorBigTableDictionary.Create();
+            Dictionary<string, DataRow> whatDictionary = whatBigTableDictionary.Create();
 
             BigTableMapper statementMapper = new BigTableMapperStatement
             {
@@ -184,9 +195,15 @@ namespace NinetyNine
                 floorDictionary = floorDictionary,
                 workDictionary = workDictionary,
             };
+            BigTableMapper whatMapper = new BigTableMapperWhat
+            {
+                bigTable = bigTable,
+                whatDictionary = whatDictionary,
+            };
 
             statementMapper.Mapping();
             scheduleMapper.Mapping();
+            whatMapper.Mapping();
         }
     }
 }

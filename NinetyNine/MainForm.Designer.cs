@@ -56,6 +56,8 @@
             this.dataGridView_Work = new System.Windows.Forms.DataGridView();
             this.tabPage_Floor = new System.Windows.Forms.TabPage();
             this.dataGridView_Floor = new System.Windows.Forms.DataGridView();
+            this.tabPage_What = new System.Windows.Forms.TabPage();
+            this.dataGridView_What = new System.Windows.Forms.DataGridView();
             this.menuStrip.SuspendLayout();
             this.tabPage_BigTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BigTable)).BeginInit();
@@ -72,6 +74,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Work)).BeginInit();
             this.tabPage_Floor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Floor)).BeginInit();
+            this.tabPage_What.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_What)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -279,6 +283,7 @@
             this.tabControl.Controls.Add(this.tabPage_BigTable);
             this.tabControl.Controls.Add(this.tabPage_Work);
             this.tabControl.Controls.Add(this.tabPage_Floor);
+            this.tabControl.Controls.Add(this.tabPage_What);
             this.tabControl.Location = new System.Drawing.Point(10, 32);
             this.tabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl.Name = "tabControl";
@@ -328,6 +333,26 @@
             this.dataGridView_Floor.Size = new System.Drawing.Size(210, 120);
             this.dataGridView_Floor.TabIndex = 2;
             // 
+            // tabPage_What
+            // 
+            this.tabPage_What.Controls.Add(this.dataGridView_What);
+            this.tabPage_What.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_What.Name = "tabPage_What";
+            this.tabPage_What.Size = new System.Drawing.Size(671, 261);
+            this.tabPage_What.TabIndex = 9;
+            this.tabPage_What.Text = "What";
+            this.tabPage_What.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView_What
+            // 
+            this.dataGridView_What.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_What.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_What.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dataGridView_What.Name = "dataGridView_What";
+            this.dataGridView_What.RowTemplate.Height = 27;
+            this.dataGridView_What.Size = new System.Drawing.Size(210, 120);
+            this.dataGridView_What.TabIndex = 3;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -358,6 +383,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Work)).EndInit();
             this.tabPage_Floor.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Floor)).EndInit();
+            this.tabPage_What.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_What)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -393,6 +420,8 @@
         private System.Windows.Forms.ToolStripMenuItem BigTable_Mapping_ToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage_Floor;
         private System.Windows.Forms.DataGridView dataGridView_Floor;
+        private System.Windows.Forms.TabPage tabPage_What;
+        private System.Windows.Forms.DataGridView dataGridView_What;
     }
 }
 

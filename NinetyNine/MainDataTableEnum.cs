@@ -1,4 +1,5 @@
 ﻿using NinetyNine.Template;
+using NinetyNine.Template.Mapping;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,11 +24,14 @@ namespace NinetyNine
         [Description("빅테이블")]
         BigTable,
 
-        [Description("WORK")]
+        [Description("Work")]
         Work,
 
-        [Description("FLOOR")]
+        [Description("Floor")]
         Floor,
+
+        [Description("What")]
+        What,
     }
 
     class MainDataTableEnum
@@ -85,6 +89,8 @@ namespace NinetyNine
                     return new DataTableTemplateWork();
                 case MainDataTable.Floor:
                     return new DataTableTemplateFloor();
+                case MainDataTable.What:
+                    return new DataTableTemplateWhat();
                 default:
                     throw new Exception("MainDataTableEnum GetDataTableTemplate Exception");
             }

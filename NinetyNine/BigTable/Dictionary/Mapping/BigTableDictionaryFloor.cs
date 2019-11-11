@@ -1,9 +1,10 @@
 ﻿using NinetyNine.Template;
+using NinetyNine.Template.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Data;
 
-namespace NinetyNine.BigTable.Dictionary
+namespace NinetyNine.BigTable.Dictionary.Mapping
 {
     class BigTableDictionaryFloor : BigTableDictionary
     {

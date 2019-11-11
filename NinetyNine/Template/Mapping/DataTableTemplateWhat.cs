@@ -4,16 +4,19 @@ using System.Data;
 
 namespace NinetyNine.Template.Mapping
 {
-    enum BigTableFloorTitle
+    enum BigTableWhatTitle
     {
+        [Description("빅테이블: 구조체")]
+        BigTable_Structure,
+
+        [Description("빅테이블: 구조체구분")]
+        BigTable_StructureSeparation,
+
         [Description("빅테이블: 층")]
         BigTable_Floor,
-
-        [Description("공정표: 구분")]
-        Schedule_Floor,
     }
 
-    class DataTableTemplateFloor : DataTableTemplate
+    class DataTableTemplateWhat : DataTableTemplate
     {
         internal override DataTable GetTemplateDataTable()
         {
@@ -28,7 +31,7 @@ namespace NinetyNine.Template.Mapping
 
         private void SetRow0(DataRow row)
         {
-            Array values = Enum.GetValues(typeof(BigTableFloorTitle));
+            Array values = Enum.GetValues(typeof(BigTableWhatTitle));
             SetTitleDescriptions(row, values);
         }
     }

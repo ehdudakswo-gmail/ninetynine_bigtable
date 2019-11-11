@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Data;
 
-namespace NinetyNine.Template
+namespace NinetyNine.Template.Mapping
 {
     enum BigTableWorkTitle
     {
