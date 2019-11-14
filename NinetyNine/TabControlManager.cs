@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Data;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using NinetyNine.BigTable;
+using OfficeOpenXml;
 
 namespace NinetyNine
 {
@@ -10,9 +12,10 @@ namespace NinetyNine
         private readonly string ERROR_SHEET_COUNT_WRONG = "엑셀 SHEET {0}개가 필요합니다.";
         private readonly string ERROR_SHEET_NONE = "엑셀 {0} SHEET가 필요합니다.";
 
+        private int selectedTabIdx = 0;
         private TabControl tabControl;
         private DataGridViewManager dataGridViewManager = new DataGridViewManager();
-        private int selectedTabIdx = 0;
+        private ExcelDataManager excelDataManager = ExcelDataManager.GetInstance();
 
         public TabControlManager(TabControl tabControl)
         {
@@ -116,6 +119,21 @@ namespace NinetyNine
         internal DataSet GetDataSet()
         {
             return dataGridViewManager.GetDataSet();
+        }
+
+        internal Task<string> RefreshSelectedDataTable(ExcelWorksheet workSheet)
+        {
+            return Task.Run(() =>
+            {
+                DataSet dataSet = dataGridViewManager.GetDataSet();
+                DataGridView dataGridView = dataGridViewManager.Get(selectedTabIdx);
+                DataTable dataTable = dataSet.Tables[selectedTabIdx];
+
+                excelDataManager.RefreshDataTable(dataTable, workSheet);
+                dataGridViewManager.Refresh(dataGridView, dataTable);
+
+                return "";
+            });
         }
 
         internal void HighLight(int tabIdx, BigTableErrorCell[] cells)

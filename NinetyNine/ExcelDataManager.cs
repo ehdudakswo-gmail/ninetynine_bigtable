@@ -1,4 +1,6 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
+using System.Threading.Tasks;
 using OfficeOpenXml;
 
 namespace NinetyNine
@@ -143,6 +145,19 @@ namespace NinetyNine
         {
             string[] columns = GetColumnHeaderNames(COLUMN_BASIC_COUNT);
             return columns[idx];
+        }
+
+        internal void RefreshDataTable(DataTable dataTable, ExcelWorksheet workSheet)
+        {
+            ClearDataTable(dataTable);
+            SetDataTable(dataTable, workSheet);
+        }
+
+        private void ClearDataTable(DataTable dataTable)
+        {
+            dataTable.Clear();
+            dataTable.Rows.Clear();
+            dataTable.Columns.Clear();
         }
     }
 }

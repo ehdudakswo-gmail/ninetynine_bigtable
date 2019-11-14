@@ -9,13 +9,23 @@ namespace NinetyNine
     {
         private ExcelDataManager excelDataManager = ExcelDataManager.GetInstance();
 
-        internal Task<DataSet> GetDataSet(string fileName)
+        internal Task<ExcelWorksheets> GetExcelWorksheets(string fileName)
         {
             return Task.Run(() =>
             {
                 FileInfo fileInfo = new FileInfo(fileName);
                 ExcelPackage package = new ExcelPackage(fileInfo);
                 ExcelWorksheets worksheets = package.Workbook.Worksheets;
+
+                return worksheets;
+            });
+        }
+
+        internal Task<DataSet> GetDataSet(string fileName)
+        {
+            return Task.Run(async () =>
+            {
+                ExcelWorksheets worksheets = await GetExcelWorksheets(fileName);
                 DataSet dataSet = new DataSet();
 
                 foreach (ExcelWorksheet worksheet in worksheets)

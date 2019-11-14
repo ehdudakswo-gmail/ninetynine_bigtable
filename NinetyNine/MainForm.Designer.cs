@@ -31,6 +31,8 @@
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.파일ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.열기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.allSheetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectedSheetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.빅테이블ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BigTable_Parsing_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -107,15 +109,31 @@
             // 
             // 열기ToolStripMenuItem
             // 
+            this.열기ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.allSheetsToolStripMenuItem,
+            this.selectedSheetToolStripMenuItem});
             this.열기ToolStripMenuItem.Name = "열기ToolStripMenuItem";
-            this.열기ToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.열기ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.열기ToolStripMenuItem.Text = "열기";
-            this.열기ToolStripMenuItem.Click += new System.EventHandler(this.열기ToolStripMenuItem_Click);
+            // 
+            // allSheetsToolStripMenuItem
+            // 
+            this.allSheetsToolStripMenuItem.Name = "allSheetsToolStripMenuItem";
+            this.allSheetsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.allSheetsToolStripMenuItem.Text = "All Sheets";
+            this.allSheetsToolStripMenuItem.Click += new System.EventHandler(this.allSheetsToolStripMenuItem_Click);
+            // 
+            // selectedSheetToolStripMenuItem
+            // 
+            this.selectedSheetToolStripMenuItem.Name = "selectedSheetToolStripMenuItem";
+            this.selectedSheetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.selectedSheetToolStripMenuItem.Text = "Selected Sheet";
+            this.selectedSheetToolStripMenuItem.Click += new System.EventHandler(this.selectedSheetToolStripMenuItem_Click);
             // 
             // 저장ToolStripMenuItem
             // 
             this.저장ToolStripMenuItem.Name = "저장ToolStripMenuItem";
-            this.저장ToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.저장ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.저장ToolStripMenuItem.Text = "저장";
             this.저장ToolStripMenuItem.Click += new System.EventHandler(this.저장ToolStripMenuItem_Click);
             // 
@@ -451,6 +469,8 @@
         private System.Windows.Forms.DataGridView dataGridView_What;
         private System.Windows.Forms.TabPage tabPage_How;
         private System.Windows.Forms.DataGridView dataGridView_How;
+        private System.Windows.Forms.ToolStripMenuItem allSheetsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem selectedSheetToolStripMenuItem;
     }
 }
 

@@ -1,8 +1,10 @@
 ﻿using NinetyNine.BigTable;
 using NinetyNine.BigTable.Parser;
 using NinetyNine.Template;
+using OfficeOpenXml;
 using System;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
@@ -101,7 +103,7 @@ namespace NinetyNine
             }
         }
 
-        private async void 열기ToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void allSheetsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -126,6 +128,64 @@ namespace NinetyNine
                 {
                     SetDefaultState();
                 }
+            }
+        }
+
+        private async void selectedSheetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    SetWaitState();
+                    string fileName = openFileDialog.FileName;
+                    ExcelWorksheets workSheets = await excelEPPlusManager.GetExcelWorksheets(fileName);
+
+                    ContextMenuStrip contextMenu = new ContextMenuStrip();
+                    ToolStripItemCollection items = contextMenu.Items;
+
+                    foreach (ExcelWorksheet workSheet in workSheets)
+                    {
+                        string sheetName = workSheet.Name;
+                        items.Add(sheetName);
+
+                        int lastIdx = items.Count - 1;
+                        ToolStripItem item = items[lastIdx];
+                        item.Tag = workSheet;
+                        item.Click += SelectedSheetItem_Click;
+                    }
+
+                    Point point = PointToScreen(tabControl.Location);
+                    contextMenu.Show(point);
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.ToString());
+                }
+                finally
+                {
+                    SetDefaultState();
+                }
+            }
+        }
+
+        private async void SelectedSheetItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SetWaitState();
+                ToolStripItem item = sender as ToolStripItem;
+                ExcelWorksheet workSheet = (ExcelWorksheet)item.Tag;
+                await tabControlManager.RefreshSelectedDataTable(workSheet);
+                MessageBox.Show(FILE_OPEN_COMPLETE_MESSAGE);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+            }
+            finally
+            {
+                SetDefaultState();
             }
         }
 

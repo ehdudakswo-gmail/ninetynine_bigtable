@@ -51,7 +51,7 @@ namespace NinetyNine
             }
         }
 
-        private void Refresh(DataGridView dataGridView, DataTable dataTable)
+        internal void Refresh(DataGridView dataGridView, DataTable dataTable)
         {
             dataGridView.DataSource = dataTable;
             RefreshRowHeaderValue(dataGridView);
