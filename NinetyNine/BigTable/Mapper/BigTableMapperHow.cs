@@ -14,8 +14,8 @@ namespace NinetyNine.BigTable.Mapper
 
         internal override void Mapping()
         {
-            Enum[] bigTableKeys = new Enum[] { BigTableTitle.HOW4 };
-            Enum[] howKeys = new Enum[] { bigTableKeys[0] };
+            Enum[] bigTableKeys = new Enum[] { BigTableTitle.HOW4, BigTableTitle.HOW5 };
+            Enum[] howKeys = new Enum[] { bigTableKeys[0], bigTableKeys[1] };
 
             var bigTableRows = bigTable.Rows;
             int bigTableRowsCount = bigTableRows.Count;

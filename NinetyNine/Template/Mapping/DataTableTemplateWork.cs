@@ -15,6 +15,9 @@ namespace NinetyNine.Template.Mapping
         [Description("변환수량(나누기)")]
         ConversionQuantity,
 
+        [Description("내역서: 공사")]
+        Statement_Construction,
+
         [Description("내역서: 품명")]
         Statement_Name,
 

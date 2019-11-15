@@ -6,7 +6,6 @@ using NinetyNine.BigTable.Parser;
 using NinetyNine.Template;
 using NinetyNine.Template.Mapping;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
@@ -39,7 +38,7 @@ namespace NinetyNine
         private DataTable howTable;
 
         private BigTableDictionary statementBigTableDictionary;
-        private BigTableDictionary scheduleBigTableDictionary;
+        private BigTableDictionarySchedule scheduleBigTableDictionary;
         private BigTableDictionary workBigTableDictionary;
         private BigTableDictionary floorBigTableDictionary;
         private BigTableDictionary whatBigTableDictionary;
@@ -163,7 +162,7 @@ namespace NinetyNine
                     workSortedKeys.Add(new string[] { workName, workStandard });
                     floorSortedKeys.Add(new string[] { floor });
                     whatSortedKeys.Add(new string[] { floor });
-                    howSortedKeys.Add(new string[] { workName });
+                    howSortedKeys.Add(new string[] { workName, workStandard });
                 }
             }
 
@@ -185,6 +184,8 @@ namespace NinetyNine
         {
             Dictionary<string, DataRow> statementDictionary = statementBigTableDictionary.Create();
             Dictionary<string, DataRow> scheduleDictionary = scheduleBigTableDictionary.Create();
+            DateTime basicDateTime = scheduleBigTableDictionary.GetBasicDateTime();
+
             Dictionary<string, DataRow> workDictionary = workBigTableDictionary.Create();
             Dictionary<string, DataRow> floorDictionary = floorBigTableDictionary.Create();
             Dictionary<string, DataRow> whatDictionary = whatBigTableDictionary.Create();
@@ -199,6 +200,7 @@ namespace NinetyNine
             BigTableMapper scheduleMapper = new BigTableMapperSchedule
             {
                 bigTable = bigTable,
+                basicDateTime = basicDateTime,
                 scheduleDictionary = scheduleDictionary,
                 floorDictionary = floorDictionary,
                 workDictionary = workDictionary,
@@ -215,7 +217,7 @@ namespace NinetyNine
             };
 
             statementMapper.Mapping();
-            //scheduleMapper.Mapping();
+            scheduleMapper.Mapping();
             whatMapper.Mapping();
             howMapper.Mapping();
         }

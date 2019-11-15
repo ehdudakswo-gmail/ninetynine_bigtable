@@ -8,7 +8,7 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
 {
     class BigTableDictionaryHow : BigTableDictionary
     {
-        private Enum[] keys = new Enum[] { HowTitle.BigTable_WorkName };
+        private Enum[] keys = new Enum[] { HowTitle.BigTable_WorkName, HowTitle.BigTable_WorkStandard };
 
         internal BigTableDictionaryHow(DataTable dataTable, DataTableTemplate template) : base(dataTable, template)
         {
@@ -33,9 +33,12 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
                     BigTableErrorCell[] errorCells = GetErrorCells(rowIdx, keys);
 
                     int key1ColIdx = GetColumnIdx(keys[0]);
-                    string key1Str = row[key1ColIdx].ToString();
+                    int key2ColIdx = GetColumnIdx(keys[1]);
 
-                    if (IsEmpty(key1Str))
+                    string key1Str = row[key1ColIdx].ToString();
+                    string key2Str = row[key2ColIdx].ToString();
+
+                    if (IsEmpty(key1Str) || IsEmpty(key2Str))
                     {
                         ThrowException(dataTable, errorCells, ERROR_EMPTY);
                     }

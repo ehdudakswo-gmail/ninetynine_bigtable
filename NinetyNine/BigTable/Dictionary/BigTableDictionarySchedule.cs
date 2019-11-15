@@ -22,7 +22,7 @@ namespace NinetyNine.BigTable.Dictionary
 
             for (int rowIdx = 0; rowIdx < rows.Count; rowIdx++)
             {
-                if (rowIdx < templateRowsCount)
+                if (rowIdx < 5)
                 {
                 }
                 else
@@ -65,6 +65,23 @@ namespace NinetyNine.BigTable.Dictionary
             }
 
             return dictionary;
+        }
+
+        internal DateTime GetBasicDateTime()
+        {
+            int rowIdx = 2;
+            int colIdx = 0;
+            string str = rows[rowIdx][colIdx].ToString();
+
+            DateTime dateTime;
+            bool IsParse = DateTime.TryParse(str, out dateTime);
+            if (IsParse == false)
+            {
+                BigTableErrorCell[] errorCells = GetErrorCells(rowIdx, colIdx);
+                ThrowException(dataTable, errorCells, ERROR_FORMAT_DATETIME);
+            }
+
+            return dateTime;
         }
     }
 }

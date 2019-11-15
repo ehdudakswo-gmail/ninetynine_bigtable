@@ -11,6 +11,7 @@ namespace NinetyNine.BigTable.Mapper
     class BigTableMapperSchedule : BigTableMapper
     {
         internal DataTable bigTable { get; set; }
+        internal DateTime basicDateTime { get; set; }
         internal Dictionary<string, DataRow> scheduleDictionary { get; set; }
         internal Dictionary<string, DataRow> floorDictionary { get; set; }
         internal Dictionary<string, DataRow> workDictionary { get; set; }
@@ -28,6 +29,7 @@ namespace NinetyNine.BigTable.Mapper
             {
                 if (bigTableRowIdx < templateRowsCount)
                 {
+
                 }
                 else
                 {
@@ -59,12 +61,12 @@ namespace NinetyNine.BigTable.Mapper
                     }
 
                     DataRow scheduleRow = scheduleDictionary[schedulekey];
-                    DateTime dateTime = GetDateTime(scheduleRow, ScheduleTitle.Actual_Start);
+                    DateTime dateTime = GetDateTime(scheduleRow, ScheduleTitle.Plan_Start);
 
                     Mapping(bigTableRow, BigTableTitle.WHEN1, GetYear(dateTime));
                     Mapping(bigTableRow, BigTableTitle.WHEN2, GetQuarter(dateTime));
                     Mapping(bigTableRow, BigTableTitle.WHEN3, GetMonth(dateTime));
-                    Mapping(bigTableRow, BigTableTitle.WHEN4, GetWeekOfMonth(dateTime, null));
+                    Mapping(bigTableRow, BigTableTitle.WHEN4, GetWeekFromBasicDateTime(dateTime));
                     Mapping(bigTableRow, BigTableTitle.WHEN5, scheduleRow, ScheduleTitle.Plan_Start);
                     Mapping(bigTableRow, BigTableTitle.WHEN6, scheduleRow, ScheduleTitle.Plan_Finish);
                     Mapping(bigTableRow, BigTableTitle.WHEN7, scheduleRow, ScheduleTitle.Actual_Start);
@@ -114,32 +116,14 @@ namespace NinetyNine.BigTable.Mapper
             return month;
         }
 
-        private string GetWeekOfMonth(DateTime sourceDate, CultureInfo cultureInfo)
+        private string GetWeekFromBasicDateTime(DateTime dateTime)
         {
-            if (cultureInfo == null)
-            {
-                cultureInfo = CultureInfo.CurrentCulture;
-            }
+            TimeSpan timeSpan = dateTime - basicDateTime;
+            int diffDays = timeSpan.Days;
+            int diffWeek = (diffDays / 7) + 1;
 
-            DateTime firstDayOfMonth = DateTime.Parse(sourceDate.ToString("yyyy-MM-01"));
-            int firstWeekOfMonth = GetWeekOfYear(firstDayOfMonth, cultureInfo);
-            int sourceWeekOfMonth = GetWeekOfYear(sourceDate, cultureInfo);
-            int result = (sourceWeekOfMonth - firstWeekOfMonth) + 1;
-
-            return result.ToString();
-        }
-
-        private int GetWeekOfYear(DateTime sourceDate, CultureInfo cultureInfo)
-        {
-            if (cultureInfo == null)
-            {
-                cultureInfo = CultureInfo.CurrentCulture;
-            }
-
-            CalendarWeekRule calendarWeekRule = cultureInfo.DateTimeFormat.CalendarWeekRule;
-            DayOfWeek firstDayOfWeek = cultureInfo.DateTimeFormat.FirstDayOfWeek;
-
-            return cultureInfo.Calendar.GetWeekOfYear(sourceDate, calendarWeekRule, firstDayOfWeek);
+            string str = diffWeek.ToString();
+            return str;
         }
     }
 }

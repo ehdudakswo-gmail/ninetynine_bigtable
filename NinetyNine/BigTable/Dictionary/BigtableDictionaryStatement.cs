@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using NinetyNine.BigTable;
 using NinetyNine.BigTable.Dictionary;
 using NinetyNine.Template;
 
@@ -9,6 +8,9 @@ namespace NinetyNine
 {
     internal class BigTableDictionaryStatement : BigTableDictionary
     {
+        private Array titles = Enum.GetValues(typeof(StatementTitle));
+        private string constructionType;
+
         internal BigTableDictionaryStatement(DataTable dataTable, DataTableTemplate template) : base(dataTable, template)
         {
         }
@@ -19,38 +21,46 @@ namespace NinetyNine
 
         internal override Dictionary<string, DataRow> Create()
         {
-            Array enumValues = Enum.GetValues(typeof(StatementTitle));
-            Enum[] keys = new Enum[] { StatementTitle.Name, StatementTitle.Standard, };
-            HashSet<Enum> emptyCheckSkip = new HashSet<Enum> { StatementTitle.Standard, };
-
             for (int rowIdx = 0; rowIdx < rows.Count; rowIdx++)
             {
-                if (rowIdx < templateRowsCount)
+                if (rowIdx < 34)
                 {
                 }
                 else
                 {
                     DataRow row = rows[rowIdx];
+                    List<Enum> validTitles = GetValidTitles(row, titles);
 
-                    int emptyColIdx = GetEmptyIdx(row, enumValues, emptyCheckSkip);
-                    if (emptyColIdx != -1)
+                    if (validTitles.Count == 0)
                     {
-                        BigTableErrorCell[] errorCells = GetErrorCells(rowIdx, emptyColIdx);
-                        ThrowException(dataTable, errorCells, ERROR_VALUE_EMPTY);
+                        continue;
                     }
 
-                    string key = GetKey(row, keys);
+                    Enum nameTitle = StatementTitle.Name;
+                    string nameStr = GetString(row, nameTitle);
+
+                    if (nameStr.EndsWith("계"))
+                    {
+                        continue;
+                    }
+
+                    if (validTitles.Count == 1 && validTitles[0].Equals(nameTitle))
+                    {
+                        constructionType = nameStr;
+                        continue;
+                    }
+
+                    if (IsStatement(row) == false)
+                    {
+                        ThrowException(dataTable, rowIdx, titles, ERROR_ROW);
+                    }
+
+                    string standardStr = GetString(row, StatementTitle.Standard);
+                    string key = GetKey(new string[] { constructionType, nameStr, standardStr });
                     if (dictionary.ContainsKey(key))
                     {
-                        BigTableErrorCell[] errorCells = GetErrorCells(rowIdx, keys);
-                        ThrowException(dataTable, errorCells, ERROR_KEY_CONTAIN);
+                        ThrowException(dataTable, rowIdx, titles, ERROR_KEY_CONTAIN);
                     }
-
-                    CheckNumber(StatementTitle.Quantity, row, rowIdx, dataTable);
-                    CheckNumber(StatementTitle.MaterialCost, row, rowIdx, dataTable);
-                    CheckNumber(StatementTitle.LaborCost, row, rowIdx, dataTable);
-                    CheckNumber(StatementTitle.Expenses, row, rowIdx, dataTable);
-                    CheckNumber(StatementTitle.Total, row, rowIdx, dataTable);
 
                     dictionary.Add(key, row);
                 }
@@ -59,18 +69,35 @@ namespace NinetyNine
             return dictionary;
         }
 
-        private void CheckNumber(StatementTitle value, DataRow row, int rowIdx, DataTable dataTable)
+        private bool IsStatement(DataRow row)
         {
-            int colIdx = GetColumnIdx(value);
-            string cellValue = row[colIdx].ToString();
-
-            if (isNumber(cellValue))
+            foreach (Enum title in titles)
             {
-                return;
+                int colIdx = GetColumnIdx(title);
+                string str = row[colIdx].ToString();
+
+                switch (title)
+                {
+                    case StatementTitle.Name:
+                        if (IsEmpty(str))
+                        {
+                            return false;
+                        }
+                        break;
+                    case StatementTitle.Quantity:
+                    case StatementTitle.MaterialCost:
+                    case StatementTitle.LaborCost:
+                    case StatementTitle.ExpenseCost:
+                    case StatementTitle.Total:
+                        if (IsStatementNumber(str) == false)
+                        {
+                            return false;
+                        }
+                        break;
+                }
             }
 
-            BigTableErrorCell[] errorCells = GetErrorCells(rowIdx, colIdx);
-            ThrowException(dataTable, errorCells, ERROR_NOT_NUMBER);
+            return true;
         }
     }
 }

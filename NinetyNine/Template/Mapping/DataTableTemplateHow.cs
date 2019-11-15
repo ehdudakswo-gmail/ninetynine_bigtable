@@ -17,6 +17,9 @@ namespace NinetyNine.Template.Mapping
 
         [Description("빅테이블: 작업")]
         BigTable_WorkName,
+
+        [Description("빅테이블: 규격")]
+        BigTable_WorkStandard,
     }
 
     class DataTableTemplateHow : DataTableTemplate

@@ -16,7 +16,7 @@ namespace NinetyNine.BigTable.Mapper
         internal override void Mapping()
         {
             Enum[] bigTableKeys = new Enum[] { BigTableTitle.HOW4, BigTableTitle.HOW5 };
-            Enum[] workKeys = new Enum[] { WorkTitle.Statement_Name, WorkTitle.Statement_Standard };
+            Enum[] workKeys = new Enum[] { WorkTitle.Statement_Construction, WorkTitle.Statement_Name, WorkTitle.Statement_Standard };
 
             var bigTableRows = bigTable.Rows;
             int bigTableRowsCount = bigTableRows.Count;
@@ -45,12 +45,12 @@ namespace NinetyNine.BigTable.Mapper
                     }
 
                     DataRow statementRow = statementDictionary[workKey];
+                    Mapping(bigTableRow, BigTableTitle.WHY1, statementRow, StatementTitle.Note);
                     Mapping(bigTableRow, BigTableTitle.ATTRIBUTE1, statementRow, StatementTitle.Unit);
                     Mapping(bigTableRow, BigTableTitle.ATTRIBUTE2, statementRow, StatementTitle.MaterialCost);
                     Mapping(bigTableRow, BigTableTitle.ATTRIBUTE3, statementRow, StatementTitle.LaborCost);
-                    Mapping(bigTableRow, BigTableTitle.ATTRIBUTE4, statementRow, StatementTitle.Expenses);
+                    Mapping(bigTableRow, BigTableTitle.ATTRIBUTE4, statementRow, StatementTitle.ExpenseCost);
                     Mapping(bigTableRow, BigTableTitle.ATTRIBUTE5, statementRow, StatementTitle.Total);
-                    Mapping(bigTableRow, BigTableTitle.WHY1, statementRow, StatementTitle.Note);
 
                     MappingConversionQuantity(bigTableRow, workRow);
                     MappingResult(bigTableRow, BigTableTitle.RESULT4, BigTableTitle.ATTRIBUTE2);

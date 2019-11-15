@@ -9,9 +9,12 @@ namespace NinetyNine.BigTable.Dictionary
 {
     abstract class BigTableDictionary
     {
+        protected readonly string ERROR_ROW = "ERROR_ROW";
+        protected readonly string ERROR_KEY_CONTAIN = "ERROR_KEY_CONTAIN";
+        protected readonly string ERROR_FORMAT_DATETIME = "ERROR_FORMAT_DATETIME";
+
         protected readonly string ERROR_FORMAT = "ERROR_FORMAT";
         protected readonly string ERROR_EMPTY = "ERROR_EMPTY";
-        protected readonly string ERROR_KEY_CONTAIN = "ERROR_KEY_CONTAIN";
         protected readonly string ERROR_NOT_NUMBER = "ERROR_NOT_NUMBER";
 
         protected readonly string ERROR_VALUE_EMPTY = "값 없음";
@@ -80,24 +83,23 @@ namespace NinetyNine.BigTable.Dictionary
             return key;
         }
 
-        protected int GetEmptyIdx(DataRow row, Array enumValues, HashSet<Enum> emptyCheckSkip)
+        protected List<Enum> GetValidTitles(DataRow row, Array titles)
         {
-            foreach (Enum enumValue in enumValues)
+            List<Enum> validTitles = new List<Enum>();
+
+            foreach (Enum title in titles)
             {
-                if (emptyCheckSkip.Contains(enumValue))
+                int colIdx = GetColumnIdx(title);
+                string str = row[colIdx].ToString();
+                if (IsEmpty(str))
                 {
                     continue;
                 }
 
-                int colIdx = GetColumnIdx(enumValue);
-                string cellValue = row[colIdx].ToString();
-                if (IsEmpty(cellValue))
-                {
-                    return colIdx;
-                }
+                validTitles.Add(title);
             }
 
-            return -1;
+            return validTitles;
         }
 
         protected bool IsEmpty(string str)
@@ -116,16 +118,58 @@ namespace NinetyNine.BigTable.Dictionary
             return false;
         }
 
+        protected string GetString(DataRow row, Enum title)
+        {
+            int colIdx = GetColumnIdx(title);
+            string str = row[colIdx].ToString();
+
+            return str;
+        }
+
         protected int GetColumnIdx(Enum value)
         {
             int idx = EnumManager.GetIndex(value);
             return idx;
         }
 
-        protected bool isNumber(string str)
+        protected bool IsStatementNumber(string str)
+        {
+            if (IsNumber(str))
+            {
+                return true;
+            }
+
+            if (str.Equals("-"))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool IsNumber(string str)
         {
             double num;
             return double.TryParse(str, out num);
+        }
+
+        protected void ThrowException(DataTable dataTable, int rowIdx, Array titles, string error)
+        {
+            BigTableErrorData errrorData = new BigTableErrorData
+            {
+                dataTable = dataTable,
+                cells = GetErrorCells(rowIdx, titles),
+                error = error,
+            };
+
+            bigTableError.ThrowException(errrorData);
+        }
+        private BigTableErrorCell[] GetErrorCells(int rowIdx, Array values)
+        {
+            Enum[] enums = EnumManager.GetEnums(values);
+            BigTableErrorCell[] cells = GetErrorCells(rowIdx, enums);
+
+            return cells;
         }
 
         protected void ThrowException(DataTable dataTable, BigTableErrorCell[] cells, string error)
