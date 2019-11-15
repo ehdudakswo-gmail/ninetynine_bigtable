@@ -36,6 +36,7 @@ namespace NinetyNine
         private DataTable floorTable;
         private DataTable whatTable;
         private DataTable howTable;
+        private DataTable whoTable;
 
         private BigTableDictionary statementBigTableDictionary;
         private BigTableDictionarySchedule scheduleBigTableDictionary;
@@ -43,6 +44,7 @@ namespace NinetyNine
         private BigTableDictionary floorBigTableDictionary;
         private BigTableDictionary whatBigTableDictionary;
         private BigTableDictionary howBigTableDictionary;
+        private BigTableDictionary whoBigTableDictionary;
 
         internal Task<string> Refresh(DataSet dataSet, BigTableManagerState state)
         {
@@ -69,6 +71,7 @@ namespace NinetyNine
             floorTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Floor);
             whatTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.What);
             howTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.How);
+            whoTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Who);
         }
 
         private void SetDictionary()
@@ -79,6 +82,7 @@ namespace NinetyNine
             floorBigTableDictionary = new BigTableDictionaryFloor(floorTable, new DataTableTemplateFloor());
             whatBigTableDictionary = new BigTableDictionaryWhat(whatTable, new DataTableTemplateWhat());
             howBigTableDictionary = new BigTableDictionaryHow(howTable, new DataTableTemplateHow());
+            whoBigTableDictionary = new BigTableDictionaryWho(whoTable, new DataTableTemplateWho());
         }
 
         private void HandleState()
@@ -190,6 +194,7 @@ namespace NinetyNine
             Dictionary<string, DataRow> floorDictionary = floorBigTableDictionary.Create();
             Dictionary<string, DataRow> whatDictionary = whatBigTableDictionary.Create();
             Dictionary<string, DataRow> howDictionary = howBigTableDictionary.Create();
+            Dictionary<string, DataRow> whoDictionary = whoBigTableDictionary.Create();
 
             BigTableMapper statementMapper = new BigTableMapperStatement
             {
@@ -215,11 +220,17 @@ namespace NinetyNine
                 bigTable = bigTable,
                 howDictionary = howDictionary,
             };
+            BigTableMapper whoMapper = new BigTableMapperWho
+            {
+                bigTable = bigTable,
+                whoDictionary = whoDictionary,
+            };
 
             statementMapper.Mapping();
             scheduleMapper.Mapping();
             whatMapper.Mapping();
             howMapper.Mapping();
+            whoMapper.Mapping();
         }
     }
 }

@@ -35,6 +35,9 @@ namespace NinetyNine
 
         [Description("How")]
         How,
+
+        [Description("Who")]
+        Who,
     }
 
     class MainDataTableEnum
@@ -96,6 +99,8 @@ namespace NinetyNine
                     return new DataTableTemplateWhat();
                 case MainDataTable.How:
                     return new DataTableTemplateHow();
+                case MainDataTable.Who:
+                    return new DataTableTemplateWho();
                 default:
                     throw new Exception("MainDataTableEnum GetDataTableTemplate Exception");
             }

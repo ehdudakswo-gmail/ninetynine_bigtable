@@ -62,6 +62,8 @@
             this.dataGridView_What = new System.Windows.Forms.DataGridView();
             this.tabPage_How = new System.Windows.Forms.TabPage();
             this.dataGridView_How = new System.Windows.Forms.DataGridView();
+            this.tabPage_Who = new System.Windows.Forms.TabPage();
+            this.dataGridView_Who = new System.Windows.Forms.DataGridView();
             this.menuStrip.SuspendLayout();
             this.tabPage_BigTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BigTable)).BeginInit();
@@ -82,6 +84,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_What)).BeginInit();
             this.tabPage_How.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_How)).BeginInit();
+            this.tabPage_Who.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Who)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -113,27 +117,27 @@
             this.allSheetsToolStripMenuItem,
             this.selectedSheetToolStripMenuItem});
             this.열기ToolStripMenuItem.Name = "열기ToolStripMenuItem";
-            this.열기ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.열기ToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
             this.열기ToolStripMenuItem.Text = "열기";
             // 
             // allSheetsToolStripMenuItem
             // 
             this.allSheetsToolStripMenuItem.Name = "allSheetsToolStripMenuItem";
-            this.allSheetsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.allSheetsToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.allSheetsToolStripMenuItem.Text = "All Sheets";
             this.allSheetsToolStripMenuItem.Click += new System.EventHandler(this.allSheetsToolStripMenuItem_Click);
             // 
             // selectedSheetToolStripMenuItem
             // 
             this.selectedSheetToolStripMenuItem.Name = "selectedSheetToolStripMenuItem";
-            this.selectedSheetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.selectedSheetToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.selectedSheetToolStripMenuItem.Text = "Selected Sheet";
             this.selectedSheetToolStripMenuItem.Click += new System.EventHandler(this.selectedSheetToolStripMenuItem_Click);
             // 
             // 저장ToolStripMenuItem
             // 
             this.저장ToolStripMenuItem.Name = "저장ToolStripMenuItem";
-            this.저장ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.저장ToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
             this.저장ToolStripMenuItem.Text = "저장";
             this.저장ToolStripMenuItem.Click += new System.EventHandler(this.저장ToolStripMenuItem_Click);
             // 
@@ -307,6 +311,7 @@
             this.tabControl.Controls.Add(this.tabPage_Floor);
             this.tabControl.Controls.Add(this.tabPage_What);
             this.tabControl.Controls.Add(this.tabPage_How);
+            this.tabControl.Controls.Add(this.tabPage_Who);
             this.tabControl.Location = new System.Drawing.Point(10, 32);
             this.tabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl.Name = "tabControl";
@@ -396,6 +401,26 @@
             this.dataGridView_How.Size = new System.Drawing.Size(210, 120);
             this.dataGridView_How.TabIndex = 4;
             // 
+            // tabPage_Who
+            // 
+            this.tabPage_Who.Controls.Add(this.dataGridView_Who);
+            this.tabPage_Who.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Who.Name = "tabPage_Who";
+            this.tabPage_Who.Size = new System.Drawing.Size(671, 261);
+            this.tabPage_Who.TabIndex = 11;
+            this.tabPage_Who.Text = "Who";
+            this.tabPage_Who.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView_Who
+            // 
+            this.dataGridView_Who.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_Who.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_Who.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dataGridView_Who.Name = "dataGridView_Who";
+            this.dataGridView_Who.RowTemplate.Height = 27;
+            this.dataGridView_Who.Size = new System.Drawing.Size(210, 120);
+            this.dataGridView_Who.TabIndex = 5;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -430,6 +455,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_What)).EndInit();
             this.tabPage_How.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_How)).EndInit();
+            this.tabPage_Who.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Who)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -471,6 +498,8 @@
         private System.Windows.Forms.DataGridView dataGridView_How;
         private System.Windows.Forms.ToolStripMenuItem allSheetsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectedSheetToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage_Who;
+        private System.Windows.Forms.DataGridView dataGridView_Who;
     }
 }
 

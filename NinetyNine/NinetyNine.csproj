@@ -62,6 +62,7 @@
     <Compile Include="BigTable\BigTableMappingKeyComparer.cs" />
     <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryHow.cs" />
     <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryWhat.cs" />
+    <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryWho.cs" />
     <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryWork.cs" />
     <Compile Include="BigTable\Dictionary\BigTableDictionarySchedule.cs" />
     <Compile Include="BigTable\Dictionary\BigTableDictionaryStatement.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="BigTable\Mapper\BigTableMapperSchedule.cs" />
     <Compile Include="BigTable\Mapper\BigTableMapperStatement.cs" />
     <Compile Include="BigTable\Mapper\BigTableMapperWhat.cs" />
+    <Compile Include="BigTable\Mapper\BigTableMapperWho.cs" />
     <Compile Include="BigTable\Parser\BigTableData.cs" />
     <Compile Include="BigTable\BigTableManager.cs" />
     <Compile Include="BigTable\Parser\BigTableParserForm.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="Template\Mapping\DataTableTemplateFloor.cs" />
     <Compile Include="Template\Mapping\DataTableTemplateHow.cs" />
     <Compile Include="Template\Mapping\DataTableTemplateWhat.cs" />
+    <Compile Include="Template\Mapping\DataTableTemplateWho.cs" />
     <Compile Include="Template\Mapping\DataTableTemplateWork.cs" />
     <Compile Include="Template\DataTableTemplate.cs" />
     <Compile Include="Template\DataTableTemplateBigTable.cs" />
