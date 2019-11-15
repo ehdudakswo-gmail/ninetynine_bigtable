@@ -21,6 +21,8 @@ namespace NinetyNine
 
         internal override Dictionary<string, DataRow> Create()
         {
+            Dictionary<string, DataRow> dictionary = new Dictionary<string, DataRow>();
+
             for (int rowIdx = 0; rowIdx < rows.Count; rowIdx++)
             {
                 if (rowIdx < 34)

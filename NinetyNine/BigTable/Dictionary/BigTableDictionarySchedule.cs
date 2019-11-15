@@ -17,6 +17,7 @@ namespace NinetyNine.BigTable.Dictionary
 
         internal override Dictionary<string, DataRow> Create()
         {
+            Dictionary<string, DataRow> dictionary = new Dictionary<string, DataRow>();
             Enum[] keys = new Enum[] { ScheduleTitle.Floor, ScheduleTitle.Description };
             string FLOOR = "";
 

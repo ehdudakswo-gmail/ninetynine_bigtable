@@ -19,9 +19,7 @@ namespace NinetyNine.BigTable.Dictionary
 
         protected readonly string ERROR_VALUE_EMPTY = "값 없음";
 
-        protected Dictionary<string, DataRow> dictionary = new Dictionary<string, DataRow>();
         protected BigTableError bigTableError = BigTableError.GetInstance();
-
         protected DataTable dataTable;
         protected DataTableTemplate template;
         protected DataRowCollection rows;
