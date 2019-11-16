@@ -13,13 +13,13 @@ namespace NinetyNine.BigTable
                 string x1 = x[1];
                 string y1 = y[1];
 
-                if (x0 != y0)
+                if (x1 != y1)
                 {
-                    return x0.CompareTo(y0);
+                    return x1.CompareTo(y1);
                 }
                 else
                 {
-                    return x1.CompareTo(y1);
+                    return x0.CompareTo(y0);
                 }
             }
         }
@@ -45,17 +45,6 @@ namespace NinetyNine.BigTable
                 {
                     return x0.CompareTo(y0);
                 }
-            }
-        }
-
-        internal class HowComparer : IComparer<string[]>
-        {
-            public int Compare(string[] x, string[] y)
-            {
-                string x0 = x[0];
-                string y0 = y[0];
-
-                return x0.CompareTo(y0);
             }
         }
     }

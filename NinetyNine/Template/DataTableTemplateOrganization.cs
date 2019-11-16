@@ -8,16 +8,7 @@ namespace NinetyNine.Template
         {
             Init();
 
-            DataRow row0 = dataTable.NewRow();
-            SetRow0(row0);
-            rows.Add(row0);
-
             return dataTable;
-        }
-
-        private void SetRow0(DataRow row)
-        {
-            row[0] = "조직도";
         }
     }
 }

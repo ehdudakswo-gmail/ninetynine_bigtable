@@ -12,9 +12,6 @@ namespace NinetyNine.Template.Mapping
         [Description("빅테이블: 규격")]
         BigTable_WorkStandard,
 
-        [Description("변환수량(나누기)")]
-        ConversionQuantity,
-
         [Description("내역서: 공사")]
         Statement_Construction,
 
@@ -26,6 +23,9 @@ namespace NinetyNine.Template.Mapping
 
         [Description("공정표: Description")]
         Schedule_Description,
+
+        [Description("변환수량(나누기)")]
+        ConversionQuantity,
     }
 
     internal class DataTableTemplateWork : DataTableTemplate

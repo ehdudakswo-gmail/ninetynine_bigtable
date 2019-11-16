@@ -59,6 +59,19 @@ namespace NinetyNine.BigTable.Parser
             return false;
         }
 
+        protected bool IsEmpty(string[] strArr)
+        {
+            foreach (string str in strArr)
+            {
+                if (IsEmpty(str))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         protected string Trim(string str)
         {
             return str.Replace(" ", "").Trim();
@@ -73,6 +86,51 @@ namespace NinetyNine.BigTable.Parser
 
             string strTrim = str.Trim();
             return strTrim;
+        }
+
+        protected string GetString(DataRow row, Enum title)
+        {
+            int colIdx = GetColumnIdx(title);
+            string str = row[colIdx].ToString();
+
+            return str;
+        }
+
+        protected List<Enum> GetValidTitles(DataRow row, Array titles)
+        {
+            List<Enum> validTitles = new List<Enum>();
+
+            foreach (Enum title in titles)
+            {
+                string str = GetString(row, title);
+                if (IsEmpty(str))
+                {
+                    continue;
+                }
+
+                validTitles.Add(title);
+            }
+
+            return validTitles;
+        }
+
+        protected bool IsSame(List<Enum> a, List<Enum> b)
+        {
+            if (a.Count != b.Count)
+            {
+                return false;
+            }
+
+            int count = a.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (a[i].Equals(b[i]) == false)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         protected void SetData(BigTableTitle bigTableValue, string str)

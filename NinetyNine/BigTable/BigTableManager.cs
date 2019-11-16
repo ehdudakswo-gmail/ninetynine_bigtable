@@ -144,7 +144,7 @@ namespace NinetyNine
             IComparer<string[]> workComparer = new BigTableMappingKeyComparer.WorkComparer();
             IComparer<string[]> floorComparer = new BigTableMappingKeyComparer.FloorComparer();
             IComparer<string[]> whatComparer = floorComparer;
-            IComparer<string[]> howComparer = new BigTableMappingKeyComparer.HowComparer();
+            IComparer<string[]> howComparer = workComparer;
 
             SortedSet<string[]> workSortedKeys = new SortedSet<string[]>(workComparer);
             SortedSet<string[]> floorSortedKeys = new SortedSet<string[]>(floorComparer);

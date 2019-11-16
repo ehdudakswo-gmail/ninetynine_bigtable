@@ -26,9 +26,5 @@ namespace NinetyNine.Template
 
             return dataTable;
         }
-
-        private void SetRow0(DataRow row)
-        {
-        }
     }
 }
