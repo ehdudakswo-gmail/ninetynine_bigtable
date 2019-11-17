@@ -1,176 +1,142 @@
 ﻿using NinetyNine.Template;
 using System;
-using System.Collections.Generic;
 using System.Data;
 
 namespace NinetyNine.BigTable.Parser
 {
     class BigTableParserForm : BigTableParser
     {
-        enum FormType
-        {
-            Block,
-            Floor,
-            Work,
-            Unknown,
-        }
-
         private Array titles = Enum.GetValues(typeof(FormTitle));
-        private readonly string BLOCK = "동 명";
-        private readonly string NOTE = "[ 비 고 ]";
+        private string[] floors = new string[] { "지하", "지상", "옥탑" };
 
         internal override void Parse()
         {
             for (rowIdx = 0; rowIdx < rows.Count; rowIdx++)
             {
-                if (rowIdx == 0)
+                if (rowIdx < 8)
                 {
-                    //subject
-                }
-                else if (rowIdx == 1)
-                {
-                    DataRow row = rows[rowIdx];
-                    SetConstruction(row);
-                }
-                else if (rowIdx == 2)
-                {
-                    //titles
-                }
-                else
-                {
-                    DataRow row = rows[rowIdx];
-                    FormType type = GetFormType(row);
-
-                    switch (GetFormType(row))
+                    if (rowIdx == 2)
                     {
-                        case FormType.Block:
-                            SetBlock(row);
-                            break;
-                        case FormType.Floor:
-                            SetFloor(row);
-                            break;
-                        case FormType.Work:
-                            SetWork(row);
-                            AddDataRow();
-                            break;
-                        default:
-                            ThrowException(formTable, rowIdx, titles, ERROR_ROW);
-                            break;
+                        DataRow row = rows[rowIdx];
+                        SetConstruction(row);
                     }
+                }
+                else if (rowIdx < 343)
+                {
+                    DataRow row = rows[rowIdx];
+                    SetData(row);
+                    AddDataRow(row);
                 }
             }
         }
 
         private void SetConstruction(DataRow row)
         {
-            //공사명 : 평택시 포승읍 도곡 카임하우스 신축
-            string str = GetString(row, FormTitle.층);
-            int idx = str.IndexOf(":");
-            if (idx == -1)
+            string[] strArr =
             {
-                ThrowException(formTable, rowIdx, titles, ERROR_ROW);
-            }
-
-            string[] name_value = Split(str, idx);
-            string construction = name_value[1];
-            if (IsEmpty(construction))
-            {
-                ThrowException(formTable, rowIdx, titles, ERROR_ROW);
-            }
-
-            SetData(BigTableTitle.WHERE1, construction);
-        }
-
-        private FormType GetFormType(DataRow row)
-        {
-            string[] strArr = new string[]
-            {
-                GetString(row, FormTitle.층),
-                GetString(row, FormTitle.명칭),
+                 GetString(row, FormTitle.NO),
+                 GetString(row, FormTitle.구분FWC),
             };
 
-            if (strArr[0].StartsWith(BLOCK))
+            if (strArr[0].StartsWith("공사명") == false)
             {
-                return FormType.Block;
+                ThrowException(formTable, rowIdx, titles, ERROR_ROW);
             }
 
-            if (strArr[1].Equals(NOTE))
+            if (IsEmpty(strArr[1]))
             {
-                return FormType.Floor;
+                ThrowException(formTable, rowIdx, titles, ERROR_ROW);
             }
 
-            List<Enum> validTitles = GetValidTitles(row, titles);
-            List<Enum> workTitles = new List<Enum>() { FormTitle.명칭, FormTitle.규격, FormTitle.산출식, FormTitle.결과값 };
-            if (IsSame(validTitles, workTitles))
-            {
-                return FormType.Work;
-            }
-
-            return FormType.Unknown;
+            SetData(BigTableTitle.WHERE1, strArr[1]);
         }
 
-        private void SetBlock(DataRow row)
+        private void SetData(DataRow row)
         {
-            //동 명 : [도생주+근생] - 기초
-            string str = GetString(row, FormTitle.층);
-            int idx = str.IndexOf(":");
-            if (idx == -1)
+            foreach (FormTitle title in titles)
             {
-                ThrowException(formTable, rowIdx, titles, ERROR_ROW);
-            }
+                string str = GetString(row, title);
+                if (IsEmpty(str))
+                {
+                    continue;
+                }
 
-            string[] name_value = Split(str, idx);
-            string value = name_value[1];
-            int dashIdx = value.IndexOf("-");
-            if (dashIdx == -1)
-            {
-                ThrowException(formTable, rowIdx, titles, ERROR_ROW);
-            }
+                if (title.Equals(FormTitle.NO) && IsFloor(str) == false)
+                {
+                    continue;
+                }
 
-            string[] block_what = Split(value, dashIdx);
-            string what = block_what[1];
-            if (IsEmpty(what))
-            {
-                ThrowException(formTable, rowIdx, titles, ERROR_ROW);
-            }
+                if (title.Equals(FormTitle.수량자동계산) && IsNumber(str) == false)
+                {
+                    ThrowException(formTable, rowIdx, titles, ERROR_ROW);
+                }
 
-            SetData(BigTableTitle.WHAT3, what);
+                BigTableTitle bigTableTitle = (BigTableTitle)GetBigTableTitle(title);
+                SetData(bigTableTitle, str);
+            }
         }
 
-        private void SetFloor(DataRow row)
+        private bool IsFloor(string str)
         {
-            string[] strArr = new string[] {
-                GetString(row, FormTitle.층),
-                GetString(row, FormTitle.부호),
+            foreach (string floor in floors)
+            {
+                if (str.StartsWith(floor))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private Enum GetBigTableTitle(FormTitle formTitle)
+        {
+            switch (formTitle)
+            {
+                case FormTitle.NO:
+                    return BigTableTitle.WHERE2;
+                case FormTitle.부위:
+                    return BigTableTitle.WHERE4;
+                case FormTitle.구분FWC:
+                    return BigTableTitle.WHAT3;
+                case FormTitle.구분:
+                    return BigTableTitle.WHAT4;
+                case FormTitle.재료:
+                    return BigTableTitle.HOW4;
+                case FormTitle.규격:
+                    return BigTableTitle.HOW5;
+                case FormTitle.산식:
+                    return BigTableTitle.RESULT1;
+                case FormTitle.수량자동계산:
+                    return BigTableTitle.RESULT2;
+                default:
+                    return null;
+            }
+        }
+
+        private void AddDataRow(DataRow row)
+        {
+            string[] strArr =
+            {
+                 GetString(row, FormTitle.구분FWC),
+                 GetString(row, FormTitle.구분),
+                 GetString(row, FormTitle.재료),
+                 GetString(row, FormTitle.규격),
+                 GetString(row, FormTitle.산식),
+                 GetString(row, FormTitle.수량자동계산),
             };
 
-            if (IsEmpty(strArr))
+            if (IsAllEmpty(strArr))
+            {
+                return;
+            }
+
+            if (IsLeastOneEmpty(strArr))
             {
                 ThrowException(formTable, rowIdx, titles, ERROR_ROW);
             }
 
-            SetData(BigTableTitle.WHERE2, strArr[0]);
-            SetData(BigTableTitle.WHAT4, strArr[1]);
-        }
-
-        private void SetWork(DataRow row)
-        {
-            string[] strArr = new string[] {
-                GetString(row, FormTitle.명칭),
-                GetString(row, FormTitle.규격),
-                GetString(row, FormTitle.산출식),
-                GetString(row, FormTitle.결과값),
-            };
-
-            if (IsEmpty(strArr))
-            {
-                ThrowException(formTable, rowIdx, titles, ERROR_ROW);
-            }
-
-            SetData(BigTableTitle.HOW4, strArr[0]);
-            SetData(BigTableTitle.HOW5, strArr[1]);
-            SetData(BigTableTitle.RESULT1, strArr[2]);
-            SetData(BigTableTitle.RESULT2, strArr[3]);
+            AddDataRow();
         }
     }
 }

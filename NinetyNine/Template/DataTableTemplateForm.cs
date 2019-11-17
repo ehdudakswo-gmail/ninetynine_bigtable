@@ -1,16 +1,17 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 
 namespace NinetyNine.Template
 {
     enum FormTitle
     {
-        층,
-        부호,
-        명칭,
+        NO = 1,
+        부위,
+        구분FWC,
+        구분,
+        재료,
         규격,
-        산출식,
-        결과값,
+        산식,
+        수량자동계산,
     }
 
     class DataTableTemplateForm : DataTableTemplate

@@ -8,7 +8,6 @@ namespace NinetyNine.BigTable.Parser
     abstract class BigTableParser
     {
         protected readonly string ERROR_ROW = "ERROR_ROW";
-        protected readonly string ERROR_SWITCH_DEFAULT = "ERROR_SWITCH_DEFAULT";
 
         protected DataTable bigTable;
         protected DataTable formTable;
@@ -25,6 +24,14 @@ namespace NinetyNine.BigTable.Parser
             this.bigTable = bigTable;
             this.formTable = formTable;
             rows = formTable.Rows;
+        }
+
+        protected string GetString(DataRow row, Enum title)
+        {
+            int colIdx = GetColumnIdx(title);
+            string str = row[colIdx].ToString();
+
+            return str;
         }
 
         protected int GetColumnIdx(Enum value)
@@ -59,7 +66,20 @@ namespace NinetyNine.BigTable.Parser
             return false;
         }
 
-        protected bool IsEmpty(string[] strArr)
+        protected bool IsAllEmpty(string[] strArr)
+        {
+            foreach (string str in strArr)
+            {
+                if (IsEmpty(str) == false)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        protected bool IsLeastOneEmpty(string[] strArr)
         {
             foreach (string str in strArr)
             {
@@ -72,28 +92,12 @@ namespace NinetyNine.BigTable.Parser
             return false;
         }
 
-        protected string Trim(string str)
+        protected bool IsNumber(string str)
         {
-            return str.Replace(" ", "").Trim();
-        }
+            double num;
+            bool IsNumber = double.TryParse(str, out num);
 
-        protected string Remove(string str, string[] removes)
-        {
-            foreach (string remove in removes)
-            {
-                str = str.Replace(remove, "");
-            }
-
-            string strTrim = str.Trim();
-            return strTrim;
-        }
-
-        protected string GetString(DataRow row, Enum title)
-        {
-            int colIdx = GetColumnIdx(title);
-            string str = row[colIdx].ToString();
-
-            return str;
+            return IsNumber;
         }
 
         protected List<Enum> GetValidTitles(DataRow row, Array titles)

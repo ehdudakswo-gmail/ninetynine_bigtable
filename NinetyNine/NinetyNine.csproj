@@ -60,11 +60,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BigTable\BigTableMappingKeyComparer.cs" />
+    <Compile Include="BigTable\Dictionary\BigTableDictionarySchedule.cs" />
+    <Compile Include="BigTable\Dictionary\BigTableDictionaryScheduleMonth.cs" />
     <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryHow.cs" />
     <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryWhat.cs" />
     <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryWho.cs" />
     <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryWork.cs" />
-    <Compile Include="BigTable\Dictionary\BigTableDictionarySchedule.cs" />
+    <Compile Include="BigTable\Dictionary\BigTableDictionaryScheduleWeek.cs" />
     <Compile Include="BigTable\Dictionary\BigTableDictionaryStatement.cs" />
     <Compile Include="BigTable\BigTableError.cs" />
     <Compile Include="BigTable\Dictionary\BigTableDictionary.cs" />
@@ -72,6 +74,8 @@
     <Compile Include="BigTable\Mapper\BigTableMapper.cs" />
     <Compile Include="BigTable\Mapper\BigTableMapperHow.cs" />
     <Compile Include="BigTable\Mapper\BigTableMapperSchedule.cs" />
+    <Compile Include="BigTable\Mapper\BigTableMapperScheduleWeek.cs" />
+    <Compile Include="BigTable\Mapper\BigTableMapperScheduleMonth.cs" />
     <Compile Include="BigTable\Mapper\BigTableMapperStatement.cs" />
     <Compile Include="BigTable\Mapper\BigTableMapperWhat.cs" />
     <Compile Include="BigTable\Mapper\BigTableMapperWho.cs" />

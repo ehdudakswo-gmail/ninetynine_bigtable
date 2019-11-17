@@ -89,6 +89,12 @@ namespace NinetyNine.BigTable.Mapper
             bigTableRow[bigTableColIdx] = mappingRow[mappingColIdx];
         }
 
+        protected void Mapping(DataRow row, Enum title, string str)
+        {
+            int colIdx = GetColumnIdx(title);
+            row[colIdx] = str;
+        }
+
         protected void ThrowException(DataTable dataTable, BigTableErrorCell[] cells, string error)
         {
             BigTableErrorData errrorData = new BigTableErrorData
