@@ -10,13 +10,13 @@ namespace NinetyNine
 {
     public partial class MainForm : Form
     {
-        private readonly string FORM_TITLE = "평택_조적 [{0}]";
-        private readonly string DESKTOP_PATH = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        private readonly string FORM_TITLE = "평택_골조 [{0}]";
         private readonly string FILE_OPEN_COMPLETE_MESSAGE = "열기 완료";
         private readonly string FILE_SAVE_COMPLETE_MESSAGE = "저장 완료";
-
         private readonly string BIGTABLE_COMPLETE_MESSAGE = "{0} 완료";
         private readonly string BIGTABLE_ERROR_TAB_IDX_NOT_FOUND = "main tab idx not found";
+
+        private readonly string DESKTOP_PATH = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
         private TabControlManager tabControlManager;
         private ExcelEPPlusManager excelEPPlusManager = new ExcelEPPlusManager();
