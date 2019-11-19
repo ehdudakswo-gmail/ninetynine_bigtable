@@ -10,7 +10,7 @@ namespace NinetyNine
 {
     public partial class MainForm : Form
     {
-        private readonly string FORM_TITLE = "평택_마감(미장,방수,타일) [{0}]";
+        private readonly string FORM_TITLE = "평택_마감(미장,방수,타일)";
         private readonly string FILE_OPEN_COMPLETE_MESSAGE = "열기 완료";
         private readonly string FILE_SAVE_COMPLETE_MESSAGE = "저장 완료";
         private readonly string BIGTABLE_COMPLETE_MESSAGE = "{0} 완료";
@@ -48,14 +48,8 @@ namespace NinetyNine
 
         private void SetForm()
         {
-            SetFormTitle("");
+            Text = FORM_TITLE;
             WindowState = FormWindowState.Maximized;
-        }
-
-        private void SetFormTitle(string fileName)
-        {
-            string title = string.Format(FORM_TITLE, fileName);
-            Text = title;
         }
 
         private void SetTabControl()
@@ -81,6 +75,7 @@ namespace NinetyNine
             saveFileDialog.InitialDirectory = DESKTOP_PATH;
             saveFileDialog.Filter =
                 "엑셀 파일 (*.xlsx)|*.xlsx";
+            saveFileDialog.FileName = FORM_TITLE;
         }
 
         private void SetWaitState()
@@ -115,7 +110,6 @@ namespace NinetyNine
                     tabControlManager.Refresh(dataSet);
                     tabControl.SelectedIndex = 0;
 
-                    SetFormTitle(Path.GetFileName(fileName));
                     MessageBox.Show(FILE_OPEN_COMPLETE_MESSAGE);
                 }
                 catch (Exception exception)
