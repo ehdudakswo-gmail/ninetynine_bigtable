@@ -10,7 +10,7 @@ namespace NinetyNine
 {
     public partial class MainForm : Form
     {
-        private readonly string FORM_TITLE = "평택_마감(조적) [{0}]";
+        private readonly string FORM_TITLE = "평택_마감(미장,방수,타일) [{0}]";
         private readonly string FILE_OPEN_COMPLETE_MESSAGE = "열기 완료";
         private readonly string FILE_SAVE_COMPLETE_MESSAGE = "저장 완료";
         private readonly string BIGTABLE_COMPLETE_MESSAGE = "{0} 완료";

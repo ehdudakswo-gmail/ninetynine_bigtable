@@ -12,7 +12,7 @@ namespace NinetyNine.BigTable.Parser
         public BigTableParserForm(DataTable bigTable, DataTable formTable) : base(bigTable, formTable)
         {
             firstRowIdx = 8;
-            lastRowIdx = 342;
+            lastRowIdx = 1356;
         }
 
         internal override void Parse()
