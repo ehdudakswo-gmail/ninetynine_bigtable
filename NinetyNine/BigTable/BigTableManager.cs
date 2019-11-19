@@ -77,7 +77,7 @@ namespace NinetyNine
         private void SetDictionary()
         {
             statementBigTableDictionary = new BigTableDictionaryStatement(statementTable, new DataTableTemplateStatement());
-            scheduleBigTableDictionary = new BigTableDictionaryScheduleMonth(scheduleTable, new DataTableTemplateSchedule());
+            scheduleBigTableDictionary = new BigTableDictionaryScheduleWeek(scheduleTable, new DataTableTemplateSchedule());
             workBigTableDictionary = new BigTableDictionaryWork(workTable, new DataTableTemplateWork());
             floorBigTableDictionary = new BigTableDictionaryFloor(floorTable, new DataTableTemplateFloor());
             whatBigTableDictionary = new BigTableDictionaryWhat(whatTable, new DataTableTemplateWhat());
@@ -201,21 +201,21 @@ namespace NinetyNine
                 statementDictionary = statementDictionary,
                 workDictionary = workDictionary,
             };
-            //BigTableMapper scheduleMapper = new BigTableMapperSchedule
-            //{
-            //    bigTable = bigTable,
-            //    basicDateTime = basicDateTime,
-            //    scheduleDictionary = scheduleDictionary,
-            //    floorDictionary = floorDictionary,
-            //    workDictionary = workDictionary,
-            //};
-            BigTableMapper scheduleMapper = new BigTableMapperScheduleMonth
+            BigTableMapper scheduleMapper = new BigTableMapperScheduleWeek
             {
                 bigTable = bigTable,
                 basicDateTime = basicDateTime,
                 scheduleDictionary = scheduleDictionary,
                 floorDictionary = floorDictionary,
+                workDictionary = workDictionary,
             };
+            //BigTableMapper scheduleMapper = new BigTableMapperScheduleMonth
+            //{
+            //    bigTable = bigTable,
+            //    basicDateTime = basicDateTime,
+            //    scheduleDictionary = scheduleDictionary,
+            //    floorDictionary = floorDictionary,
+            //};
             BigTableMapper whatMapper = new BigTableMapperWhat
             {
                 bigTable = bigTable,

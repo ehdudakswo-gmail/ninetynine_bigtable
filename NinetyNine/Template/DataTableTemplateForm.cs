@@ -4,14 +4,12 @@ namespace NinetyNine.Template
 {
     enum FormTitle
     {
-        NO = 1,
-        부위,
-        구분FWC,
-        구분,
-        재료,
+        층,
+        부호,
+        명칭,
         규격,
-        산식,
-        수량자동계산,
+        산출식,
+        결과값,
     }
 
     class DataTableTemplateForm : DataTableTemplate
