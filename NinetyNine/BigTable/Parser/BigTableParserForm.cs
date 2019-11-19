@@ -9,23 +9,28 @@ namespace NinetyNine.BigTable.Parser
         private Array titles = Enum.GetValues(typeof(FormTitle));
         private string[] floors = new string[] { "지하", "지상", "옥탑" };
 
+        public BigTableParserForm(DataTable bigTable, DataTable formTable) : base(bigTable, formTable)
+        {
+            firstRowIdx = 8;
+            lastRowIdx = 342;
+        }
+
         internal override void Parse()
         {
             for (rowIdx = 0; rowIdx < rows.Count; rowIdx++)
             {
-                if (rowIdx < 8)
+                DataRow row = rows[rowIdx];
+                if (rowIdx >= firstRowIdx && rowIdx <= lastRowIdx)
+                {
+                    SetData(row);
+                    AddDataRow(row);
+                }
+                else
                 {
                     if (rowIdx == 2)
                     {
-                        DataRow row = rows[rowIdx];
                         SetConstruction(row);
                     }
-                }
-                else if (rowIdx < 343)
-                {
-                    DataRow row = rows[rowIdx];
-                    SetData(row);
-                    AddDataRow(row);
                 }
             }
         }

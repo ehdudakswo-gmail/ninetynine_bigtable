@@ -129,8 +129,7 @@ namespace NinetyNine
 
         private void Parsing()
         {
-            BigTableParser formParser = new BigTableParserForm();
-            formParser.SetTables(bigTable, formTable);
+            BigTableParser formParser = new BigTableParserForm(bigTable, formTable);
             formParser.Parse();
         }
 
