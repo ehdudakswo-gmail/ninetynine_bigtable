@@ -3,14 +3,14 @@ using OfficeOpenXml;
 using System;
 using System.Data;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 
 namespace NinetyNine
 {
     public partial class MainForm : Form
     {
-        private readonly string FORM_TITLE = "평택_골조";
+        private readonly string FORM_TITLE = "Muti Navi Cons";
+        private readonly string SAVEFILE_NAME = "빅테이블";
         private readonly string FILE_OPEN_COMPLETE_MESSAGE = "열기 완료";
         private readonly string FILE_SAVE_COMPLETE_MESSAGE = "저장 완료";
         private readonly string BIGTABLE_COMPLETE_MESSAGE = "{0} 완료";
@@ -75,7 +75,7 @@ namespace NinetyNine
             saveFileDialog.InitialDirectory = DESKTOP_PATH;
             saveFileDialog.Filter =
                 "엑셀 파일 (*.xlsx)|*.xlsx";
-            saveFileDialog.FileName = FORM_TITLE;
+            saveFileDialog.FileName = SAVEFILE_NAME;
         }
 
         private void SetWaitState()
