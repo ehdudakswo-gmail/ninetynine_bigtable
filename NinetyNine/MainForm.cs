@@ -9,7 +9,7 @@ namespace NinetyNine
 {
     public partial class MainForm : Form
     {
-        private readonly string FORM_TITLE = "Muti Navi Cons";
+        private readonly string FORM_TITLE = "Multi Navi Cons";
         private readonly string SAVEFILE_NAME = "빅테이블";
         private readonly string FILE_OPEN_COMPLETE_MESSAGE = "열기 완료";
         private readonly string FILE_SAVE_COMPLETE_MESSAGE = "저장 완료";
