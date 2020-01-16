@@ -254,5 +254,10 @@ namespace NinetyNine
                 SetDefaultState();
             }
         }
+
+        private void 내역서맵핑ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("내역서 맵핑");
+        }
     }
 }

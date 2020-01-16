@@ -37,6 +37,8 @@
             this.빅테이블ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BigTable_Parsing_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BigTable_Mapping_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.자동화ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.내역서맵핑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.도움말ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.라이센스ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ePPlusToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -94,6 +96,7 @@
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.파일ToolStripMenuItem,
             this.빅테이블ToolStripMenuItem,
+            this.자동화ToolStripMenuItem,
             this.도움말ToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -163,6 +166,22 @@
             this.BigTable_Mapping_ToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.BigTable_Mapping_ToolStripMenuItem.Text = "2차 (Mapping)";
             this.BigTable_Mapping_ToolStripMenuItem.Click += new System.EventHandler(this.BigTable_Mapping_ToolStripMenuItem_Click);
+            // 
+            // 자동화ToolStripMenuItem
+            // 
+            this.자동화ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.내역서맵핑ToolStripMenuItem});
+            this.자동화ToolStripMenuItem.Name = "자동화ToolStripMenuItem";
+            this.자동화ToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
+            this.자동화ToolStripMenuItem.Text = "자동화";
+            // 
+            // 내역서맵핑ToolStripMenuItem
+            // 
+            this.내역서맵핑ToolStripMenuItem.Name = "내역서맵핑ToolStripMenuItem";
+            this.내역서맵핑ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
+            this.내역서맵핑ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.내역서맵핑ToolStripMenuItem.Text = "내역서 맵핑";
+            this.내역서맵핑ToolStripMenuItem.Click += new System.EventHandler(this.내역서맵핑ToolStripMenuItem_Click);
             // 
             // 도움말ToolStripMenuItem
             // 
@@ -500,6 +519,8 @@
         private System.Windows.Forms.ToolStripMenuItem selectedSheetToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage_Who;
         private System.Windows.Forms.DataGridView dataGridView_Who;
+        private System.Windows.Forms.ToolStripMenuItem 자동화ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 내역서맵핑ToolStripMenuItem;
     }
 }
 
