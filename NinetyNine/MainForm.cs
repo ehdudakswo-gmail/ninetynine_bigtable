@@ -15,6 +15,7 @@ namespace NinetyNine
         private readonly string FILE_SAVE_COMPLETE_MESSAGE = "저장 완료";
         private readonly string BIGTABLE_COMPLETE_MESSAGE = "{0} 완료";
         private readonly string BIGTABLE_ERROR_TAB_IDX_NOT_FOUND = "main tab idx not found";
+        private readonly string CELLS_NOT_SELECTED = "CELL을 선택하세요.";
 
         private readonly string DESKTOP_PATH = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
@@ -257,7 +258,39 @@ namespace NinetyNine
 
         private void 내역서맵핑ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("내역서 맵핑");
+            DataGridView selectedDataGridView = tabControlManager.GetSelectedDataGridView();
+            DataGridViewSelectedCellCollection selectedCells = selectedDataGridView.SelectedCells;
+
+            if (selectedCells == null || selectedCells.Count == 0)
+            {
+                MessageBox.Show(CELLS_NOT_SELECTED);
+                return;
+            }
+
+            int minRowIdx = 987654321;
+            int maxRowIdx = -1;
+            int minColIdx = 987654321;
+
+            foreach (DataGridViewCell cell in selectedCells)
+            {
+                int rowIdx = cell.RowIndex;
+                int colIdx = cell.ColumnIndex;
+
+                minRowIdx = Math.Min(minRowIdx, rowIdx);
+                maxRowIdx = Math.Max(maxRowIdx, rowIdx);
+                minColIdx = Math.Min(minColIdx, colIdx);
+            }
+
+            string[] data = new string[] { "111", "222", "333" };
+            for (int rowIdx = minRowIdx; rowIdx <= maxRowIdx; rowIdx++)
+            {
+                for (int i = 0; i < data.Length; i++)
+                {
+                    string value = data[i];
+                    int colIdx = minColIdx + i;
+                    selectedDataGridView[colIdx, rowIdx].Value = value;
+                }
+            }
         }
     }
 }

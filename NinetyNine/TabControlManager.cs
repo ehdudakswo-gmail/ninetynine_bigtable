@@ -154,5 +154,10 @@ namespace NinetyNine
             dataGridView.FirstDisplayedScrollingRowIndex = firstRowIdx;
             dataGridView.FirstDisplayedScrollingColumnIndex = firstColIdx;
         }
+
+        internal DataGridView GetSelectedDataGridView()
+        {
+            return dataGridViewManager.Get(selectedTabIdx);
+        }
     }
 }
