@@ -1,4 +1,5 @@
-﻿using NinetyNine.BigTable;
+﻿using NinetyNine.Auto;
+using NinetyNine.BigTable;
 using OfficeOpenXml;
 using System;
 using System.Data;
@@ -267,9 +268,21 @@ namespace NinetyNine
                 return;
             }
 
-            int minRowIdx = 987654321;
+            DataSet dataSet = tabControlManager.GetDataSet();
+            AutoMappingForm autoMappingForm = new AutoMappingForm(dataSet);
+            DialogResult dialogResult = autoMappingForm.ShowDialog();
+
+            if (dialogResult != DialogResult.OK)
+            {
+                return;
+            }
+
+            string[] data = autoMappingForm.GetData();
+            const int MAX_IDX = 987654321;
+
+            int minRowIdx = MAX_IDX;
             int maxRowIdx = -1;
-            int minColIdx = 987654321;
+            int minColIdx = MAX_IDX;
 
             foreach (DataGridViewCell cell in selectedCells)
             {
@@ -281,7 +294,6 @@ namespace NinetyNine
                 minColIdx = Math.Min(minColIdx, colIdx);
             }
 
-            string[] data = new string[] { "111", "222", "333" };
             for (int rowIdx = minRowIdx; rowIdx <= maxRowIdx; rowIdx++)
             {
                 for (int i = 0; i < data.Length; i++)

@@ -81,6 +81,12 @@ namespace NinetyNine.BigTable.Dictionary
             return key;
         }
 
+        internal static string[] GetKeyData(string data)
+        {
+            string[] keyData = JsonConvert.DeserializeObject<string[]>(data);
+            return keyData;
+        }
+
         protected List<Enum> GetValidTitles(DataRow row, Array titles)
         {
             List<Enum> validTitles = new List<Enum>();
