@@ -44,6 +44,7 @@
             this.comboBox_DataType.TabIndex = 0;
             this.comboBox_DataType.SelectedIndexChanged += new System.EventHandler(this.comboBox_DataType_SelectedIndexChanged);
             this.comboBox_DataType.SelectionChangeCommitted += new System.EventHandler(this.comboBox_DataType_SelectionChangeCommitted);
+            this.comboBox_DataType.Click += new System.EventHandler(this.comboBox_DataType_Click);
             this.comboBox_DataType.Enter += new System.EventHandler(this.comboBox_DataType_Enter);
             // 
             // textBox_Search
@@ -62,6 +63,7 @@
             this.listBox_DataList.Name = "listBox_DataList";
             this.listBox_DataList.Size = new System.Drawing.Size(459, 448);
             this.listBox_DataList.TabIndex = 2;
+            this.listBox_DataList.DoubleClick += new System.EventHandler(this.listBox_DataList_DoubleClick);
             // 
             // button_Enter
             // 
@@ -83,6 +85,7 @@
             this.Controls.Add(this.textBox_Search);
             this.Controls.Add(this.comboBox_DataType);
             this.Name = "AutoMappingForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "맵핑 자동화";
             this.Load += new System.EventHandler(this.AutoMappingForm_Load);
             this.Resize += new System.EventHandler(this.AutoMappingForm_Resize);

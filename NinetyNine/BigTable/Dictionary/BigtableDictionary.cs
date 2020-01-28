@@ -75,13 +75,13 @@ namespace NinetyNine.BigTable.Dictionary
             return key;
         }
 
-        protected static string GetKey(string[] keyArr)
+        internal static string GetKey(string[] keyArr)
         {
             string key = JsonConvert.SerializeObject(keyArr);
             return key;
         }
 
-        internal static string[] GetKeyData(string data)
+        internal static string[] GetKeyArr(string data)
         {
             string[] keyData = JsonConvert.DeserializeObject<string[]>(data);
             return keyData;

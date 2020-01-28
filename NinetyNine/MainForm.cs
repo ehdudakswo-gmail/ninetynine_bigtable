@@ -277,7 +277,7 @@ namespace NinetyNine
                 return;
             }
 
-            string[] data = autoMappingForm.GetData();
+            string[] dataArr = autoMappingForm.GetDataArr();
             const int MAX_IDX = 987654321;
 
             int minRowIdx = MAX_IDX;
@@ -296,9 +296,9 @@ namespace NinetyNine
 
             for (int rowIdx = minRowIdx; rowIdx <= maxRowIdx; rowIdx++)
             {
-                for (int i = 0; i < data.Length; i++)
+                for (int i = 0; i < dataArr.Length; i++)
                 {
-                    string value = data[i];
+                    string value = dataArr[i];
                     int colIdx = minColIdx + i;
                     selectedDataGridView[colIdx, rowIdx].Value = value;
                 }

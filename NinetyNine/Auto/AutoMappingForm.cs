@@ -71,10 +71,12 @@ namespace NinetyNine.Auto
             Dictionary<string, DataRow> scheduleDictionary = scheduleBigTableDictionary.Create();
 
             List<string> statementDataList = CreateDataList(statementDictionary);
-            List<string> scheduleDataList = CreateDataList(scheduleDictionary);
+            List<string> scheduleWorkDataList = CreateDataList(scheduleDictionary, 1);
+            List<string> scheduleFloorDataList = CreateDataList(scheduleDictionary, 0);
 
             dataTypeList.Add(new DataType("Work - 내역서", statementDataList));
-            dataTypeList.Add(new DataType("Work - 공정표", scheduleDataList));
+            dataTypeList.Add(new DataType("Work - 공정표", scheduleWorkDataList));
+            dataTypeList.Add(new DataType("Floor - 공정표", scheduleFloorDataList));
         }
 
         private List<string> CreateDataList(Dictionary<string, DataRow> dictionary)
@@ -86,6 +88,23 @@ namespace NinetyNine.Auto
                 dataList.Add(key);
             }
 
+            return dataList;
+        }
+
+        private List<string> CreateDataList(Dictionary<string, DataRow> dictionary, int idx)
+        {
+            HashSet<string> set = new HashSet<string>();
+
+            foreach (string key in dictionary.Keys)
+            {
+                string[] dataArr = BigTableDictionaryStatement.GetKeyArr(key);
+                string selectedData = dataArr[idx];
+                string[] selectedDataArr = new string[] { selectedData };
+                string selectedDataKey = BigTableDictionaryStatement.GetKey(selectedDataArr);
+                set.Add(selectedDataKey);
+            }
+
+            List<string> dataList = new List<string>(set);
             return dataList;
         }
 
@@ -128,6 +147,11 @@ namespace NinetyNine.Auto
             comboBox_DataType.DroppedDown = true;
         }
 
+        private void comboBox_DataType_Click(object sender, EventArgs e)
+        {
+            comboBox_DataType.DroppedDown = true;
+        }
+
         private void comboBox_DataType_SelectionChangeCommitted(object sender, EventArgs e)
         {
             textBox_Search.Focus();
@@ -153,6 +177,11 @@ namespace NinetyNine.Auto
             OK();
         }
 
+        private void listBox_DataList_DoubleClick(object sender, EventArgs e)
+        {
+            OK();
+        }
+
         private void OK()
         {
             selectedData = listBox_DataList.Text;
@@ -165,9 +194,9 @@ namespace NinetyNine.Auto
             DialogResult = DialogResult.OK;
         }
 
-        internal string[] GetData()
+        internal string[] GetDataArr()
         {
-            string[] data = BigTableDictionary.GetKeyData(selectedData);
+            string[] data = BigTableDictionary.GetKeyArr(selectedData);
 
             return data;
         }
