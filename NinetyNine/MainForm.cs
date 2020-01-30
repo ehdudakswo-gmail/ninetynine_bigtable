@@ -12,8 +12,14 @@ namespace NinetyNine
     {
         private readonly string FORM_TITLE = "Multi Navi Cons (평택-골조)";
         private readonly string SAVEFILE_NAME = "빅테이블";
+        private readonly string FILE_OPEN_TITLE = "열기 ({0})";
+        private readonly string FILE_OPEN_TITLE_ALL_SHEETS = "All Sheets";
+        private readonly string FILE_OPEN_TITLE_SELECTED_SHEET = "Selected Sheet";
         private readonly string FILE_OPEN_COMPLETE_MESSAGE = "열기 완료";
         private readonly string FILE_SAVE_COMPLETE_MESSAGE = "저장 완료";
+        private readonly string BIGTABLE_CHECK_TITLE = "빅테이블";
+        private readonly string BIGTABLE_CHECK_PARSING = "Parsing";
+        private readonly string BIGTABLE_CHECK_MAPPING = "Mapping";
         private readonly string BIGTABLE_COMPLETE_MESSAGE = "{0} 완료";
         private readonly string BIGTABLE_ERROR_TAB_IDX_NOT_FOUND = "main tab idx not found";
         private readonly string CELLS_NOT_SELECTED = "CELL을 선택하세요.";
@@ -100,6 +106,7 @@ namespace NinetyNine
 
         private async void allSheetsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            openFileDialog.Title = string.Format(FILE_OPEN_TITLE, FILE_OPEN_TITLE_ALL_SHEETS);
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -127,6 +134,7 @@ namespace NinetyNine
 
         private async void selectedSheetToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            openFileDialog.Title = string.Format(FILE_OPEN_TITLE, FILE_OPEN_TITLE_SELECTED_SHEET);
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -208,12 +216,21 @@ namespace NinetyNine
 
         private void BigTable_Parsing_ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RefreshBigTable(BigTableManagerState.Parsing);
+            CheckBigTable(BIGTABLE_CHECK_PARSING, BigTableManagerState.Parsing);
         }
 
         private void BigTable_Mapping_ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RefreshBigTable(BigTableManagerState.Mapping);
+            CheckBigTable(BIGTABLE_CHECK_MAPPING, BigTableManagerState.Mapping);
+        }
+
+        private void CheckBigTable(string message, BigTableManagerState state)
+        {
+            DialogResult dialogResult = MessageBox.Show(message, BIGTABLE_CHECK_TITLE, MessageBoxButtons.OKCancel);
+            if (dialogResult == DialogResult.OK)
+            {
+                RefreshBigTable(state);
+            }
         }
 
         private async void RefreshBigTable(BigTableManagerState state)

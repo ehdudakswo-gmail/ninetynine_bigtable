@@ -111,8 +111,8 @@
             this.열기ToolStripMenuItem,
             this.저장ToolStripMenuItem});
             this.파일ToolStripMenuItem.Name = "파일ToolStripMenuItem";
-            this.파일ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.파일ToolStripMenuItem.Text = "파일";
+            this.파일ToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.파일ToolStripMenuItem.Text = "파일(&F)";
             // 
             // 열기ToolStripMenuItem
             // 
@@ -120,27 +120,31 @@
             this.allSheetsToolStripMenuItem,
             this.selectedSheetToolStripMenuItem});
             this.열기ToolStripMenuItem.Name = "열기ToolStripMenuItem";
-            this.열기ToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.열기ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.열기ToolStripMenuItem.Text = "열기";
             // 
             // allSheetsToolStripMenuItem
             // 
             this.allSheetsToolStripMenuItem.Name = "allSheetsToolStripMenuItem";
-            this.allSheetsToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.allSheetsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.allSheetsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.allSheetsToolStripMenuItem.Text = "All Sheets";
             this.allSheetsToolStripMenuItem.Click += new System.EventHandler(this.allSheetsToolStripMenuItem_Click);
             // 
             // selectedSheetToolStripMenuItem
             // 
             this.selectedSheetToolStripMenuItem.Name = "selectedSheetToolStripMenuItem";
-            this.selectedSheetToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.selectedSheetToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.O)));
+            this.selectedSheetToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
             this.selectedSheetToolStripMenuItem.Text = "Selected Sheet";
             this.selectedSheetToolStripMenuItem.Click += new System.EventHandler(this.selectedSheetToolStripMenuItem_Click);
             // 
             // 저장ToolStripMenuItem
             // 
             this.저장ToolStripMenuItem.Name = "저장ToolStripMenuItem";
-            this.저장ToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.저장ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.저장ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.저장ToolStripMenuItem.Text = "저장";
             this.저장ToolStripMenuItem.Click += new System.EventHandler(this.저장ToolStripMenuItem_Click);
             // 
@@ -150,20 +154,22 @@
             this.BigTable_Parsing_ToolStripMenuItem,
             this.BigTable_Mapping_ToolStripMenuItem});
             this.빅테이블ToolStripMenuItem.Name = "빅테이블ToolStripMenuItem";
-            this.빅테이블ToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
-            this.빅테이블ToolStripMenuItem.Text = "빅테이블";
+            this.빅테이블ToolStripMenuItem.Size = new System.Drawing.Size(82, 20);
+            this.빅테이블ToolStripMenuItem.Text = "빅테이블(&B)";
             // 
             // BigTable_Parsing_ToolStripMenuItem
             // 
             this.BigTable_Parsing_ToolStripMenuItem.Name = "BigTable_Parsing_ToolStripMenuItem";
-            this.BigTable_Parsing_ToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.BigTable_Parsing_ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
+            this.BigTable_Parsing_ToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.BigTable_Parsing_ToolStripMenuItem.Text = "1차 (Parsing)";
             this.BigTable_Parsing_ToolStripMenuItem.Click += new System.EventHandler(this.BigTable_Parsing_ToolStripMenuItem_Click);
             // 
             // BigTable_Mapping_ToolStripMenuItem
             // 
             this.BigTable_Mapping_ToolStripMenuItem.Name = "BigTable_Mapping_ToolStripMenuItem";
-            this.BigTable_Mapping_ToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.BigTable_Mapping_ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
+            this.BigTable_Mapping_ToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.BigTable_Mapping_ToolStripMenuItem.Text = "2차 (Mapping)";
             this.BigTable_Mapping_ToolStripMenuItem.Click += new System.EventHandler(this.BigTable_Mapping_ToolStripMenuItem_Click);
             // 
@@ -172,13 +178,13 @@
             this.자동화ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.내역서맵핑ToolStripMenuItem});
             this.자동화ToolStripMenuItem.Name = "자동화ToolStripMenuItem";
-            this.자동화ToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
-            this.자동화ToolStripMenuItem.Text = "자동화";
+            this.자동화ToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
+            this.자동화ToolStripMenuItem.Text = "자동화(&A)";
             // 
             // 내역서맵핑ToolStripMenuItem
             // 
             this.내역서맵핑ToolStripMenuItem.Name = "내역서맵핑ToolStripMenuItem";
-            this.내역서맵핑ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
+            this.내역서맵핑ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D1)));
             this.내역서맵핑ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.내역서맵핑ToolStripMenuItem.Text = "맵핑";
             this.내역서맵핑ToolStripMenuItem.Click += new System.EventHandler(this.내역서맵핑ToolStripMenuItem_Click);
@@ -188,8 +194,8 @@
             this.도움말ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.라이센스ToolStripMenuItem1});
             this.도움말ToolStripMenuItem.Name = "도움말ToolStripMenuItem";
-            this.도움말ToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
-            this.도움말ToolStripMenuItem.Text = "도움말";
+            this.도움말ToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
+            this.도움말ToolStripMenuItem.Text = "도움말(&H)";
             // 
             // 라이센스ToolStripMenuItem1
             // 
