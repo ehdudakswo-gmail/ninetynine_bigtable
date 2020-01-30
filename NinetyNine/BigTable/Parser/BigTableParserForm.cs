@@ -1,5 +1,4 @@
-﻿using NinetyNine.Config;
-using NinetyNine.Template;
+﻿using NinetyNine.Template;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,8 +21,8 @@ namespace NinetyNine.BigTable.Parser
 
         public BigTableParserForm(DataTable bigTable, DataTable formTable) : base(bigTable, formTable)
         {
-            firstRowIdx = RowIndexConfig.FORM_FIRST;
-            lastRowIdx = RowIndexConfig.FORM_LAST;
+            firstRowIdx = EnumManager.GetIndex(FormRowIdx.First);
+            lastRowIdx = EnumManager.GetIndex(FormRowIdx.Last);
         }
 
         internal override void Parse()
