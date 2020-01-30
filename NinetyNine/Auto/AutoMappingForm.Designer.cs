@@ -32,15 +32,17 @@
             this.textBox_Search = new System.Windows.Forms.TextBox();
             this.listBox_DataList = new System.Windows.Forms.ListBox();
             this.button_Enter = new System.Windows.Forms.Button();
+            this.label_Data = new System.Windows.Forms.Label();
+            this.label_Search = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // comboBox_DataType
             // 
             this.comboBox_DataType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_DataType.FormattingEnabled = true;
-            this.comboBox_DataType.Location = new System.Drawing.Point(13, 13);
+            this.comboBox_DataType.Location = new System.Drawing.Point(58, 13);
             this.comboBox_DataType.Name = "comboBox_DataType";
-            this.comboBox_DataType.Size = new System.Drawing.Size(459, 20);
+            this.comboBox_DataType.Size = new System.Drawing.Size(414, 20);
             this.comboBox_DataType.TabIndex = 0;
             this.comboBox_DataType.SelectedIndexChanged += new System.EventHandler(this.comboBox_DataType_SelectedIndexChanged);
             this.comboBox_DataType.SelectionChangeCommitted += new System.EventHandler(this.comboBox_DataType_SelectionChangeCommitted);
@@ -49,9 +51,9 @@
             // 
             // textBox_Search
             // 
-            this.textBox_Search.Location = new System.Drawing.Point(13, 40);
+            this.textBox_Search.Location = new System.Drawing.Point(58, 40);
             this.textBox_Search.Name = "textBox_Search";
-            this.textBox_Search.Size = new System.Drawing.Size(459, 21);
+            this.textBox_Search.Size = new System.Drawing.Size(414, 21);
             this.textBox_Search.TabIndex = 1;
             this.textBox_Search.TextChanged += new System.EventHandler(this.textBox_Search_TextChanged);
             // 
@@ -75,11 +77,31 @@
             this.button_Enter.UseVisualStyleBackColor = true;
             this.button_Enter.Click += new System.EventHandler(this.button_Enter_Click);
             // 
+            // label_Data
+            // 
+            this.label_Data.AutoSize = true;
+            this.label_Data.Location = new System.Drawing.Point(12, 17);
+            this.label_Data.Name = "label_Data";
+            this.label_Data.Size = new System.Drawing.Size(41, 12);
+            this.label_Data.TabIndex = 4;
+            this.label_Data.Text = "데이터";
+            // 
+            // label_Search
+            // 
+            this.label_Search.AutoSize = true;
+            this.label_Search.Location = new System.Drawing.Point(12, 43);
+            this.label_Search.Name = "label_Search";
+            this.label_Search.Size = new System.Drawing.Size(29, 12);
+            this.label_Search.TabIndex = 5;
+            this.label_Search.Text = "검색";
+            // 
             // AutoMappingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 561);
+            this.Controls.Add(this.label_Search);
+            this.Controls.Add(this.label_Data);
             this.Controls.Add(this.button_Enter);
             this.Controls.Add(this.listBox_DataList);
             this.Controls.Add(this.textBox_Search);
@@ -100,5 +122,7 @@
         private System.Windows.Forms.TextBox textBox_Search;
         private System.Windows.Forms.ListBox listBox_DataList;
         private System.Windows.Forms.Button button_Enter;
+        private System.Windows.Forms.Label label_Data;
+        private System.Windows.Forms.Label label_Search;
     }
 }
