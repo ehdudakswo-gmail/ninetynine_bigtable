@@ -1,5 +1,6 @@
 ﻿using NinetyNine.Auto;
 using NinetyNine.BigTable;
+using NinetyNine.Data;
 using OfficeOpenXml;
 using System;
 using System.Data;
@@ -22,7 +23,10 @@ namespace NinetyNine
         private readonly string BIGTABLE_CHECK_MAPPING = "Mapping";
         private readonly string BIGTABLE_COMPLETE_MESSAGE = "{0} 완료";
         private readonly string BIGTABLE_ERROR_TAB_IDX_NOT_FOUND = "main tab idx not found";
-        private readonly string CELLS_NOT_SELECTED = "CELL을 선택하세요.";
+        private readonly string CELLS_NOT_SELECTED = "CELL 선택이 필요합니다.";
+        private readonly string CELLS_NOT_ONE_SELECTED = "CELL 1개 선택만 필요합니다.";
+        private readonly string CLIPBOARD_CONTENT_NULL = "CLIPBOARD_CONTENT_NULL";
+        private readonly string CLIPBOARD_CONTENT_EMPTY = "CLIPBOARD_CONTENT_EMPTY";
 
         private readonly string DESKTOP_PATH = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
@@ -295,21 +299,11 @@ namespace NinetyNine
             }
 
             string[] dataArr = autoMappingForm.GetDataArr();
-            const int MAX_IDX = 987654321;
+            CellIndex selectedCellIndex = tabControlManager.GetCellIndex(selectedCells);
 
-            int minRowIdx = MAX_IDX;
-            int maxRowIdx = -1;
-            int minColIdx = MAX_IDX;
-
-            foreach (DataGridViewCell cell in selectedCells)
-            {
-                int rowIdx = cell.RowIndex;
-                int colIdx = cell.ColumnIndex;
-
-                minRowIdx = Math.Min(minRowIdx, rowIdx);
-                maxRowIdx = Math.Max(maxRowIdx, rowIdx);
-                minColIdx = Math.Min(minColIdx, colIdx);
-            }
+            int minRowIdx = selectedCellIndex.minRowIdx;
+            int maxRowIdx = selectedCellIndex.maxRowIdx;
+            int minColIdx = selectedCellIndex.minColIdx;
 
             for (int rowIdx = minRowIdx; rowIdx <= maxRowIdx; rowIdx++)
             {
@@ -320,6 +314,175 @@ namespace NinetyNine
                     selectedDataGridView[colIdx, rowIdx].Value = value;
                 }
             }
+        }
+
+        private void 복사ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridView selectedDataGridView = tabControlManager.GetSelectedDataGridView();
+            DataGridViewSelectedCellCollection selectedCells = selectedDataGridView.SelectedCells;
+
+            if (selectedCells == null || selectedCells.Count == 0)
+            {
+                MessageBox.Show(CELLS_NOT_SELECTED);
+                return;
+            }
+
+            DataObject dataObj = selectedDataGridView.GetClipboardContent();
+
+            if (dataObj == null)
+            {
+                MessageBox.Show(CLIPBOARD_CONTENT_NULL);
+                return;
+            }
+
+            Clipboard.SetDataObject(dataObj);
+        }
+
+        private void 붙여넣기ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridView selectedDataGridView = tabControlManager.GetSelectedDataGridView();
+            DataGridViewSelectedCellCollection selectedCells = selectedDataGridView.SelectedCells;
+
+            if (selectedCells == null || selectedCells.Count == 0)
+            {
+                MessageBox.Show(CELLS_NOT_SELECTED);
+                return;
+            }
+
+            if (selectedCells.Count != 1)
+            {
+                MessageBox.Show(CELLS_NOT_ONE_SELECTED);
+                return;
+            }
+
+            string text = Clipboard.GetText();
+            if (text == null)
+            {
+                MessageBox.Show(CLIPBOARD_CONTENT_NULL);
+                return;
+            }
+
+            if (text == "")
+            {
+                MessageBox.Show(CLIPBOARD_CONTENT_EMPTY);
+                return;
+            }
+
+            const char LINE_SEPARATOR = '\n';
+            const char CELL_SEPARATOR = '\t';
+
+            string[] lines = text.Split(LINE_SEPARATOR);
+            string[][] clipboardCells = new string[lines.Length][];
+
+            for (int i = 0; i < clipboardCells.Length; i++)
+            {
+                string line = lines[i];
+                clipboardCells[i] = line.Split(CELL_SEPARATOR);
+            }
+
+            CellIndex selectedCellIndex = tabControlManager.GetCellIndex(selectedCells);
+            int minRowIdx = selectedCellIndex.minRowIdx;
+            int minColIdx = selectedCellIndex.minColIdx;
+
+            for (int i = 0; i < clipboardCells.Length; i++)
+            {
+                for (int j = 0; j < clipboardCells[i].Length; j++)
+                {
+                    int rowIdx = minRowIdx + i;
+                    int colIdx = minColIdx + j;
+                    string trimValue = clipboardCells[i][j].Trim();
+                    selectedDataGridView.Rows[rowIdx].Cells[colIdx].Value =
+                        trimValue;
+                }
+            }
+        }
+
+        private void 삭제ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridView selectedDataGridView = tabControlManager.GetSelectedDataGridView();
+            DataGridViewSelectedCellCollection selectedCells = selectedDataGridView.SelectedCells;
+
+            if (selectedCells == null || selectedCells.Count == 0)
+            {
+                MessageBox.Show(CELLS_NOT_SELECTED);
+                return;
+            }
+
+            foreach (DataGridViewCell cell in selectedCells)
+            {
+                cell.Value = "";
+            }
+        }
+
+        private void 전체열선택ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridView selectedDataGridView = tabControlManager.GetSelectedDataGridView();
+            DataGridViewSelectedCellCollection selectedCells = selectedDataGridView.SelectedCells;
+
+            if (selectedCells == null || selectedCells.Count == 0)
+            {
+                MessageBox.Show(CELLS_NOT_SELECTED);
+                return;
+            }
+
+            if (selectedCells.Count != 1)
+            {
+                MessageBox.Show(CELLS_NOT_ONE_SELECTED);
+                return;
+            }
+
+            CellIndex selectedCellIndex = tabControlManager.GetCellIndex(selectedCells);
+            int colIdx = selectedCellIndex.minColIdx;
+            int rowCnt = selectedDataGridView.Rows.Count;
+
+            for (int rowIdx = 0; rowIdx < rowCnt; rowIdx++)
+            {
+                selectedDataGridView.Rows[rowIdx].Cells[colIdx].Selected = true;
+            }
+        }
+
+        private void 전체행선택ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridView selectedDataGridView = tabControlManager.GetSelectedDataGridView();
+            DataGridViewSelectedCellCollection selectedCells = selectedDataGridView.SelectedCells;
+
+            if (selectedCells == null || selectedCells.Count == 0)
+            {
+                MessageBox.Show(CELLS_NOT_SELECTED);
+                return;
+            }
+
+            if (selectedCells.Count != 1)
+            {
+                MessageBox.Show(CELLS_NOT_ONE_SELECTED);
+                return;
+            }
+
+            CellIndex selectedCellIndex = tabControlManager.GetCellIndex(selectedCells);
+            int rowIdx = selectedCellIndex.minRowIdx;
+            int colCnt = selectedDataGridView.ColumnCount;
+
+            for (int colIdx = 0; colIdx < colCnt; colIdx++)
+            {
+                selectedDataGridView.Rows[rowIdx].Cells[colIdx].Selected = true;
+            }
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Escape:
+                    DataGridView selectedDataGridView = tabControlManager.GetSelectedDataGridView();
+                    selectedDataGridView.ClearSelection();
+                    break;
+                case (Keys.Shift | Keys.Space):
+                    break;
+                default:
+                    return base.ProcessCmdKey(ref msg, keyData);
+            }
+
+            return true;
         }
     }
 }

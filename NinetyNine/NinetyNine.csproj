@@ -90,6 +90,7 @@
     <Compile Include="BigTable\Parser\BigTableParserForm.cs" />
     <Compile Include="BigTable\Parser\BigTableParser.cs" />
     <Compile Include="DataGridViewManager.cs" />
+    <Compile Include="Data\CellIndex.cs" />
     <Compile Include="ExceptionDataParamEnum.cs" />
     <Compile Include="Template\Mapping\DataTableTemplateFloor.cs" />
     <Compile Include="Template\Mapping\DataTableTemplateHow.cs" />
@@ -144,5 +145,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

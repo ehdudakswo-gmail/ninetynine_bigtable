@@ -3,6 +3,7 @@ using System.Data;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NinetyNine.BigTable;
+using NinetyNine.Data;
 using OfficeOpenXml;
 
 namespace NinetyNine
@@ -158,6 +159,11 @@ namespace NinetyNine
         internal DataGridView GetSelectedDataGridView()
         {
             return dataGridViewManager.Get(selectedTabIdx);
+        }
+
+        internal CellIndex GetCellIndex(DataGridViewSelectedCellCollection selectedCells)
+        {
+            return dataGridViewManager.GetCellIndex(selectedCells);
         }
     }
 }
