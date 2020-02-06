@@ -27,6 +27,7 @@ namespace NinetyNine
         private readonly string CELLS_NOT_ONE_SELECTED = "CELL 1개 선택만 필요합니다.";
         private readonly string CLIPBOARD_CONTENT_NULL = "CLIPBOARD_CONTENT_NULL";
         private readonly string CLIPBOARD_CONTENT_EMPTY = "CLIPBOARD_CONTENT_EMPTY";
+        private readonly string CLIPBOARD_CONTENT_NOT_ONE_CELL = "CELL 한개만 가능합니다.";
         private readonly string EDIT_UNDO_NULL = "취소할 내용이 없습니다.";
         private readonly string EDIT_UNDO_COMPLETE = "취소 완료";
 
@@ -371,12 +372,6 @@ namespace NinetyNine
                 return;
             }
 
-            if (selectedCells.Count != 1)
-            {
-                MessageBox.Show(CELLS_NOT_ONE_SELECTED);
-                return;
-            }
-
             string text = Clipboard.GetText();
             if (text == null)
             {
@@ -390,35 +385,39 @@ namespace NinetyNine
                 return;
             }
 
-            //SetEditUndo
-            SetEditUndo();
-
             const char LINE_SEPARATOR = '\n';
             const char CELL_SEPARATOR = '\t';
 
             string[] lines = text.Split(LINE_SEPARATOR);
-            string[][] clipboardCells = new string[lines.Length][];
+            int lineLen = lines.Length;
 
+            string lastLine = lines[lineLen - 1];
+            if (lastLine.Length == 0)
+            {
+                lineLen--;
+            }
+
+            string[][] clipboardCells = new string[lineLen][];
             for (int i = 0; i < clipboardCells.Length; i++)
             {
                 string line = lines[i];
                 clipboardCells[i] = line.Split(CELL_SEPARATOR);
             }
 
-            CellIndex selectedCellIndex = tabControlManager.GetCellIndex(selectedCells);
-            int minRowIdx = selectedCellIndex.minRowIdx;
-            int minColIdx = selectedCellIndex.minColIdx;
-
-            for (int i = 0; i < clipboardCells.Length; i++)
+            bool isOneCell = (clipboardCells.Length == 1 && clipboardCells[0].Length == 1);
+            if (isOneCell == false)
             {
-                for (int j = 0; j < clipboardCells[i].Length; j++)
-                {
-                    int rowIdx = minRowIdx + i;
-                    int colIdx = minColIdx + j;
-                    string trimValue = clipboardCells[i][j].Trim();
-                    selectedDataGridView.Rows[rowIdx].Cells[colIdx].Value =
-                        trimValue;
-                }
+                MessageBox.Show(CLIPBOARD_CONTENT_NOT_ONE_CELL);
+                return;
+            }
+
+            //SetEditUndo
+            SetEditUndo();
+
+            string trimValue = clipboardCells[0][0].Trim();
+            foreach (DataGridViewCell selectedCell in selectedCells)
+            {
+                selectedCell.Value = trimValue;
             }
         }
 
