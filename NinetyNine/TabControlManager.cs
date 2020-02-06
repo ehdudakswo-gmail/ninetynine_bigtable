@@ -65,6 +65,7 @@ namespace NinetyNine
             //RefreshFirstDisplayed();
             RefreshRowHeaderValue();
             Resize();
+            EditUndoManager.Instance.Set(null);
         }
 
         private void RefreshFirstDisplayed()

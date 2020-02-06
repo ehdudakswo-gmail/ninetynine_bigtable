@@ -38,6 +38,8 @@
             this.복사ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.붙여넣기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.삭제ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.전체열선택ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.전체행선택ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.빅테이블ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BigTable_Parsing_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BigTable_Mapping_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,8 +72,7 @@
             this.dataGridView_How = new System.Windows.Forms.DataGridView();
             this.tabPage_Who = new System.Windows.Forms.TabPage();
             this.dataGridView_Who = new System.Windows.Forms.DataGridView();
-            this.전체열선택ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.전체행선택ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.실행취소ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.tabPage_BigTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BigTable)).BeginInit();
@@ -162,7 +163,8 @@
             this.붙여넣기ToolStripMenuItem,
             this.삭제ToolStripMenuItem,
             this.전체열선택ToolStripMenuItem,
-            this.전체행선택ToolStripMenuItem});
+            this.전체행선택ToolStripMenuItem,
+            this.실행취소ToolStripMenuItem});
             this.편집EToolStripMenuItem.Name = "편집EToolStripMenuItem";
             this.편집EToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.편집EToolStripMenuItem.Text = "편집(&E)";
@@ -171,7 +173,7 @@
             // 
             this.복사ToolStripMenuItem.Name = "복사ToolStripMenuItem";
             this.복사ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.복사ToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.복사ToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
             this.복사ToolStripMenuItem.Text = "복사";
             this.복사ToolStripMenuItem.Click += new System.EventHandler(this.복사ToolStripMenuItem_Click);
             // 
@@ -179,7 +181,7 @@
             // 
             this.붙여넣기ToolStripMenuItem.Name = "붙여넣기ToolStripMenuItem";
             this.붙여넣기ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.붙여넣기ToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.붙여넣기ToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
             this.붙여넣기ToolStripMenuItem.Text = "붙여넣기";
             this.붙여넣기ToolStripMenuItem.Click += new System.EventHandler(this.붙여넣기ToolStripMenuItem_Click);
             // 
@@ -187,9 +189,26 @@
             // 
             this.삭제ToolStripMenuItem.Name = "삭제ToolStripMenuItem";
             this.삭제ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.삭제ToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.삭제ToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
             this.삭제ToolStripMenuItem.Text = "삭제";
             this.삭제ToolStripMenuItem.Click += new System.EventHandler(this.삭제ToolStripMenuItem_Click);
+            // 
+            // 전체열선택ToolStripMenuItem
+            // 
+            this.전체열선택ToolStripMenuItem.Name = "전체열선택ToolStripMenuItem";
+            this.전체열선택ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Space)));
+            this.전체열선택ToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+            this.전체열선택ToolStripMenuItem.Text = "전체열 선택";
+            this.전체열선택ToolStripMenuItem.Click += new System.EventHandler(this.전체열선택ToolStripMenuItem_Click);
+            // 
+            // 전체행선택ToolStripMenuItem
+            // 
+            this.전체행선택ToolStripMenuItem.Name = "전체행선택ToolStripMenuItem";
+            this.전체행선택ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Space)));
+            this.전체행선택ToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+            this.전체행선택ToolStripMenuItem.Text = "전체행 선택";
+            this.전체행선택ToolStripMenuItem.Click += new System.EventHandler(this.전체행선택ToolStripMenuItem_Click);
             // 
             // 빅테이블ToolStripMenuItem
             // 
@@ -489,22 +508,13 @@
             this.dataGridView_Who.Size = new System.Drawing.Size(210, 120);
             this.dataGridView_Who.TabIndex = 5;
             // 
-            // 전체열선택ToolStripMenuItem
+            // 실행취소ToolStripMenuItem
             // 
-            this.전체열선택ToolStripMenuItem.Name = "전체열선택ToolStripMenuItem";
-            this.전체열선택ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Space)));
-            this.전체열선택ToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
-            this.전체열선택ToolStripMenuItem.Text = "전체열 선택";
-            this.전체열선택ToolStripMenuItem.Click += new System.EventHandler(this.전체열선택ToolStripMenuItem_Click);
-            // 
-            // 전체행선택ToolStripMenuItem
-            // 
-            this.전체행선택ToolStripMenuItem.Name = "전체행선택ToolStripMenuItem";
-            this.전체행선택ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.Space)));
-            this.전체행선택ToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-            this.전체행선택ToolStripMenuItem.Text = "전체행 선택";
-            this.전체행선택ToolStripMenuItem.Click += new System.EventHandler(this.전체행선택ToolStripMenuItem_Click);
+            this.실행취소ToolStripMenuItem.Name = "실행취소ToolStripMenuItem";
+            this.실행취소ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.실행취소ToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+            this.실행취소ToolStripMenuItem.Text = "실행 취소";
+            this.실행취소ToolStripMenuItem.Click += new System.EventHandler(this.실행취소ToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -593,6 +603,7 @@
         private System.Windows.Forms.ToolStripMenuItem 삭제ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 전체열선택ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 전체행선택ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 실행취소ToolStripMenuItem;
     }
 }
 

@@ -27,6 +27,8 @@ namespace NinetyNine
         private readonly string CELLS_NOT_ONE_SELECTED = "CELL 1개 선택만 필요합니다.";
         private readonly string CLIPBOARD_CONTENT_NULL = "CLIPBOARD_CONTENT_NULL";
         private readonly string CLIPBOARD_CONTENT_EMPTY = "CLIPBOARD_CONTENT_EMPTY";
+        private readonly string EDIT_UNDO_NULL = "취소할 내용이 없습니다.";
+        private readonly string EDIT_UNDO_COMPLETE = "취소 완료";
 
         private readonly string DESKTOP_PATH = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
@@ -106,6 +108,23 @@ namespace NinetyNine
             {
                 control.Enabled = true;
             }
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Escape:
+                    DataGridView selectedDataGridView = tabControlManager.GetSelectedDataGridView();
+                    selectedDataGridView.ClearSelection();
+                    break;
+                case (Keys.Shift | Keys.Space):
+                    break;
+                default:
+                    return base.ProcessCmdKey(ref msg, keyData);
+            }
+
+            return true;
         }
 
         private async void allSheetsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -298,6 +317,9 @@ namespace NinetyNine
                 return;
             }
 
+            //SetEditUndo
+            SetEditUndo();
+
             string[] dataArr = autoMappingForm.GetDataArr();
             CellIndex selectedCellIndex = tabControlManager.GetCellIndex(selectedCells);
 
@@ -368,6 +390,9 @@ namespace NinetyNine
                 return;
             }
 
+            //SetEditUndo
+            SetEditUndo();
+
             const char LINE_SEPARATOR = '\n';
             const char CELL_SEPARATOR = '\t';
 
@@ -407,6 +432,9 @@ namespace NinetyNine
                 MessageBox.Show(CELLS_NOT_SELECTED);
                 return;
             }
+
+            //SetEditUndo
+            SetEditUndo();
 
             foreach (DataGridViewCell cell in selectedCells)
             {
@@ -468,21 +496,47 @@ namespace NinetyNine
             }
         }
 
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        private void 실행취소ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            switch (keyData)
+            EditUndo editUndo = EditUndoManager.Instance.Get();
+            if (editUndo == null)
             {
-                case Keys.Escape:
-                    DataGridView selectedDataGridView = tabControlManager.GetSelectedDataGridView();
-                    selectedDataGridView.ClearSelection();
-                    break;
-                case (Keys.Shift | Keys.Space):
-                    break;
-                default:
-                    return base.ProcessCmdKey(ref msg, keyData);
+                MessageBox.Show(EDIT_UNDO_NULL);
+                return;
             }
 
-            return true;
+            DataGridView selectedDataGridView = tabControlManager.GetSelectedDataGridView();
+            DataTable originDataTable = (DataTable)selectedDataGridView.DataSource;
+            DataTable backupDataTable = editUndo.dataTable;
+
+            int rowCnt = originDataTable.Rows.Count;
+            int colCnt = originDataTable.Columns.Count;
+
+            for (int i = 0; i < rowCnt; i++)
+            {
+                for (int j = 0; j < colCnt; j++)
+                {
+                    if (originDataTable.Rows[i][j] != backupDataTable.Rows[i][j])
+                    {
+                        originDataTable.Rows[i][j] = backupDataTable.Rows[i][j];
+                    }
+                }
+            }
+
+            selectedDataGridView.ClearSelection();
+            MessageBox.Show(EDIT_UNDO_COMPLETE);
+        }
+
+        private void SetEditUndo()
+        {
+            DataGridView selectedDataGridView = tabControlManager.GetSelectedDataGridView();
+            DataTable originDataTable = (DataTable)selectedDataGridView.DataSource;
+            DataTable copyDataTable = originDataTable.Copy();
+
+            EditUndo editUndo = new EditUndo();
+            editUndo.dataTable = copyDataTable;
+
+            EditUndoManager.Instance.Set(editUndo);
         }
     }
 }
