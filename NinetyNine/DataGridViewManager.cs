@@ -59,6 +59,15 @@ namespace NinetyNine
         {
             dataGridView.DataSource = dataTable;
             RefreshRowHeaderValue(dataGridView);
+            RefreshSortMode(dataGridView, DataGridViewColumnSortMode.NotSortable);
+        }
+
+        private void RefreshSortMode(DataGridView dataGridView, DataGridViewColumnSortMode sortMode)
+        {
+            foreach (DataGridViewColumn column in dataGridView.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         internal DataSet GetDataSet()
