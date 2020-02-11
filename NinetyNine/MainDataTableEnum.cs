@@ -1,5 +1,6 @@
 ﻿using NinetyNine.Template;
 using NinetyNine.Template.Mapping;
+using NinetyNine.Template.Reference;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,6 +36,9 @@ namespace NinetyNine
 
         [Description("How")]
         How,
+
+        [Description("HowRef")]
+        HowRef,
 
         [Description("Who")]
         Who,
@@ -99,6 +103,8 @@ namespace NinetyNine
                     return new DataTableTemplateWhat();
                 case MainDataTable.How:
                     return new DataTableTemplateHow();
+                case MainDataTable.HowRef:
+                    return new DataTableTemplateHowRef();
                 case MainDataTable.Who:
                     return new DataTableTemplateWho();
                 default:

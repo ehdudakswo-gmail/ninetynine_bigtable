@@ -40,6 +40,7 @@
             this.삭제ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.전체열선택ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.전체행선택ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.실행취소ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.빅테이블ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BigTable_Parsing_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BigTable_Mapping_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,9 +71,10 @@
             this.dataGridView_What = new System.Windows.Forms.DataGridView();
             this.tabPage_How = new System.Windows.Forms.TabPage();
             this.dataGridView_How = new System.Windows.Forms.DataGridView();
+            this.tabPage_HowRef = new System.Windows.Forms.TabPage();
             this.tabPage_Who = new System.Windows.Forms.TabPage();
             this.dataGridView_Who = new System.Windows.Forms.DataGridView();
-            this.실행취소ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataGridView_HowRef = new System.Windows.Forms.DataGridView();
             this.menuStrip.SuspendLayout();
             this.tabPage_BigTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BigTable)).BeginInit();
@@ -93,8 +95,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_What)).BeginInit();
             this.tabPage_How.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_How)).BeginInit();
+            this.tabPage_HowRef.SuspendLayout();
             this.tabPage_Who.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Who)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_HowRef)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -209,6 +213,14 @@
             this.전체행선택ToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
             this.전체행선택ToolStripMenuItem.Text = "전체행 선택";
             this.전체행선택ToolStripMenuItem.Click += new System.EventHandler(this.전체행선택ToolStripMenuItem_Click);
+            // 
+            // 실행취소ToolStripMenuItem
+            // 
+            this.실행취소ToolStripMenuItem.Name = "실행취소ToolStripMenuItem";
+            this.실행취소ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.실행취소ToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+            this.실행취소ToolStripMenuItem.Text = "실행 취소";
+            this.실행취소ToolStripMenuItem.Click += new System.EventHandler(this.실행취소ToolStripMenuItem_Click);
             // 
             // 빅테이블ToolStripMenuItem
             // 
@@ -398,6 +410,7 @@
             this.tabControl.Controls.Add(this.tabPage_Floor);
             this.tabControl.Controls.Add(this.tabPage_What);
             this.tabControl.Controls.Add(this.tabPage_How);
+            this.tabControl.Controls.Add(this.tabPage_HowRef);
             this.tabControl.Controls.Add(this.tabPage_Who);
             this.tabControl.Location = new System.Drawing.Point(10, 32);
             this.tabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -488,6 +501,16 @@
             this.dataGridView_How.Size = new System.Drawing.Size(210, 120);
             this.dataGridView_How.TabIndex = 4;
             // 
+            // tabPage_HowRef
+            // 
+            this.tabPage_HowRef.Controls.Add(this.dataGridView_HowRef);
+            this.tabPage_HowRef.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_HowRef.Name = "tabPage_HowRef";
+            this.tabPage_HowRef.Size = new System.Drawing.Size(671, 261);
+            this.tabPage_HowRef.TabIndex = 12;
+            this.tabPage_HowRef.Text = "HowRef";
+            this.tabPage_HowRef.UseVisualStyleBackColor = true;
+            // 
             // tabPage_Who
             // 
             this.tabPage_Who.Controls.Add(this.dataGridView_Who);
@@ -508,13 +531,15 @@
             this.dataGridView_Who.Size = new System.Drawing.Size(210, 120);
             this.dataGridView_Who.TabIndex = 5;
             // 
-            // 실행취소ToolStripMenuItem
+            // dataGridView_HowRef
             // 
-            this.실행취소ToolStripMenuItem.Name = "실행취소ToolStripMenuItem";
-            this.실행취소ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.실행취소ToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-            this.실행취소ToolStripMenuItem.Text = "실행 취소";
-            this.실행취소ToolStripMenuItem.Click += new System.EventHandler(this.실행취소ToolStripMenuItem_Click);
+            this.dataGridView_HowRef.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_HowRef.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_HowRef.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dataGridView_HowRef.Name = "dataGridView_HowRef";
+            this.dataGridView_HowRef.RowTemplate.Height = 27;
+            this.dataGridView_HowRef.Size = new System.Drawing.Size(210, 120);
+            this.dataGridView_HowRef.TabIndex = 5;
             // 
             // MainForm
             // 
@@ -550,8 +575,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_What)).EndInit();
             this.tabPage_How.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_How)).EndInit();
+            this.tabPage_HowRef.ResumeLayout(false);
             this.tabPage_Who.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Who)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_HowRef)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -604,6 +631,8 @@
         private System.Windows.Forms.ToolStripMenuItem 전체열선택ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 전체행선택ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 실행취소ToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage_HowRef;
+        private System.Windows.Forms.DataGridView dataGridView_HowRef;
     }
 }
 
