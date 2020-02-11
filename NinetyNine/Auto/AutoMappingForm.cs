@@ -1,5 +1,7 @@
 ﻿using NinetyNine.BigTable.Dictionary;
+using NinetyNine.BigTable.Dictionary.Mapping;
 using NinetyNine.Template;
+using NinetyNine.Template.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -63,20 +65,25 @@ namespace NinetyNine.Auto
         {
             DataTable statementTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Statement);
             DataTable scheduleTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.Schedule);
+            DataTable howRefTable = MainDataTableEnum.FindDataTable(dataSet, MainDataTable.HowRef);
 
             BigTableDictionary statementBigTableDictionary = new BigTableDictionaryStatement(statementTable, new DataTableTemplateStatement());
             BigTableDictionarySchedule scheduleBigTableDictionary = new BigTableDictionaryScheduleWeek(scheduleTable, new DataTableTemplateSchedule());
+            BigTableDictionary howRefBigTableDictionary = new BigTableDictionaryHowRef(howRefTable, new DataTableTemplateHowRef());
 
             Dictionary<string, DataRow> statementDictionary = statementBigTableDictionary.Create();
             Dictionary<string, DataRow> scheduleDictionary = scheduleBigTableDictionary.Create();
+            Dictionary<string, DataRow> howRefDictionary = howRefBigTableDictionary.Create();
 
             List<string> statementDataList = CreateDataList(statementDictionary);
             List<string> scheduleWorkDataList = CreateDataList(scheduleDictionary, 1);
             List<string> scheduleFloorDataList = CreateDataList(scheduleDictionary, 0);
+            List<string> howRefDataList = CreateDataList(howRefDictionary);
 
             dataTypeList.Add(new DataType("Work - 내역서", statementDataList));
             dataTypeList.Add(new DataType("Work - 공정표", scheduleWorkDataList));
             dataTypeList.Add(new DataType("Floor - 공정표", scheduleFloorDataList));
+            dataTypeList.Add(new DataType("HowRef", howRefDataList));
         }
 
         private List<string> CreateDataList(Dictionary<string, DataRow> dictionary)

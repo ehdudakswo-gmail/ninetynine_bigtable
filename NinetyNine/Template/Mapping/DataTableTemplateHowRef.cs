@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Data;
 
-namespace NinetyNine.Template.Reference
+namespace NinetyNine.Template.Mapping
 {
     enum HowRefTitle
     {
@@ -14,6 +14,11 @@ namespace NinetyNine.Template.Reference
 
         [Description("빅테이블: 세공종")]
         BigTable_WorkSmall,
+    }
+
+    enum HowRefRowIdx
+    {
+        First = 1,
     }
 
     class DataTableTemplateHowRef : DataTableTemplate

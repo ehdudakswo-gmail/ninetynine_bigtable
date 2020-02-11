@@ -69,6 +69,7 @@
     <Compile Include="BigTable\Dictionary\BigTableDictionarySchedule.cs" />
     <Compile Include="BigTable\Dictionary\BigTableDictionaryScheduleMonth.cs" />
     <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryHow.cs" />
+    <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryHowRef.cs" />
     <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryWhat.cs" />
     <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryWho.cs" />
     <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryWork.cs" />
@@ -118,7 +119,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TabControlManager.cs" />
-    <Compile Include="Template\Reference\DataTableTemplateHowRef.cs" />
+    <Compile Include="Template\Mapping\DataTableTemplateHowRef.cs" />
     <EmbeddedResource Include="Auto\AutoMappingForm.resx">
       <DependentUpon>AutoMappingForm.cs</DependentUpon>
     </EmbeddedResource>
