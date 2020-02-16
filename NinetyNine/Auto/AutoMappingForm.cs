@@ -1,4 +1,5 @@
-﻿using NinetyNine.BigTable.Dictionary;
+﻿using NinetyNine.BigTable;
+using NinetyNine.BigTable.Dictionary;
 using NinetyNine.BigTable.Dictionary.Mapping;
 using NinetyNine.Template;
 using NinetyNine.Template.Mapping;
@@ -37,9 +38,27 @@ namespace NinetyNine.Auto
 
         private void AutoMappingForm_Load(object sender, EventArgs e)
         {
-            SetConfig();
-            SetDataTypeList();
-            SetDataTypeComboBox();
+            try
+            {
+                SetConfig();
+                SetDataTypeList();
+                SetDataTypeComboBox();
+            }
+            catch (BigTableError bigTableError)
+            {
+                string errorMessage = bigTableError.GetMessage();
+                MessageBox.Show(errorMessage);
+                DialogResult = DialogResult.Abort;
+            }
+            catch (Exception exception)
+            {
+                string errorMessage = exception.ToString();
+                MessageBox.Show(errorMessage);
+                DialogResult = DialogResult.Abort;
+            }
+            finally
+            {
+            }
         }
 
         private void AutoMappingForm_Resize(object sender, EventArgs e)
@@ -133,6 +152,11 @@ namespace NinetyNine.Auto
 
         private void comboBox_DataType_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (dataTypeList.Count == 0)
+            {
+                return;
+            }
+
             int selectedIdx = comboBox_DataType.SelectedIndex;
             selectedDataType = dataTypeList[selectedIdx];
 
