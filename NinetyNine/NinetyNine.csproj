@@ -71,6 +71,7 @@
     <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryHow.cs" />
     <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryHowRef.cs" />
     <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryWhat.cs" />
+    <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryWhatRef.cs" />
     <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryWho.cs" />
     <Compile Include="BigTable\Dictionary\Mapping\BigTableDictionaryWork.cs" />
     <Compile Include="BigTable\Dictionary\BigTableDictionaryScheduleWeek.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Template\Mapping\DataTableTemplateFloor.cs" />
     <Compile Include="Template\Mapping\DataTableTemplateHow.cs" />
     <Compile Include="Template\Mapping\DataTableTemplateWhat.cs" />
+    <Compile Include="Template\Mapping\DataTableTemplateWhatRef.cs" />
     <Compile Include="Template\Mapping\DataTableTemplateWho.cs" />
     <Compile Include="Template\Mapping\DataTableTemplateWork.cs" />
     <Compile Include="Template\DataTableTemplate.cs" />

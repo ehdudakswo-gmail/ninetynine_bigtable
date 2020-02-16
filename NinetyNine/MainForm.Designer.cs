@@ -72,9 +72,11 @@
             this.tabPage_How = new System.Windows.Forms.TabPage();
             this.dataGridView_How = new System.Windows.Forms.DataGridView();
             this.tabPage_HowRef = new System.Windows.Forms.TabPage();
+            this.dataGridView_HowRef = new System.Windows.Forms.DataGridView();
             this.tabPage_Who = new System.Windows.Forms.TabPage();
             this.dataGridView_Who = new System.Windows.Forms.DataGridView();
-            this.dataGridView_HowRef = new System.Windows.Forms.DataGridView();
+            this.tabPage_WhatRef = new System.Windows.Forms.TabPage();
+            this.dataGridView_WhatRef = new System.Windows.Forms.DataGridView();
             this.menuStrip.SuspendLayout();
             this.tabPage_BigTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BigTable)).BeginInit();
@@ -96,9 +98,11 @@
             this.tabPage_How.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_How)).BeginInit();
             this.tabPage_HowRef.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_HowRef)).BeginInit();
             this.tabPage_Who.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Who)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_HowRef)).BeginInit();
+            this.tabPage_WhatRef.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_WhatRef)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -409,6 +413,7 @@
             this.tabControl.Controls.Add(this.tabPage_Work);
             this.tabControl.Controls.Add(this.tabPage_Floor);
             this.tabControl.Controls.Add(this.tabPage_What);
+            this.tabControl.Controls.Add(this.tabPage_WhatRef);
             this.tabControl.Controls.Add(this.tabPage_How);
             this.tabControl.Controls.Add(this.tabPage_HowRef);
             this.tabControl.Controls.Add(this.tabPage_Who);
@@ -511,6 +516,16 @@
             this.tabPage_HowRef.Text = "HowRef";
             this.tabPage_HowRef.UseVisualStyleBackColor = true;
             // 
+            // dataGridView_HowRef
+            // 
+            this.dataGridView_HowRef.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_HowRef.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_HowRef.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dataGridView_HowRef.Name = "dataGridView_HowRef";
+            this.dataGridView_HowRef.RowTemplate.Height = 27;
+            this.dataGridView_HowRef.Size = new System.Drawing.Size(210, 120);
+            this.dataGridView_HowRef.TabIndex = 5;
+            // 
             // tabPage_Who
             // 
             this.tabPage_Who.Controls.Add(this.dataGridView_Who);
@@ -531,15 +546,25 @@
             this.dataGridView_Who.Size = new System.Drawing.Size(210, 120);
             this.dataGridView_Who.TabIndex = 5;
             // 
-            // dataGridView_HowRef
+            // tabPage_WhatRef
             // 
-            this.dataGridView_HowRef.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_HowRef.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView_HowRef.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dataGridView_HowRef.Name = "dataGridView_HowRef";
-            this.dataGridView_HowRef.RowTemplate.Height = 27;
-            this.dataGridView_HowRef.Size = new System.Drawing.Size(210, 120);
-            this.dataGridView_HowRef.TabIndex = 5;
+            this.tabPage_WhatRef.Controls.Add(this.dataGridView_WhatRef);
+            this.tabPage_WhatRef.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_WhatRef.Name = "tabPage_WhatRef";
+            this.tabPage_WhatRef.Size = new System.Drawing.Size(671, 261);
+            this.tabPage_WhatRef.TabIndex = 13;
+            this.tabPage_WhatRef.Text = "WhatRef";
+            this.tabPage_WhatRef.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView_WhatRef
+            // 
+            this.dataGridView_WhatRef.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_WhatRef.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_WhatRef.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dataGridView_WhatRef.Name = "dataGridView_WhatRef";
+            this.dataGridView_WhatRef.RowTemplate.Height = 27;
+            this.dataGridView_WhatRef.Size = new System.Drawing.Size(210, 120);
+            this.dataGridView_WhatRef.TabIndex = 4;
             // 
             // MainForm
             // 
@@ -576,9 +601,11 @@
             this.tabPage_How.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_How)).EndInit();
             this.tabPage_HowRef.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_HowRef)).EndInit();
             this.tabPage_Who.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Who)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_HowRef)).EndInit();
+            this.tabPage_WhatRef.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_WhatRef)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -633,6 +660,8 @@
         private System.Windows.Forms.ToolStripMenuItem 실행취소ToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage_HowRef;
         private System.Windows.Forms.DataGridView dataGridView_HowRef;
+        private System.Windows.Forms.TabPage tabPage_WhatRef;
+        private System.Windows.Forms.DataGridView dataGridView_WhatRef;
     }
 }
 

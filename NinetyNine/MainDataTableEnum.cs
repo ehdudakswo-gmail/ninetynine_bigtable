@@ -33,6 +33,9 @@ namespace NinetyNine
         [Description("What")]
         What,
 
+        [Description("WhatRef")]
+        WhatRef,
+
         [Description("How")]
         How,
 
@@ -100,6 +103,8 @@ namespace NinetyNine
                     return new DataTableTemplateFloor();
                 case MainDataTable.What:
                     return new DataTableTemplateWhat();
+                case MainDataTable.WhatRef:
+                    return new DataTableTemplateWhatRef();
                 case MainDataTable.How:
                     return new DataTableTemplateHow();
                 case MainDataTable.HowRef:
