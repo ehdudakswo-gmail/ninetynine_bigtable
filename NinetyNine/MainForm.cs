@@ -404,20 +404,38 @@ namespace NinetyNine
                 clipboardCells[i] = line.Split(CELL_SEPARATOR);
             }
 
-            bool isOneCell = (clipboardCells.Length == 1 && clipboardCells[0].Length == 1);
-            if (isOneCell == false)
-            {
-                MessageBox.Show(CLIPBOARD_CONTENT_NOT_ONE_CELL);
-                return;
-            }
-
             //SetEditUndo
             SetEditUndo();
 
-            string trimValue = clipboardCells[0][0].Trim();
-            foreach (DataGridViewCell selectedCell in selectedCells)
+            bool isOneCell = (clipboardCells.Length == 1 && clipboardCells[0].Length == 1);
+            if (isOneCell)
             {
-                selectedCell.Value = trimValue;
+                string trimValue = clipboardCells[0][0].Trim();
+                foreach (DataGridViewCell selectedCell in selectedCells)
+                {
+                    selectedCell.Value = trimValue;
+                }
+            }
+            else
+            {
+                CellIndex selectedCellIndex = tabControlManager.GetCellIndex(selectedCells);
+                int minRowIdx = selectedCellIndex.minRowIdx;
+                int minColIdx = selectedCellIndex.minColIdx;
+
+                selectedDataGridView.ClearSelection();
+                for (int i = 0; i < clipboardCells.Length; i++)
+                {
+                    for (int j = 0; j < clipboardCells[i].Length; j++)
+                    {
+                        string value = clipboardCells[i][j];
+                        int rowIdx = minRowIdx + i;
+                        int colIdx = minColIdx + j;
+
+                        DataGridViewCell cell = selectedDataGridView[colIdx, rowIdx];
+                        cell.Value = value;
+                        cell.Selected = true;
+                    }
+                }
             }
         }
 
