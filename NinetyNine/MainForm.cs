@@ -24,16 +24,18 @@ namespace NinetyNine
         private readonly string BIGTABLE_CHECK_MAPPING = "Mapping";
         private readonly string BIGTABLE_COMPLETE_MESSAGE = "{0} 완료";
         private readonly string BIGTABLE_ERROR_TAB_IDX_NOT_FOUND = "main tab idx not found";
+        private readonly string CELL_EMPTY_VALUE = "";
         private readonly string CELLS_NOT_SELECTED = "CELL 선택이 필요합니다.";
-        private readonly string CELLS_NOT_ONE_SELECTED = "CELL 1개 선택만 필요합니다.";
         private readonly string CLIPBOARD_CONTENT_NULL = "CLIPBOARD_CONTENT_NULL";
         private readonly string CLIPBOARD_CONTENT_EMPTY = "CLIPBOARD_CONTENT_EMPTY";
+        private readonly string CLIPBOARD_CONTENT_COLUMN_SIZE_LIMIT = "열 범위를 초과했습니다.";
         private readonly string EDIT_UNDO_NULL = "취소할 내용이 없습니다.";
         private readonly string DESKTOP_PATH = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
         private TabControlManager tabControlManager;
         private ExcelEPPlusManager excelEPPlusManager = new ExcelEPPlusManager();
         private BigTableManager bigTableManager = new BigTableManager();
+        private EditManager editManager = new EditManager();
 
         public MainForm()
         {
@@ -296,47 +298,6 @@ namespace NinetyNine
             }
         }
 
-        private void 내역서맵핑ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DataGridView selectedDataGridView = tabControlManager.GetSelectedDataGridView();
-            DataGridViewSelectedCellCollection selectedCells = selectedDataGridView.SelectedCells;
-
-            if (selectedCells == null || selectedCells.Count == 0)
-            {
-                MessageBox.Show(CELLS_NOT_SELECTED);
-                return;
-            }
-
-            DataSet dataSet = tabControlManager.GetDataSet();
-            AutoMappingForm autoMappingForm = new AutoMappingForm(dataSet);
-            DialogResult dialogResult = autoMappingForm.ShowDialog();
-
-            if (dialogResult != DialogResult.OK)
-            {
-                return;
-            }
-
-            //SetEditUndo
-            SetEditUndo();
-
-            string[] dataArr = autoMappingForm.GetDataArr();
-            CellIndex selectedCellIndex = tabControlManager.GetCellIndex(selectedCells);
-
-            int minRowIdx = selectedCellIndex.minRowIdx;
-            int maxRowIdx = selectedCellIndex.maxRowIdx;
-            int minColIdx = selectedCellIndex.minColIdx;
-
-            for (int rowIdx = minRowIdx; rowIdx <= maxRowIdx; rowIdx++)
-            {
-                for (int i = 0; i < dataArr.Length; i++)
-                {
-                    string value = dataArr[i];
-                    int colIdx = minColIdx + i;
-                    selectedDataGridView[colIdx, rowIdx].Value = value;
-                }
-            }
-        }
-
         private void 복사ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataGridView selectedDataGridView = tabControlManager.GetSelectedDataGridView();
@@ -363,6 +324,7 @@ namespace NinetyNine
         {
             DataGridView selectedDataGridView = tabControlManager.GetSelectedDataGridView();
             DataGridViewSelectedCellCollection selectedCells = selectedDataGridView.SelectedCells;
+            CellIndex selectedCellIndex = tabControlManager.GetCellIndex(selectedCells);
 
             if (selectedCells == null || selectedCells.Count == 0)
             {
@@ -377,79 +339,24 @@ namespace NinetyNine
                 return;
             }
 
-            if (text == "")
+            if (text == CELL_EMPTY_VALUE)
             {
                 MessageBox.Show(CLIPBOARD_CONTENT_EMPTY);
                 return;
             }
 
-            const char LINE_SEPARATOR = '\n';
-            const char CELL_SEPARATOR = '\t';
+            string[][] clipboardCells = editManager.GetClipBoardCells(text);
+            bool isColumnSizeLimit = editManager.IsColumnSizeLimit(selectedDataGridView, selectedCellIndex, clipboardCells);
 
-            string[] lines = text.Split(LINE_SEPARATOR);
-            int lineLen = lines.Length;
-
-            string lastLine = lines[lineLen - 1];
-            if (lastLine.Length == 0)
+            if (isColumnSizeLimit)
             {
-                lineLen--;
+                MessageBox.Show(CLIPBOARD_CONTENT_COLUMN_SIZE_LIMIT);
+                return;
             }
 
-            string[][] clipboardCells = new string[lineLen][];
-            for (int i = 0; i < clipboardCells.Length; i++)
-            {
-                string line = lines[i];
-                clipboardCells[i] = line.Split(CELL_SEPARATOR);
-            }
-
-            //SetEditUndo
-            SetEditUndo();
-
-            CellIndex selectedCellIndex = tabControlManager.GetCellIndex(selectedCells);
-            int minRowIdx = selectedCellIndex.minRowIdx;
-            int minColIdx = selectedCellIndex.minColIdx;
-            int clipBoardLastRowIdx = minRowIdx + clipboardCells.Length - 1;
-            int dataTableLastRowIdx = selectedDataGridView.Rows.Count - 1;
-
-            if (clipBoardLastRowIdx > dataTableLastRowIdx - 1)
-            {
-                int rowsAddCount = clipBoardLastRowIdx - dataTableLastRowIdx + 1;
-                DataTable dataTable = (DataTable)selectedDataGridView.DataSource;
-
-                for (int i = 0; i < rowsAddCount; i++)
-                {
-                    dataTable.Rows.Add();
-                }
-
-                tabControlManager.RefreshRowHeaderValue();
-            }
-
-            bool isOneCell = (clipboardCells.Length == 1 && clipboardCells[0].Length == 1);
-            if (isOneCell)
-            {
-                string trimValue = clipboardCells[0][0].Trim();
-                foreach (DataGridViewCell selectedCell in selectedCells)
-                {
-                    selectedCell.Value = trimValue;
-                }
-            }
-            else
-            {
-                selectedDataGridView.ClearSelection();
-                for (int i = 0; i < clipboardCells.Length; i++)
-                {
-                    for (int j = 0; j < clipboardCells[i].Length; j++)
-                    {
-                        string value = clipboardCells[i][j];
-                        int rowIdx = minRowIdx + i;
-                        int colIdx = minColIdx + j;
-
-                        DataGridViewCell cell = selectedDataGridView[colIdx, rowIdx];
-                        cell.Value = value;
-                        cell.Selected = true;
-                    }
-                }
-            }
+            editManager.SetUndoData(selectedDataGridView);
+            editManager.Paste(selectedDataGridView, selectedCells, selectedCellIndex, clipboardCells);
+            tabControlManager.RefreshRowHeaderValue();
         }
 
         private void 삭제ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -463,13 +370,8 @@ namespace NinetyNine
                 return;
             }
 
-            //SetEditUndo
-            SetEditUndo();
-
-            foreach (DataGridViewCell cell in selectedCells)
-            {
-                cell.Value = "";
-            }
+            editManager.SetUndoData(selectedDataGridView);
+            editManager.Delete(selectedCells);
         }
 
         private void 전체열선택ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -483,20 +385,7 @@ namespace NinetyNine
                 return;
             }
 
-            if (selectedCells.Count != 1)
-            {
-                MessageBox.Show(CELLS_NOT_ONE_SELECTED);
-                return;
-            }
-
-            CellIndex selectedCellIndex = tabControlManager.GetCellIndex(selectedCells);
-            int colIdx = selectedCellIndex.minColIdx;
-            int rowCnt = selectedDataGridView.Rows.Count;
-
-            for (int rowIdx = 0; rowIdx < rowCnt; rowIdx++)
-            {
-                selectedDataGridView.Rows[rowIdx].Cells[colIdx].Selected = true;
-            }
+            editManager.SelectAllRows(selectedDataGridView, selectedCells);
         }
 
         private void 전체행선택ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -510,93 +399,48 @@ namespace NinetyNine
                 return;
             }
 
-            if (selectedCells.Count != 1)
-            {
-                MessageBox.Show(CELLS_NOT_ONE_SELECTED);
-                return;
-            }
-
-            CellIndex selectedCellIndex = tabControlManager.GetCellIndex(selectedCells);
-            int rowIdx = selectedCellIndex.minRowIdx;
-            int colCnt = selectedDataGridView.ColumnCount;
-
-            for (int colIdx = 0; colIdx < colCnt; colIdx++)
-            {
-                selectedDataGridView.Rows[rowIdx].Cells[colIdx].Selected = true;
-            }
+            editManager.SelectAllColumns(selectedDataGridView, selectedCells);
         }
 
         private void 실행취소ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            DataGridView selectedDataGridView = tabControlManager.GetSelectedDataGridView();
             EditUndo editUndo = EditUndoManager.Instance.Get();
+
             if (editUndo == null)
             {
                 MessageBox.Show(EDIT_UNDO_NULL);
                 return;
             }
 
-            DataGridView selectedDataGridView = tabControlManager.GetSelectedDataGridView();
-            DataTable originDataTable = (DataTable)selectedDataGridView.DataSource;
-            DataTable backupDataTable = editUndo.dataTable;
-
-            int rowRemoveCount = originDataTable.Rows.Count - backupDataTable.Rows.Count;
-            if (rowRemoveCount > 0)
-            {
-                for (int i = 0; i < rowRemoveCount; i++)
-                {
-                    int lastIdx = originDataTable.Rows.Count - 1;
-                    originDataTable.Rows.RemoveAt(lastIdx);
-                }
-            }
-
-            int rowCnt = originDataTable.Rows.Count;
-            int colCnt = originDataTable.Columns.Count;
-
-            for (int i = 0; i < rowCnt; i++)
-            {
-                for (int j = 0; j < colCnt; j++)
-                {
-                    if (originDataTable.Rows[i][j] != backupDataTable.Rows[i][j])
-                    {
-                        originDataTable.Rows[i][j] = backupDataTable.Rows[i][j];
-                    }
-                }
-            }
-
-            selectedDataGridView.ClearSelection();
-            List<CellPosition> cellPositions = editUndo.cellPositions;
-            foreach (CellPosition cellPosition in cellPositions)
-            {
-                int rowIdx = cellPosition.rowIdx;
-                int colIdx = cellPosition.colIdx;
-                selectedDataGridView[colIdx, rowIdx].Selected = true;
-            }
-
+            editManager.Undo(selectedDataGridView, editUndo);
             tabControlManager.RefreshRowHeaderValue();
         }
 
-        private void SetEditUndo()
+        private void 맵핑자동화ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataGridView selectedDataGridView = tabControlManager.GetSelectedDataGridView();
-            DataTable originDataTable = (DataTable)selectedDataGridView.DataSource;
-            DataTable copyDataTable = originDataTable.Copy();
-
             DataGridViewSelectedCellCollection selectedCells = selectedDataGridView.SelectedCells;
-            List<CellPosition> cellPositions = new List<CellPosition>();
+            CellIndex selectedCellIndex = tabControlManager.GetCellIndex(selectedCells);
 
-            foreach (DataGridViewCell selectedCell in selectedCells)
+            if (selectedCells == null || selectedCells.Count == 0)
             {
-                CellPosition cellPosition = new CellPosition();
-                cellPosition.rowIdx = selectedCell.RowIndex;
-                cellPosition.colIdx = selectedCell.ColumnIndex;
-                cellPositions.Add(cellPosition);
+                MessageBox.Show(CELLS_NOT_SELECTED);
+                return;
             }
 
-            EditUndo editUndo = new EditUndo();
-            editUndo.dataTable = copyDataTable;
-            editUndo.cellPositions = cellPositions;
+            DataSet dataSet = tabControlManager.GetDataSet();
+            AutoMappingForm autoMappingForm = new AutoMappingForm(dataSet);
+            DialogResult dialogResult = autoMappingForm.ShowDialog();
 
-            EditUndoManager.Instance.Set(editUndo);
+            if (dialogResult != DialogResult.OK)
+            {
+                return;
+            }
+
+            string[] dataArr = autoMappingForm.GetDataArr();
+            editManager.SetUndoData(selectedDataGridView);
+            editManager.SetAutoMapping(selectedDataGridView, selectedCellIndex, dataArr);
         }
     }
 }
