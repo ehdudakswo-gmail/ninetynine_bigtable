@@ -76,7 +76,7 @@ namespace NinetyNine
             dataGridView.FirstDisplayedScrollingColumnIndex = 0;
         }
 
-        private void RefreshRowHeaderValue()
+        internal void RefreshRowHeaderValue()
         {
             DataGridView dataGridView = dataGridViewManager.Get(selectedTabIdx);
             dataGridViewManager.RefreshRowHeaderValue(dataGridView);

@@ -27,10 +27,7 @@ namespace NinetyNine
         private readonly string CELLS_NOT_ONE_SELECTED = "CELL 1개 선택만 필요합니다.";
         private readonly string CLIPBOARD_CONTENT_NULL = "CLIPBOARD_CONTENT_NULL";
         private readonly string CLIPBOARD_CONTENT_EMPTY = "CLIPBOARD_CONTENT_EMPTY";
-        private readonly string CLIPBOARD_CONTENT_NOT_ONE_CELL = "CELL 한개만 가능합니다.";
         private readonly string EDIT_UNDO_NULL = "취소할 내용이 없습니다.";
-        private readonly string EDIT_UNDO_COMPLETE = "취소 완료";
-
         private readonly string DESKTOP_PATH = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
         private TabControlManager tabControlManager;
@@ -407,6 +404,25 @@ namespace NinetyNine
             //SetEditUndo
             SetEditUndo();
 
+            CellIndex selectedCellIndex = tabControlManager.GetCellIndex(selectedCells);
+            int minRowIdx = selectedCellIndex.minRowIdx;
+            int minColIdx = selectedCellIndex.minColIdx;
+            int clipBoardLastRowIdx = minRowIdx + clipboardCells.Length - 1;
+            int dataTableLastRowIdx = selectedDataGridView.Rows.Count - 1;
+
+            if (clipBoardLastRowIdx > dataTableLastRowIdx - 1)
+            {
+                int rowsAddCount = clipBoardLastRowIdx - dataTableLastRowIdx + 1;
+                DataTable dataTable = (DataTable)selectedDataGridView.DataSource;
+
+                for (int i = 0; i < rowsAddCount; i++)
+                {
+                    dataTable.Rows.Add();
+                }
+
+                tabControlManager.RefreshRowHeaderValue();
+            }
+
             bool isOneCell = (clipboardCells.Length == 1 && clipboardCells[0].Length == 1);
             if (isOneCell)
             {
@@ -418,10 +434,6 @@ namespace NinetyNine
             }
             else
             {
-                CellIndex selectedCellIndex = tabControlManager.GetCellIndex(selectedCells);
-                int minRowIdx = selectedCellIndex.minRowIdx;
-                int minColIdx = selectedCellIndex.minColIdx;
-
                 selectedDataGridView.ClearSelection();
                 for (int i = 0; i < clipboardCells.Length; i++)
                 {
@@ -526,6 +538,16 @@ namespace NinetyNine
             DataTable originDataTable = (DataTable)selectedDataGridView.DataSource;
             DataTable backupDataTable = editUndo.dataTable;
 
+            int rowRemoveCount = originDataTable.Rows.Count - backupDataTable.Rows.Count;
+            if (rowRemoveCount > 0)
+            {
+                for (int i = 0; i < rowRemoveCount; i++)
+                {
+                    int lastIdx = originDataTable.Rows.Count - 1;
+                    originDataTable.Rows.RemoveAt(lastIdx);
+                }
+            }
+
             int rowCnt = originDataTable.Rows.Count;
             int colCnt = originDataTable.Columns.Count;
 
@@ -541,7 +563,7 @@ namespace NinetyNine
             }
 
             selectedDataGridView.ClearSelection();
-            MessageBox.Show(EDIT_UNDO_COMPLETE);
+            tabControlManager.RefreshRowHeaderValue();
         }
 
         private void SetEditUndo()
