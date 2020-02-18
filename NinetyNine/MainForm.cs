@@ -3,6 +3,7 @@ using NinetyNine.BigTable;
 using NinetyNine.Data;
 using OfficeOpenXml;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
@@ -563,6 +564,14 @@ namespace NinetyNine
             }
 
             selectedDataGridView.ClearSelection();
+            List<CellPosition> cellPositions = editUndo.cellPositions;
+            foreach (CellPosition cellPosition in cellPositions)
+            {
+                int rowIdx = cellPosition.rowIdx;
+                int colIdx = cellPosition.colIdx;
+                selectedDataGridView[colIdx, rowIdx].Selected = true;
+            }
+
             tabControlManager.RefreshRowHeaderValue();
         }
 
@@ -572,8 +581,20 @@ namespace NinetyNine
             DataTable originDataTable = (DataTable)selectedDataGridView.DataSource;
             DataTable copyDataTable = originDataTable.Copy();
 
+            DataGridViewSelectedCellCollection selectedCells = selectedDataGridView.SelectedCells;
+            List<CellPosition> cellPositions = new List<CellPosition>();
+
+            foreach (DataGridViewCell selectedCell in selectedCells)
+            {
+                CellPosition cellPosition = new CellPosition();
+                cellPosition.rowIdx = selectedCell.RowIndex;
+                cellPosition.colIdx = selectedCell.ColumnIndex;
+                cellPositions.Add(cellPosition);
+            }
+
             EditUndo editUndo = new EditUndo();
             editUndo.dataTable = copyDataTable;
+            editUndo.cellPositions = cellPositions;
 
             EditUndoManager.Instance.Set(editUndo);
         }
