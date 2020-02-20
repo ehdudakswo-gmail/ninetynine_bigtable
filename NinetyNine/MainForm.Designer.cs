@@ -35,6 +35,7 @@
             this.selectedSheetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.편집EToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.잘라내기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.복사ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.붙여넣기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.삭제ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,7 +78,6 @@
             this.dataGridView_HowRef = new System.Windows.Forms.DataGridView();
             this.tabPage_Who = new System.Windows.Forms.TabPage();
             this.dataGridView_Who = new System.Windows.Forms.DataGridView();
-            this.잘라내기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.tabPage_BigTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BigTable)).BeginInit();
@@ -112,8 +112,8 @@
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.파일ToolStripMenuItem,
             this.편집EToolStripMenuItem,
-            this.빅테이블ToolStripMenuItem,
             this.자동화ToolStripMenuItem,
+            this.빅테이블ToolStripMenuItem,
             this.도움말ToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -178,6 +178,14 @@
             this.편집EToolStripMenuItem.Name = "편집EToolStripMenuItem";
             this.편집EToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.편집EToolStripMenuItem.Text = "편집(&E)";
+            // 
+            // 잘라내기ToolStripMenuItem
+            // 
+            this.잘라내기ToolStripMenuItem.Name = "잘라내기ToolStripMenuItem";
+            this.잘라내기ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.잘라내기ToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+            this.잘라내기ToolStripMenuItem.Text = "잘라내기";
+            this.잘라내기ToolStripMenuItem.Click += new System.EventHandler(this.잘라내기ToolStripMenuItem_Click);
             // 
             // 복사ToolStripMenuItem
             // 
@@ -568,14 +576,6 @@
             this.dataGridView_Who.RowTemplate.Height = 27;
             this.dataGridView_Who.Size = new System.Drawing.Size(210, 120);
             this.dataGridView_Who.TabIndex = 5;
-            // 
-            // 잘라내기ToolStripMenuItem
-            // 
-            this.잘라내기ToolStripMenuItem.Name = "잘라내기ToolStripMenuItem";
-            this.잘라내기ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.잘라내기ToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-            this.잘라내기ToolStripMenuItem.Text = "잘라내기";
-            this.잘라내기ToolStripMenuItem.Click += new System.EventHandler(this.잘라내기ToolStripMenuItem_Click);
             // 
             // MainForm
             // 
