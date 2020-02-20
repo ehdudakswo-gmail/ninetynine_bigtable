@@ -1,8 +1,11 @@
 ﻿using NinetyNine.Auto;
 using NinetyNine.BigTable;
+using NinetyNine.BigTable.Dictionary.Mapping;
 using NinetyNine.Data;
+using NinetyNine.Template.Mapping;
 using OfficeOpenXml;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
@@ -459,6 +462,32 @@ namespace NinetyNine
             string[] dataArr = autoMappingForm.GetDataArr();
             editManager.SetUndoData(selectedDataGridView);
             editManager.SetAutoMapping(selectedDataGridView, selectedCellIndex, dataArr);
+        }
+
+        private void tabControl_Selected(object sender, TabControlEventArgs e)
+        {
+            if (e.TabPage == tabPage_Who)
+            {
+                SetWhoKeys();
+            }
+        }
+
+        private void SetWhoKeys()
+        {
+            DataTable whoDataTable = (DataTable)dataGridView_Who.DataSource;
+            DataTable howDataTable = (DataTable)dataGridView_How.DataSource;
+
+            BigTableDictionaryHow howBigTableDictionary = new BigTableDictionaryHow(howDataTable, new DataTableTemplateHow());
+            List<string> dataList = howBigTableDictionary.GetDataList(HowTitle.BigTable_WorkSmall);
+            HashSet<string> set = new HashSet<string>(dataList);
+            set.Remove(CELL_EMPTY_VALUE);
+            List<string> keys = new List<string>(set);
+
+            int contentRowIdx = 1;
+            int colIdx = EnumManager.GetIndex(WhoTitle.BigTable_WorkSmall);
+
+            editManager.RefreshRows(whoDataTable, keys, contentRowIdx, colIdx);
+            tabControlManager.RefreshRowHeaderValue();
         }
     }
 }

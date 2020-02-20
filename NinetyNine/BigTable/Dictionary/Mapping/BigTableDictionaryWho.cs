@@ -32,6 +32,11 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
                     DataRow row = rows[rowIdx];
                     BigTableErrorCell[] errorCells = GetErrorCells(rowIdx, keys);
 
+                    if (IsEmpty(dataTable, row))
+                    {
+                        continue;
+                    }
+
                     int key1ColIdx = GetColumnIdx(keys[0]);
                     string key1Str = row[key1ColIdx].ToString();
 

@@ -128,10 +128,10 @@ namespace NinetyNine.Auto
 
             foreach (string key in dictionary.Keys)
             {
-                string[] dataArr = BigTableDictionaryStatement.GetKeyArr(key);
+                string[] dataArr = BigTableDictionary.GetKeyArr(key);
                 string selectedData = dataArr[idx];
                 string[] selectedDataArr = new string[] { selectedData };
-                string selectedDataKey = BigTableDictionaryStatement.GetKey(selectedDataArr);
+                string selectedDataKey = BigTableDictionary.GetKey(selectedDataArr);
                 set.Add(selectedDataKey);
             }
 

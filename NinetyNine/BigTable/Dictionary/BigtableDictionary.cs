@@ -106,6 +106,21 @@ namespace NinetyNine.BigTable.Dictionary
             return validTitles;
         }
 
+        protected bool IsEmpty(DataTable dataTable, DataRow row)
+        {
+            int colCnt = dataTable.Columns.Count;
+            for (int colIdx = 0; colIdx < colCnt; colIdx++)
+            {
+                string value = row[colIdx].ToString();
+                if (IsEmpty(value) == false)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         protected bool IsEmpty(string str)
         {
             if (str == null)

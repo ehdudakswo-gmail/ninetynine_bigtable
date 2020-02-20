@@ -9,6 +9,7 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
     class BigTableDictionaryHow : BigTableDictionary
     {
         private Enum[] keys = new Enum[] { HowTitle.BigTable_WorkName, HowTitle.BigTable_WorkStandard };
+        private const int CONTENT_ROWIDX = 1;
 
         internal BigTableDictionaryHow(DataTable dataTable, DataTableTemplate template) : base(dataTable, template)
         {
@@ -56,6 +57,29 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
             }
 
             return dictionary;
+        }
+
+        internal List<string> GetDataList(HowTitle title)
+        {
+            List<string> dataList = new List<string>();
+
+            for (int rowIdx = 0; rowIdx < rows.Count; rowIdx++)
+            {
+                if (rowIdx < CONTENT_ROWIDX)
+                {
+
+                }
+                else
+                {
+                    DataRow row = rows[rowIdx];
+                    int colIdx = GetColumnIdx(title);
+                    string value = row[colIdx].ToString();
+                    string valueTrim = value.Trim();
+                    dataList.Add(valueTrim);
+                }
+            }
+
+            return dataList;
         }
     }
 }

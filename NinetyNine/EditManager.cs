@@ -217,5 +217,32 @@ namespace NinetyNine
                 }
             }
         }
+
+        internal void RefreshRows(DataTable dataTable, List<string> keys, int contentRowIdx, int colIdx)
+        {
+            int dataLastRowIdx = dataTable.Rows.Count - 1;
+            int keyLastRowIdx = contentRowIdx + keys.Count - 1;
+
+            if (keyLastRowIdx > dataLastRowIdx)
+            {
+                int rowsAddCount = keyLastRowIdx - dataLastRowIdx + 1;
+                for (int i = 0; i < rowsAddCount; i++)
+                {
+                    dataTable.Rows.Add();
+                }
+            }
+
+            for (int rowIdx = contentRowIdx; rowIdx <= dataLastRowIdx; rowIdx++)
+            {
+                dataTable.Rows[rowIdx][colIdx] = CELL_EMPTY_VALUE;
+            }
+
+            for (int i = 0; i < keys.Count; i++)
+            {
+                string key = keys[i];
+                int rowIdx = contentRowIdx + i;
+                dataTable.Rows[rowIdx][colIdx] = key;
+            }
+        }
     }
 }
