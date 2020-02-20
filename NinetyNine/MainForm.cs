@@ -3,7 +3,6 @@ using NinetyNine.BigTable;
 using NinetyNine.Data;
 using OfficeOpenXml;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
@@ -298,7 +297,17 @@ namespace NinetyNine
             }
         }
 
+        private void 잘라내기ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CopySelectedCells(true);
+        }
+
         private void 복사ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CopySelectedCells(false);
+        }
+
+        private void CopySelectedCells(bool isCut)
         {
             DataGridView selectedDataGridView = tabControlManager.GetSelectedDataGridView();
             DataGridViewSelectedCellCollection selectedCells = selectedDataGridView.SelectedCells;
@@ -318,6 +327,15 @@ namespace NinetyNine
             }
 
             Clipboard.SetDataObject(dataObj);
+
+            if (isCut)
+            {
+                editManager.SetUndoData(selectedDataGridView);
+                foreach (DataGridViewCell cell in selectedCells)
+                {
+                    cell.Value = CELL_EMPTY_VALUE;
+                }
+            }
         }
 
         private void 붙여넣기ToolStripMenuItem_Click(object sender, EventArgs e)

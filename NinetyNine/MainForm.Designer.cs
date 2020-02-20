@@ -77,6 +77,7 @@
             this.dataGridView_HowRef = new System.Windows.Forms.DataGridView();
             this.tabPage_Who = new System.Windows.Forms.TabPage();
             this.dataGridView_Who = new System.Windows.Forms.DataGridView();
+            this.잘라내기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.tabPage_BigTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BigTable)).BeginInit();
@@ -167,6 +168,7 @@
             // 편집EToolStripMenuItem
             // 
             this.편집EToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.잘라내기ToolStripMenuItem,
             this.복사ToolStripMenuItem,
             this.붙여넣기ToolStripMenuItem,
             this.삭제ToolStripMenuItem,
@@ -263,7 +265,7 @@
             // 
             this.내역서맵핑ToolStripMenuItem.Name = "내역서맵핑ToolStripMenuItem";
             this.내역서맵핑ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D1)));
-            this.내역서맵핑ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.내역서맵핑ToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.내역서맵핑ToolStripMenuItem.Text = "맵핑";
             this.내역서맵핑ToolStripMenuItem.Click += new System.EventHandler(this.맵핑자동화ToolStripMenuItem_Click);
             // 
@@ -566,6 +568,14 @@
             this.dataGridView_Who.Size = new System.Drawing.Size(210, 120);
             this.dataGridView_Who.TabIndex = 5;
             // 
+            // 잘라내기ToolStripMenuItem
+            // 
+            this.잘라내기ToolStripMenuItem.Name = "잘라내기ToolStripMenuItem";
+            this.잘라내기ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.잘라내기ToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+            this.잘라내기ToolStripMenuItem.Text = "잘라내기";
+            this.잘라내기ToolStripMenuItem.Click += new System.EventHandler(this.잘라내기ToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -662,6 +672,7 @@
         private System.Windows.Forms.DataGridView dataGridView_HowRef;
         private System.Windows.Forms.TabPage tabPage_WhatRef;
         private System.Windows.Forms.DataGridView dataGridView_WhatRef;
+        private System.Windows.Forms.ToolStripMenuItem 잘라내기ToolStripMenuItem;
     }
 }
 
