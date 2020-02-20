@@ -49,6 +49,7 @@ namespace NinetyNine
             SetForm();
             SetTabControl();
             SetFileDialog();
+            SetDataGridViewEvent();
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -93,6 +94,21 @@ namespace NinetyNine
             saveFileDialog.Filter =
                 "엑셀 파일 (*.xlsx)|*.xlsx";
             saveFileDialog.FileName = SAVEFILE_NAME;
+        }
+
+        private void SetDataGridViewEvent()
+        {
+            List<DataGridView> dataGridViews = tabControlManager.GetDataGridViews();
+            foreach (DataGridView dataGridView in dataGridViews)
+            {
+                dataGridView.CellEndEdit += new DataGridViewCellEventHandler(dataGridView_CellEndEdit);
+            }
+        }
+
+        private void dataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            editManager.AddUndoData(dataGridView);
         }
 
         private void SetWaitState()
@@ -333,7 +349,7 @@ namespace NinetyNine
 
             if (isCut)
             {
-                editManager.SetUndoData(selectedDataGridView);
+                editManager.AddUndoData(selectedDataGridView);
                 foreach (DataGridViewCell cell in selectedCells)
                 {
                     cell.Value = CELL_EMPTY_VALUE;
@@ -375,7 +391,7 @@ namespace NinetyNine
                 return;
             }
 
-            editManager.SetUndoData(selectedDataGridView);
+            editManager.AddUndoData(selectedDataGridView);
             editManager.Paste(selectedDataGridView, selectedCells, selectedCellIndex, clipboardCells);
             tabControlManager.RefreshRowHeaderValue();
         }
@@ -391,7 +407,7 @@ namespace NinetyNine
                 return;
             }
 
-            editManager.SetUndoData(selectedDataGridView);
+            editManager.AddUndoData(selectedDataGridView);
             editManager.Delete(selectedCells);
         }
 
@@ -460,7 +476,7 @@ namespace NinetyNine
             }
 
             string[] dataArr = autoMappingForm.GetDataArr();
-            editManager.SetUndoData(selectedDataGridView);
+            editManager.AddUndoData(selectedDataGridView);
             editManager.SetAutoMapping(selectedDataGridView, selectedCellIndex, dataArr);
         }
 

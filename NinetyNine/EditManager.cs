@@ -10,7 +10,7 @@ namespace NinetyNine
     {
         private readonly string CELL_EMPTY_VALUE = "";
 
-        internal void SetUndoData(DataGridView selectedDataGridView)
+        internal void AddUndoData(DataGridView selectedDataGridView)
         {
             DataTable originDataTable = (DataTable)selectedDataGridView.DataSource;
             DataTable copyDataTable = originDataTable.Copy();
@@ -30,7 +30,7 @@ namespace NinetyNine
             editUndo.dataTable = copyDataTable;
             editUndo.cellPositions = cellPositions;
 
-            EditUndoManager.Instance.Set(editUndo);
+            EditUndoManager.Instance.Add(editUndo);
         }
 
         internal void Undo(DataGridView selectedDataGridView, EditUndo editUndo)

@@ -39,6 +39,11 @@ namespace NinetyNine
             return dataGridViews[idx];
         }
 
+        internal List<DataGridView> GetList()
+        {
+            return dataGridViews;
+        }
+
         internal void Refresh(DataSet dataSet)
         {
             this.dataSet = dataSet;

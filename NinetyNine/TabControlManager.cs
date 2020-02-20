@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -65,7 +66,7 @@ namespace NinetyNine
             //RefreshFirstDisplayed();
             RefreshRowHeaderValue();
             Resize();
-            EditUndoManager.Instance.Set(null);
+            EditUndoManager.Instance.Init();
         }
 
         private void RefreshFirstDisplayed()
@@ -160,6 +161,11 @@ namespace NinetyNine
         internal DataGridView GetSelectedDataGridView()
         {
             return dataGridViewManager.Get(selectedTabIdx);
+        }
+
+        internal List<DataGridView> GetDataGridViews()
+        {
+            return dataGridViewManager.GetList();
         }
 
         internal CellIndex GetCellIndex(DataGridViewSelectedCellCollection selectedCells)
