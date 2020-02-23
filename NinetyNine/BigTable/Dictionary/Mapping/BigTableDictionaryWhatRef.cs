@@ -8,6 +8,7 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
 {
     class BigTableDictionaryWhatRef : BigTableDictionary
     {
+        private const int CONTENT_ROWIDX = 1;
         private Enum[] keys = new Enum[] {
             WhatRefTitle.BigTable_Structure,
             WhatRefTitle.BigTable_StructureSeparation,
@@ -26,11 +27,10 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
         internal override Dictionary<string, DataRow> Create()
         {
             Dictionary<string, DataRow> dictionary = new Dictionary<string, DataRow>();
-            int contentRowIdx = EnumManager.GetIndex(WhatRefRowIdx.First);
 
             for (int rowIdx = 0; rowIdx < rows.Count; rowIdx++)
             {
-                if (rowIdx < contentRowIdx)
+                if (rowIdx < CONTENT_ROWIDX)
                 {
                 }
                 else

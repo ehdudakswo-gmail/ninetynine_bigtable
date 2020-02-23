@@ -13,11 +13,6 @@ namespace NinetyNine.Template.Mapping
         BigTable_StructureSeparation,
     }
 
-    enum WhatRefRowIdx
-    {
-        First = 1,
-    }
-
     class DataTableTemplateWhatRef : DataTableTemplate
     {
         internal override DataTable GetTemplateDataTable()

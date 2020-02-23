@@ -8,25 +8,15 @@ namespace NinetyNine.BigTable.Parser
     abstract class BigTableParser
     {
         protected readonly string ERROR_ROW = "ERROR_ROW";
-
-        protected DataTable bigTable;
-        protected DataTable formTable;
-        protected DataRowCollection rows;
-        protected int rowIdx = 0;
-        protected int firstRowIdx = 0;
-        protected int lastRowIdx = 0;
-
         protected BigTableData bigTableData = new BigTableData();
         protected BigTableError bigTableError = BigTableError.GetInstance();
+        protected DataTable bigTable;
 
         abstract internal void Parse();
 
-        public BigTableParser(DataTable bigTable, DataTable formTable)
+        public BigTableParser(DataTable bigTable)
         {
             this.bigTable = bigTable;
-            this.formTable = formTable;
-
-            rows = formTable.Rows;
         }
 
         protected string GetString(DataRow row, Enum title)

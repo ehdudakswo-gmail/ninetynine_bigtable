@@ -9,7 +9,10 @@ namespace NinetyNine.BigTable.Mapper
 {
     class BigTableMapperWho : BigTableMapper
     {
-        internal DataTable bigTable { get; set; }
+        internal BigTableMapperWho(DataTable bigTable) : base(bigTable)
+        {
+        }
+
         internal Dictionary<string, DataRow> whoDictionary { get; set; }
 
         internal override void Mapping()
@@ -17,18 +20,15 @@ namespace NinetyNine.BigTable.Mapper
             Enum[] bigTableKeys = new Enum[] { BigTableTitle.HOW3 };
             Enum[] whoKeys = new Enum[] { bigTableKeys[0] };
 
-            var bigTableRows = bigTable.Rows;
-            int bigTableRowsCount = bigTableRows.Count;
-
-            for (int bigTableRowIdx = 0; bigTableRowIdx < bigTableRowsCount; bigTableRowIdx++)
+            for (int rowIdx = 0; rowIdx < bigTableRowsCount; rowIdx++)
             {
-                if (bigTableRowIdx < templateRowsCount)
+                if (rowIdx < CONTENT_ROWIDX)
                 {
                 }
                 else
                 {
-                    DataRow bigTableRow = bigTableRows[bigTableRowIdx];
-                    BigTableErrorCell[] errorCells = GetErrorCells(bigTableRowIdx, bigTableKeys);
+                    DataRow bigTableRow = bigTableRows[rowIdx];
+                    BigTableErrorCell[] errorCells = GetErrorCells(rowIdx, bigTableKeys);
 
                     string whoKey = BigTableDictionary.GetKey(bigTableRow, whoKeys);
                     if (whoDictionary.ContainsKey(whoKey) == false)

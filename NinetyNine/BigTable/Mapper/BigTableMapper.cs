@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using NinetyNine.Template;
 using System;
 using System.Data;
 
@@ -13,14 +12,19 @@ namespace NinetyNine.BigTable.Mapper
         protected readonly string ERROR_DATA_NONE = "{0} 데이터 없음";
 
         protected BigTableError bigTableError = BigTableError.GetInstance();
-        protected int templateRowsCount;
+        protected const int CONTENT_ROWIDX = 1;
+
+        protected DataTable bigTable;
+        protected DataRowCollection bigTableRows;
+        protected int bigTableRowsCount;
 
         abstract internal void Mapping();
 
-        internal BigTableMapper()
+        protected BigTableMapper(DataTable bigTable)
         {
-            DataTableTemplate bigTableTemplate = new DataTableTemplateBigTable();
-            templateRowsCount = bigTableTemplate.GetTemplateDataTable().Rows.Count;
+            this.bigTable = bigTable;
+            this.bigTableRows = bigTable.Rows;
+            this.bigTableRowsCount = bigTableRows.Count;
         }
 
         protected int GetColumnIdx(Enum value)

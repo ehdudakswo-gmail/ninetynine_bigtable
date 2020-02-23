@@ -8,6 +8,7 @@ namespace NinetyNine
 {
     internal class BigTableDictionaryStatement : BigTableDictionary
     {
+        private const int CONTENT_ROWIDX = 34;
         private Array titles = Enum.GetValues(typeof(StatementTitle));
         private string constructionType;
 
@@ -25,7 +26,7 @@ namespace NinetyNine
 
             for (int rowIdx = 0; rowIdx < rows.Count; rowIdx++)
             {
-                if (rowIdx < 34)
+                if (rowIdx < CONTENT_ROWIDX)
                 {
                 }
                 else

@@ -9,7 +9,10 @@ namespace NinetyNine.BigTable.Mapper
 {
     class BigTableMapperStatement : BigTableMapper
     {
-        internal DataTable bigTable { get; set; }
+        internal BigTableMapperStatement(DataTable bigTable) : base(bigTable)
+        {
+        }
+
         internal Dictionary<string, DataRow> statementDictionary { get; set; }
         internal Dictionary<string, DataRow> workDictionary { get; set; }
 
@@ -18,18 +21,15 @@ namespace NinetyNine.BigTable.Mapper
             Enum[] bigTableKeys = new Enum[] { BigTableTitle.HOW4, BigTableTitle.HOW5 };
             Enum[] workKeys = new Enum[] { WorkTitle.Statement_Construction, WorkTitle.Statement_Name, WorkTitle.Statement_Standard };
 
-            var bigTableRows = bigTable.Rows;
-            int bigTableRowsCount = bigTableRows.Count;
-
-            for (int bigTableRowIdx = 0; bigTableRowIdx < bigTableRowsCount; bigTableRowIdx++)
+            for (int rowIdx = 0; rowIdx < bigTableRowsCount; rowIdx++)
             {
-                if (bigTableRowIdx < templateRowsCount)
+                if (rowIdx < CONTENT_ROWIDX)
                 {
                 }
                 else
                 {
-                    DataRow bigTableRow = bigTableRows[bigTableRowIdx];
-                    BigTableErrorCell[] errorCells = GetErrorCells(bigTableRowIdx, bigTableKeys);
+                    DataRow bigTableRow = bigTableRows[rowIdx];
+                    BigTableErrorCell[] errorCells = GetErrorCells(rowIdx, bigTableKeys);
 
                     string bigTableKey = BigTableDictionary.GetKey(bigTableRow, bigTableKeys);
                     if (workDictionary.ContainsKey(bigTableKey) == false)

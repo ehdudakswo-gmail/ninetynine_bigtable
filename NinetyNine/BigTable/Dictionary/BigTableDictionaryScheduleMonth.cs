@@ -7,6 +7,9 @@ namespace NinetyNine.BigTable.Dictionary
 {
     class BigTableDictionaryScheduleMonth : BigTableDictionarySchedule
     {
+        private const int CONTENT_ROWIDX = 5;
+        private Enum[] keys = new Enum[] { ScheduleTitle.Floor, ScheduleTitle.Description };
+
         internal BigTableDictionaryScheduleMonth(DataTable dataTable, DataTableTemplate template) : base(dataTable, template)
         {
         }
@@ -18,11 +21,10 @@ namespace NinetyNine.BigTable.Dictionary
         internal override Dictionary<string, DataRow> Create()
         {
             Dictionary<string, DataRow> dictionary = new Dictionary<string, DataRow>();
-            Enum[] keys = new Enum[] { ScheduleTitle.Floor, ScheduleTitle.Description };
 
             for (int rowIdx = 0; rowIdx < rows.Count; rowIdx++)
             {
-                if (rowIdx < 5)
+                if (rowIdx < CONTENT_ROWIDX)
                 {
                 }
                 else

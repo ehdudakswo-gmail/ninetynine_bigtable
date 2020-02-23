@@ -8,11 +8,13 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
 {
     class BigTableDictionaryHowRef : BigTableDictionary
     {
+        private const int CONTENT_ROWIDX = 1;
         private Enum[] keys = new Enum[] {
             HowRefTitle.BigTable_WorkLarge,
             HowRefTitle.BigTable_WorkMedium,
             HowRefTitle.BigTable_WorkSmall,
         };
+
 
         internal BigTableDictionaryHowRef(DataTable dataTable, DataTableTemplate template) : base(dataTable, template)
         {
@@ -27,11 +29,10 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
         internal override Dictionary<string, DataRow> Create()
         {
             Dictionary<string, DataRow> dictionary = new Dictionary<string, DataRow>();
-            int contentRowIdx = EnumManager.GetIndex(HowRefRowIdx.First);
 
             for (int rowIdx = 0; rowIdx < rows.Count; rowIdx++)
             {
-                if (rowIdx < contentRowIdx)
+                if (rowIdx < CONTENT_ROWIDX)
                 {
                 }
                 else

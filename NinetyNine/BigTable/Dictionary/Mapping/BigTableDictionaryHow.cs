@@ -8,8 +8,8 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
 {
     class BigTableDictionaryHow : BigTableDictionary
     {
-        private Enum[] keys = new Enum[] { HowTitle.BigTable_WorkName, HowTitle.BigTable_WorkStandard };
         private const int CONTENT_ROWIDX = 1;
+        private Enum[] keys = new Enum[] { HowTitle.BigTable_WorkName, HowTitle.BigTable_WorkStandard };
 
         internal BigTableDictionaryHow(DataTable dataTable, DataTableTemplate template) : base(dataTable, template)
         {
@@ -27,7 +27,7 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
 
             for (int rowIdx = 0; rowIdx < rows.Count; rowIdx++)
             {
-                if (rowIdx < templateRowsCount)
+                if (rowIdx < CONTENT_ROWIDX)
                 {
                 }
                 else

@@ -7,6 +7,13 @@ namespace NinetyNine.BigTable.Parser
 {
     class BigTableParserForm : BigTableParser
     {
+        private DataTable formTable;
+        private DataRowCollection rows;
+
+        private const int CONTENT_ROWIDX_START = 3;
+        private const int CONTENT_ROWIDX_END = 19883;
+        private int rowIdx = 0;
+
         private Array titles = Enum.GetValues(typeof(FormTitle));
         private readonly string BLOCK = "동 명";
         private readonly string NOTE = "[ 비 고 ]";
@@ -19,10 +26,10 @@ namespace NinetyNine.BigTable.Parser
             Unknown,
         }
 
-        public BigTableParserForm(DataTable bigTable, DataTable formTable) : base(bigTable, formTable)
+        public BigTableParserForm(DataTable bigTable, DataTable formTable) : base(bigTable)
         {
-            firstRowIdx = EnumManager.GetIndex(FormRowIdx.First);
-            lastRowIdx = EnumManager.GetIndex(FormRowIdx.Last);
+            this.formTable = formTable;
+            this.rows = formTable.Rows;
         }
 
         internal override void Parse()
@@ -30,7 +37,7 @@ namespace NinetyNine.BigTable.Parser
             for (rowIdx = 0; rowIdx < rows.Count; rowIdx++)
             {
                 DataRow row = rows[rowIdx];
-                if (rowIdx >= firstRowIdx && rowIdx <= lastRowIdx)
+                if (rowIdx >= CONTENT_ROWIDX_START && rowIdx <= CONTENT_ROWIDX_END)
                 {
                     FormType type = GetFormType(row);
                     switch (GetFormType(row))

@@ -6,6 +6,10 @@ namespace NinetyNine.BigTable.Mapper
 {
     class BigTableMapperSchedule : BigTableMapper
     {
+        internal BigTableMapperSchedule(DataTable bigTable) : base(bigTable)
+        {
+        }
+
         internal override void Mapping()
         {
             throw new System.NotImplementedException();

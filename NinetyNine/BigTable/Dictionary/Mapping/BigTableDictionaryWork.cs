@@ -8,7 +8,7 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
 {
     class BigTableDictionaryWork : BigTableDictionary
     {
-        private readonly int BASIC_CONVERSION_QUANTITY = 1;
+        private const int CONTENT_ROWIDX = 1;
         private Enum[] keys = new Enum[] { WorkTitle.BigTable_WorkName, WorkTitle.BigTable_WorkStandard, };
 
         internal BigTableDictionaryWork(DataTable dataTable, DataTableTemplate template) : base(dataTable, template)
@@ -24,11 +24,12 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
 
         private void SetConversionQuantity()
         {
+            const int BASIC_CONVERSION_QUANTITY = 1;
             int colIdx = GetColumnIdx(WorkTitle.ConversionQuantity);
 
             for (int rowIdx = 0; rowIdx < rows.Count; rowIdx++)
             {
-                if (rowIdx < templateRowsCount)
+                if (rowIdx < CONTENT_ROWIDX)
                 {
                 }
                 else
@@ -45,7 +46,7 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
 
             for (int rowIdx = 0; rowIdx < rows.Count; rowIdx++)
             {
-                if (rowIdx < templateRowsCount)
+                if (rowIdx < CONTENT_ROWIDX)
                 {
                 }
                 else

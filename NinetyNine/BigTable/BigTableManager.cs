@@ -195,40 +195,34 @@ namespace NinetyNine
             Dictionary<string, DataRow> howDictionary = howBigTableDictionary.Create();
             Dictionary<string, DataRow> whoDictionary = whoBigTableDictionary.Create();
 
-            BigTableMapper statementMapper = new BigTableMapperStatement
+            BigTableMapper statementMapper = new BigTableMapperStatement(bigTable)
             {
-                bigTable = bigTable,
                 statementDictionary = statementDictionary,
                 workDictionary = workDictionary,
             };
-            BigTableMapper scheduleMapper = new BigTableMapperScheduleWeek
+            BigTableMapper scheduleMapper = new BigTableMapperScheduleWeek(bigTable)
             {
-                bigTable = bigTable,
                 basicDateTime = basicDateTime,
                 scheduleDictionary = scheduleDictionary,
                 floorDictionary = floorDictionary,
                 workDictionary = workDictionary,
             };
-            //BigTableMapper scheduleMapper = new BigTableMapperScheduleMonth
+            //BigTableMapper scheduleMapper = new BigTableMapperScheduleMonth(bigTable)
             //{
-            //    bigTable = bigTable,
             //    basicDateTime = basicDateTime,
             //    scheduleDictionary = scheduleDictionary,
             //    floorDictionary = floorDictionary,
             //};
-            BigTableMapper whatMapper = new BigTableMapperWhat
+            BigTableMapper whatMapper = new BigTableMapperWhat(bigTable)
             {
-                bigTable = bigTable,
                 whatDictionary = whatDictionary,
             };
-            BigTableMapper howMapper = new BigTableMapperHow
+            BigTableMapper howMapper = new BigTableMapperHow(bigTable)
             {
-                bigTable = bigTable,
                 howDictionary = howDictionary,
             };
-            BigTableMapper whoMapper = new BigTableMapperWho
+            BigTableMapper whoMapper = new BigTableMapperWho(bigTable)
             {
-                bigTable = bigTable,
                 whoDictionary = whoDictionary,
             };
 

@@ -9,7 +9,10 @@ namespace NinetyNine.BigTable.Mapper
 {
     class BigTableMapperScheduleMonth : BigTableMapperSchedule
     {
-        internal DataTable bigTable { get; set; }
+        internal BigTableMapperScheduleMonth(DataTable bigTable) : base(bigTable)
+        {
+        }
+
         internal DateTime basicDateTime { get; set; }
         internal Dictionary<string, DataRow> scheduleDictionary { get; set; }
         internal Dictionary<string, DataRow> floorDictionary { get; set; }
@@ -19,19 +22,15 @@ namespace NinetyNine.BigTable.Mapper
             Enum[] bigTableKeys = new Enum[] { BigTableTitle.WHERE2 };
             Enum[] floorKeys = new Enum[] { bigTableKeys[0] };
 
-            var bigTableRows = bigTable.Rows;
-            int bigTableRowsCount = bigTableRows.Count;
-
-            for (int bigTableRowIdx = 0; bigTableRowIdx < bigTableRowsCount; bigTableRowIdx++)
+            for (int rowIdx = 0; rowIdx < bigTableRowsCount; rowIdx++)
             {
-                if (bigTableRowIdx < templateRowsCount)
+                if (rowIdx < CONTENT_ROWIDX)
                 {
-
                 }
                 else
                 {
-                    DataRow bigTableRow = bigTableRows[bigTableRowIdx];
-                    BigTableErrorCell[] errorCells = GetErrorCells(bigTableRowIdx, bigTableKeys);
+                    DataRow bigTableRow = bigTableRows[rowIdx];
+                    BigTableErrorCell[] errorCells = GetErrorCells(rowIdx, bigTableKeys);
 
                     string floorKey = BigTableDictionary.GetKey(bigTableRow, floorKeys);
                     if (floorDictionary.ContainsKey(floorKey) == false)

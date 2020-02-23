@@ -23,7 +23,6 @@ namespace NinetyNine.BigTable.Dictionary
         protected DataTable dataTable;
         protected DataTableTemplate template;
         protected DataRowCollection rows;
-        protected int templateRowsCount;
 
         abstract internal void SetMappingKeys(SortedSet<string[]> sortedKeys);
         abstract internal Dictionary<string, DataRow> Create();
@@ -32,9 +31,7 @@ namespace NinetyNine.BigTable.Dictionary
         {
             this.dataTable = dataTable;
             this.template = template;
-
-            rows = dataTable.Rows;
-            templateRowsCount = template.GetTemplateDataTable().Rows.Count;
+            this.rows = dataTable.Rows;
         }
 
         protected void RefreshTemplate()

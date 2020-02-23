@@ -8,6 +8,7 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
 {
     class BigTableDictionaryFloor : BigTableDictionary
     {
+        private const int CONTENT_ROWIDX = 1;
         private Enum[] keys = new Enum[] { FloorTitle.BigTable_Floor };
 
         internal BigTableDictionaryFloor(DataTable dataTable, DataTableTemplate template) : base(dataTable, template)
@@ -26,7 +27,7 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
 
             for (int rowIdx = 0; rowIdx < rows.Count; rowIdx++)
             {
-                if (rowIdx < templateRowsCount)
+                if (rowIdx < CONTENT_ROWIDX)
                 {
                 }
                 else

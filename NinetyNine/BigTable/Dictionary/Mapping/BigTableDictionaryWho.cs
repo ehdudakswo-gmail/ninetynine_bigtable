@@ -8,6 +8,7 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
 {
     class BigTableDictionaryWho : BigTableDictionary
     {
+        private const int CONTENT_ROWIDX = 1;
         private Enum[] keys = new Enum[] { WhoTitle.BigTable_WorkSmall };
 
         internal BigTableDictionaryWho(DataTable dataTable, DataTableTemplate template) : base(dataTable, template)
@@ -24,7 +25,7 @@ namespace NinetyNine.BigTable.Dictionary.Mapping
 
             for (int rowIdx = 0; rowIdx < rows.Count; rowIdx++)
             {
-                if (rowIdx < templateRowsCount)
+                if (rowIdx < CONTENT_ROWIDX)
                 {
                 }
                 else

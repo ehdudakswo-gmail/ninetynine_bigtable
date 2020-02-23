@@ -16,11 +16,6 @@ namespace NinetyNine.Template.Mapping
         BigTable_WorkSmall,
     }
 
-    enum HowRefRowIdx
-    {
-        First = 1,
-    }
-
     class DataTableTemplateHowRef : DataTableTemplate
     {
         internal override DataTable GetTemplateDataTable()
