@@ -14,7 +14,7 @@ namespace NinetyNine
 {
     public partial class MainForm : Form
     {
-        private readonly string FORM_TITLE = "Multi Navi Cons (평택-골조)";
+        private readonly string FORM_TITLE = "Multi Navi Cons Version2 (평택-골조)";
         private readonly string SAVEFILE_NAME = "빅테이블";
         private readonly string FILE_OPEN_TITLE = "열기 ({0})";
         private readonly string FILE_OPEN_TITLE_ALL_SHEETS = "All Sheets";
