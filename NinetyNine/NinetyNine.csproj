@@ -65,6 +65,7 @@
     <Compile Include="Auto\AutoMappingForm.Designer.cs">
       <DependentUpon>AutoMappingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="BigTable\BigTableFunction.cs" />
     <Compile Include="BigTable\BigTableMappingKeyComparer.cs" />
     <Compile Include="BigTable\Dictionary\BigTableDictionarySchedule.cs" />
     <Compile Include="BigTable\Dictionary\BigTableDictionaryScheduleMonth.cs" />

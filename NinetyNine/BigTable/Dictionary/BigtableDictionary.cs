@@ -1,5 +1,4 @@
 ﻿
-using Newtonsoft.Json;
 using NinetyNine.Template;
 using System;
 using System.Collections.Generic;
@@ -7,19 +6,8 @@ using System.Data;
 
 namespace NinetyNine.BigTable.Dictionary
 {
-    abstract class BigTableDictionary
+    abstract class BigTableDictionary : BigTableFunction
     {
-        protected readonly string ERROR_ROW = "ERROR_ROW";
-        protected readonly string ERROR_KEY_CONTAIN = "ERROR_KEY_CONTAIN";
-        protected readonly string ERROR_FORMAT_DATETIME = "ERROR_FORMAT_DATETIME";
-
-        protected readonly string ERROR_FORMAT = "ERROR_FORMAT";
-        protected readonly string ERROR_EMPTY = "ERROR_EMPTY";
-        protected readonly string ERROR_NOT_NUMBER = "ERROR_NOT_NUMBER";
-
-        protected readonly string ERROR_VALUE_EMPTY = "값 없음";
-
-        protected BigTableError bigTableError = BigTableError.GetInstance();
         protected DataTable dataTable;
         protected DataTableTemplate template;
         protected DataRowCollection rows;
@@ -54,181 +42,6 @@ namespace NinetyNine.BigTable.Dictionary
                     row[keyColIdx] = keyStr;
                 }
             }
-        }
-
-        internal static string GetKey(DataRow row, Enum[] keys)
-        {
-            int len = keys.Length;
-            string[] keyArr = new string[len];
-
-            for (int i = 0; i < len; i++)
-            {
-                Enum enumValue = keys[i];
-                int columnIdx = EnumManager.GetIndex(enumValue);
-                keyArr[i] = row[columnIdx].ToString();
-            }
-
-            string key = GetKey(keyArr);
-            return key;
-        }
-
-        internal static string GetKey(string[] keyArr)
-        {
-            string key = JsonConvert.SerializeObject(keyArr);
-            return key;
-        }
-
-        internal static string[] GetKeyArr(string data)
-        {
-            string[] keyData = JsonConvert.DeserializeObject<string[]>(data);
-            return keyData;
-        }
-
-        protected List<Enum> GetValidTitles(DataRow row, Array titles)
-        {
-            List<Enum> validTitles = new List<Enum>();
-
-            foreach (Enum title in titles)
-            {
-                int colIdx = GetColumnIdx(title);
-                string str = row[colIdx].ToString();
-                if (IsEmpty(str))
-                {
-                    continue;
-                }
-
-                validTitles.Add(title);
-            }
-
-            return validTitles;
-        }
-
-        protected bool IsEmpty(DataTable dataTable, DataRow row)
-        {
-            int colCnt = dataTable.Columns.Count;
-            for (int colIdx = 0; colIdx < colCnt; colIdx++)
-            {
-                string value = row[colIdx].ToString();
-                if (IsEmpty(value) == false)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        protected bool IsEmpty(string str)
-        {
-            if (str == null)
-            {
-                return true;
-            }
-
-            string trim = str.Trim();
-            if (trim == "")
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        protected string GetString(DataRow row, Enum title)
-        {
-            int colIdx = GetColumnIdx(title);
-            string str = row[colIdx].ToString();
-
-            return str;
-        }
-
-        protected int GetColumnIdx(Enum value)
-        {
-            int idx = EnumManager.GetIndex(value);
-            return idx;
-        }
-
-        protected bool IsStatementNumber(string str)
-        {
-            if (IsNumber(str))
-            {
-                return true;
-            }
-
-            if (str.Equals("-"))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        private bool IsNumber(string str)
-        {
-            double num;
-            return double.TryParse(str, out num);
-        }
-
-        protected void ThrowException(DataTable dataTable, int rowIdx, Array titles, string error)
-        {
-            BigTableErrorData errrorData = new BigTableErrorData
-            {
-                dataTable = dataTable,
-                cells = GetErrorCells(rowIdx, titles),
-                error = error,
-            };
-
-            bigTableError.ThrowException(errrorData);
-        }
-        private BigTableErrorCell[] GetErrorCells(int rowIdx, Array values)
-        {
-            Enum[] enums = EnumManager.GetEnums(values);
-            BigTableErrorCell[] cells = GetErrorCells(rowIdx, enums);
-
-            return cells;
-        }
-
-        protected void ThrowException(DataTable dataTable, BigTableErrorCell[] cells, string error)
-        {
-            BigTableErrorData errrorData = new BigTableErrorData
-            {
-                dataTable = dataTable,
-                cells = cells,
-                error = error,
-            };
-
-            bigTableError.ThrowException(errrorData);
-        }
-
-        protected BigTableErrorCell[] GetErrorCells(int rowIdx, int colIdx)
-        {
-            BigTableErrorCell[] cells = new BigTableErrorCell[]
-            {
-                new BigTableErrorCell
-                {
-                    rowIdx = rowIdx,
-                    colIdx = colIdx,
-                },
-            };
-
-            return cells;
-        }
-
-        protected BigTableErrorCell[] GetErrorCells(int rowIdx, Enum[] keys)
-        {
-            int len = keys.Length;
-            BigTableErrorCell[] cells = new BigTableErrorCell[len];
-
-            for (int i = 0; i < len; i++)
-            {
-                cells[i] = new BigTableErrorCell
-                {
-                    rowIdx = rowIdx,
-                    colIdx = GetColumnIdx(keys[i]),
-                };
-            }
-
-            return cells;
         }
     }
 }
