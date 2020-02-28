@@ -10,8 +10,6 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
-//GitHub Test
-
 namespace NinetyNine
 {
     public partial class MainForm : Form
